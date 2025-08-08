@@ -1,0 +1,60 @@
+﻿@model KSL_HMS.DB.Item
+
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.numItemID)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label class="form-label" for="numItemTypeIDE">Item Category  <sup class="text-danger">*</sup></label>
+            @Html.DropDownList("numItemTypeID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Item Category", @title = "Please Select Item Category.", @id = "numItemTypeIDE" })
+            @Html.ValidationMessageFor(model => model.numItemTypeID, "", new { @class = "text-danger", @id = "numItemTypeIDE" })
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="varItemName">Item Name  <sup class="text-danger">*</sup></label>
+            @Html.EditorFor(model => model.varItemName, new { htmlAttributes = new { @class = "form-control", @id = "varItemName", @type = "text", placeholder = "Name...", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.varItemName, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="numRatePerUnit">Rate Per Unit (€) <sup class="text-danger">*</sup></label>
+            @Html.EditorFor(model => model.numRatePerUnit, new { htmlAttributes = new { @class = "form-control", @id = "numRatePerUnit", @type = "number", placeholder = "Rate...", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.numRatePerUnit, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <br />
+    <div class="row g-3">
+        <div class="col-md-8">
+            <label class="form-label" for="varItemDescription">Item Description</label>
+            @Html.EditorFor(model => model.varItemDescription, new { htmlAttributes = new { @class = "form-control", @id = "varItemDescription", @type = "text", placeholder = "Description...", autocomplete = "off", cols = 100, @rows = 3 } })
+            @Html.ValidationMessageFor(model => model.varItemDescription, "", new { @class = "text-danger", @id = "varItemDescription" })
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.bitIsDeleted)
+    @Html.HiddenFor(model => model.numItemOrder)
+    @Html.HiddenFor(model => model.bitActive)
+    @Html.HiddenFor(model => model.numCreatedByID)
+    @Html.HiddenFor(model => model.dtCreatedDate)
+    @Html.HiddenFor(model => model.numUpdatetdByID)
+    @Html.HiddenFor(model => model.dtUpdatetDate)
+    @Html.HiddenFor(model => model.numDeletedByID)
+    @Html.HiddenFor(model => model.dtDeletedDate)
+    <div class="pt-4">
+        <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+        <button type="reset" class="btn btn-warning">Clear</button>
+    </div>
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script type="text/javascript">
+    $("#numItemTypeIDE").select2({
+        dropdownParent: $("#ItemsModal"),
+        placeholder: "Select Item Category...",
+        width: 'resolve'
+    });
+</script>

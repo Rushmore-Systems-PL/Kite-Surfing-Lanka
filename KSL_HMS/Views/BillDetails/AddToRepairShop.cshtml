@@ -1,0 +1,184 @@
+﻿
+
+@model KSL_HMS.DB.BillDetail
+
+@{
+    ViewBag.Billing = "active open";
+    ViewBag.NewBill = "active";
+    ViewBag.Title = "Repair Shop";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/toastr/toastr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/animate-css/animate.css" rel="stylesheet" />
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h4>Repair Shop</h4>
+        <hr class="my-4 mx-n4" />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label class="form-label" for="numRoomID">Room/Reference  <sup class="text-danger">*</sup></label>
+                    @Html.DropDownList("numRoomID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Item", @title = "Please Select Room.", @id = "numRoomID" })
+                    @Html.ValidationMessageFor(model => model.numRoomID, "", new { @class = "text-danger", @id = "numRoomID" })
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="numBookingDetailID">Guest  <sup class="text-danger">*</sup></label>
+                    <select id="numBookingDetailID" name="numBookingDetailID" required="" title="Please Select Guest."></select>
+                    @Html.ValidationMessageFor(model => model.numBookingDetailID, "", new { @class = "text-danger", @id = "numBookingDetailID" })
+                </div>
+            </div>
+            <br />
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label class="form-label" for="numItemID">Item  <sup class="text-danger">*</sup></label>
+                    @Html.DropDownList("numItemID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Item", @title = "Please Select Item.", @id = "numItemID" })
+                    @Html.ValidationMessageFor(model => model.numItemID, "", new { @class = "text-danger", @id = "numItemID" })
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="numCost">Cost  <sup class="text-danger">*</sup></label>
+                    @Html.EditorFor(model => model.numCost, new { htmlAttributes = new { @class = "form-control", @id = "numCost", placeholder = "Cost...", autocomplete = "off", @required = "", @title = "Please Enter Cost.", @onkeyup = "CalculateFinalCost();" } })
+                    @Html.ValidationMessageFor(model => model.numCost, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label" for="numQuantity">Quantity  <sup class="text-danger">*</sup></label>
+                    @Html.EditorFor(model => model.numQuantity, new { htmlAttributes = new { @class = "form-control", @id = "numQuantity", placeholder = "Quantity...", autocomplete = "off", @required = "", @title = "Please Enter Quantity.", @onkeyup = "CalculateFinalCost()" } })
+                    @Html.ValidationMessageFor(model => model.numQuantity, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="numDiscount">Discount   </label>
+                    @Html.DropDownList("numDiscount", new List<SelectListItem>
+                    {
+                       new SelectListItem{ Text="5%", Value  = "5" },
+                       new SelectListItem{ Text="10%", Value = "10" },
+                       new SelectListItem{ Text="15%", Value = "15" },
+                       new SelectListItem{ Text="20%", Value = "20" },
+                       new SelectListItem{ Text="25%", Value = "25" },
+                       new SelectListItem{ Text="30%", Value = "30" },
+                       new SelectListItem{ Text="35%", Value = "35" },
+                       new SelectListItem{ Text="40%", Value = "40" },
+                       new SelectListItem{ Text="45%", Value = "45" },
+                       new SelectListItem{ Text="50%", Value = "50" },
+                       new SelectListItem{ Text="55%", Value = "55" },
+                       new SelectListItem{ Text="60%", Value = "60" },
+                       new SelectListItem{ Text="65%", Value = "65" },
+                       new SelectListItem{ Text="70%", Value = "70" },
+                       new SelectListItem{ Text="75%", Value = "75" },
+                       new SelectListItem{ Text="80%", Value = "80" },
+                       new SelectListItem{ Text="85%", Value = "85" },
+                       new SelectListItem{ Text="90%", Value = "90" },
+                       new SelectListItem{ Text="95%", Value = "95" },
+                       new SelectListItem{ Text="100%", Value = "100" },
+                    }, "", htmlAttributes: new { @class = "form-control", @id = "numDiscount" })
+                    @Html.ValidationMessageFor(model => model.numDiscount, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="numFinalCost">Final Cost <sup class="text-danger">*</sup></label>
+                    @Html.EditorFor(model => model.numFinalCost, new { htmlAttributes = new { @class = "form-control", @id = "numFinalCost", placeholder = "Final Cost...", autocomplete = "off", @required = "", @title = "Please Enter Final Cost.", @Value = "0", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.numFinalCost, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+            <div class="pt-4" style="margin-top:-10px">
+                <button type="submit" class="btn btn-primary me-sm-3 me-1" id="LoacationItemSubmitBtn">Submit</button>
+                <button type="reset" class="btn btn-warning">Clear</button>
+            </div>
+            @Html.DropDownList("numLocationID", null, "", htmlAttributes: new { @class = "form-control", @style = "display:none" })
+        }
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script type="text/javascript">
+    $("#numItemID").select2({
+        placeholder: "Select Item...",
+    });
+    $("#numRoomID").select2({
+        placeholder: "Select Room...",
+    });
+    $("#numBookingDetailID").select2({
+        placeholder: "Select Guest...",
+    });
+    $("#numDiscount").select2({
+        placeholder: "Select Dsicount...",
+        allowClear: true
+    });
+    $('#numItemID').on('change', function () {
+        var Iid = $('#numItemID option:selected').val();
+        $.ajax({
+            type: 'GET',
+            data: { id: Iid },
+            url: '@Url.Action("LoaditemRate", "BillDetails")',
+            success: function (result) {
+                document.getElementById("numCost").value = result.rate;
+                CalculateFinalCost();
+            }
+        });
+    });
+    $('#numRoomID').on('change', function () {
+        var Rid = $('#numRoomID option:selected').val();
+        $.ajax({
+            type: 'GET',
+            data: { id: Rid },
+            url: '@Url.Action("LoadGuests", "BillDetails")',
+            success: function (result) {
+                var s = '<option value="">Select Item...</option>';
+                for (var i = 0; i < result.length; i++) {
+                    s += '<option value="' + result[i].id + '">' + result[i].name + '</option>';
+                }
+                $('#numBookingDetailID').html(s);
+            }
+        });
+    });
+    $('#numDiscount').on('change', function () {
+        CalculateFinalCost();
+    });
+    function CalculateFinalCost() {
+        var numCost = Number(document.getElementById("numCost").value);
+        var numQuantity = Number(document.getElementById("numQuantity").value);
+        var numDiscount = Number($('#numDiscount option:selected').val());
+
+        if (numCost > 0 && numQuantity > 0 && numDiscount == 0) {
+            document.getElementById("numFinalCost").value = numCost * numQuantity;
+        } else if (numCost > 0 && numQuantity > 0 && numDiscount > 0) {
+            var cost = Number(numCost * numQuantity);
+            var discount = (cost * numDiscount) / 100;
+            document.getElementById("numFinalCost").value = cost - discount;
+        }
+    }
+    $(function myfunction() {
+        var Msg = '@TempData["BillDetailStatus"]'
+        if (Msg != '') {
+            if (Msg == "Saved") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["success"]("Item Added To Bill Successfully.", " Success");
+            }
+        }
+    })
+</script>

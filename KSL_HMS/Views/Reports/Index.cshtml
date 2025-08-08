@@ -1,0 +1,174 @@
+﻿@model KSL_HMS.Models.Report
+
+@{
+    ViewBag.Report = "active";
+    ViewBag.Title = "Reports Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Assest/vendor/libs/flatpickr/flatpickr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+
+<div class="card mb-4">
+    @using (Html.BeginForm("Generate", "Reports", FormMethod.Post, new { @class = "card-body" }))
+    {
+        <h4>Report Generator</h4>
+        <hr class="my-4 mx-n4" />
+        <div class="row">
+            <div class="col-md-4">
+                <label for="flatpickr-range" class="form-label">Select Date Range</label>
+                @Html.EditorFor(model => model.varDateRange, new { htmlAttributes = new { @class = "form-control", @id = "varDateRange", @type = "text", placeholder = "YYYY-MM-DD to YYYY-MM-DD", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.varDateRange, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.dtStart)
+                @Html.HiddenFor(model => model.dtEnd)
+            </div>
+        </div>
+        <br />
+        <div class="row g-3">
+            <div class="col-md-12">
+                <label class="form-label" for="varChargeTypeName">Select Report Type  <sup class="text-danger">*</sup></label><br />
+                <div class="form-check form-check-inline">
+                    <input name="numReportType" class="form-check-input" type="radio" value="1" id="numReportType1" checked="checked">
+                    <label class="form-check-label" for="numReportType1">Requests</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input name="numReportType" class="form-check-input" type="radio" value="2" id="numReportType2">
+                    <label class="form-check-label" for="numReportType2">Occupancy</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input name="numReportType" class="form-check-input" type="radio" value="3" id="numReportType3">
+                    <label class="form-check-label" for="numReportType3">Cash Collection</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input name="numReportType" class="form-check-input" type="radio" value="4" id="numReportType4">
+                    <label class="form-check-label" for="numReportType4">Customer Statement(External)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input name="numReportType" class="form-check-input" type="radio" value="5" id="numReportType5">
+                    <label class="form-check-label" for="numReportType5">Guest History</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input name="numReportType" class="form-check-input" type="radio" value="6" id="numReportType6">
+                    <label class="form-check-label" for="numReportType6">Daily Booking Details</label>
+                </div>
+            </div>
+        </div>
+        <div class="row g-3" id="RequestDiv" style="margin-top:5px">
+            <div class="col-md-6">
+                <label class="form-label" for="varChargeTypeName">Select Request Type  <sup class="text-danger">*</sup></label><br />
+                <div class="form-check form-check-inline">
+                    <input name="numRequestType" class="form-check-input" type="radio" value="1" id="numRequestType1" checked="checked">
+                    <label class="form-check-label" for="numRequestType1">Transport Requests</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input name="numRequestType" class="form-check-input" type="radio" value="2" id="numRequestType2">
+                    <label class="form-check-label" for="numRequestType2">Lessons Requests</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input name="numRequestType" class="form-check-input" type="radio" value="3" id="numRequestType3">
+                    <label class="form-check-label" for="numRequestType3">Rental Requests</label>
+                </div>
+            </div>
+        </div>
+        <div class="row g-3" id="OccupancyDiv" style="margin-top:5px">
+            <div class="col-md-6">
+                <label class="form-label" for="varChargeTypeName">Select Occupancy Type  <sup class="text-danger">*</sup></label><br />
+                <div class="form-check form-check-inline">
+                    <input name="numOccupancyType" class="form-check-input" type="radio" value="1" id="numOccupancyType1" checked="checked">
+                    <label class="form-check-label" for="numOccupancyType1">Occupancy Rate By Rooms</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input name="numOccupancyType" class="form-check-input" type="radio" value="2" id="numOccupancyType2">
+                    <label class="form-check-label" for="numOccupancyType2">Occupancy Rate By Rooms Guests</label>
+                </div>
+            </div>
+        </div>
+        <div class="row g-3" id="CustomerDiv" style="margin-top:5px">
+            <div class="col-md-6">
+                <label class="form-label" for="numGuestID">Guest  <sup class="text-danger">*</sup></label>
+                @Html.DropDownList("numGuestID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Guest", @title = "Please Select Guest.", @id = "numGuestID" })
+                @Html.ValidationMessageFor(model => model.numGuestID, "", new { @class = "text-danger", @id = "numGuestID" })
+            </div>
+        </div>
+        <div class="row g-3" id="GuestDiv" style="margin-top:5px">
+            <div class="col-md-8">
+                <label class="form-label" for="numInternalGuestID">Guest  <sup class="text-danger">*</sup></label>
+                @Html.DropDownList("numInternalGuestID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Guest", @title = "Please Select Guest.", @id = "numInternalGuestID" })
+                @Html.ValidationMessageFor(model => model.numInternalGuestID, "", new { @class = "text-danger", @id = "numInternalGuestID" })
+            </div>
+        </div>
+        <div class="pt-4">
+            <button type="submit" class="btn btn-primary me-sm-3 me-1">Generate</button>
+            <button type="reset" class="btn btn-warning">Clear</button>
+        </div>
+    }
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script src="~/Assest/vendor/libs/flatpickr/flatpickr.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script type="text/javascript">
+    $("#numGuestID").select2({
+        placeholder: "Select Guest...",
+    });
+    $("#numInternalGuestID").select2({
+        placeholder: "Select Guest...",
+    });
+    $("#OccupancyDiv").hide();
+    $("#CustomerDiv").hide();
+    $("#GuestDiv").hide();
+    flatpickr('#varDateRange', {
+        mode: "range",
+        onChange: function (selectedDates, dateStr, instance) {
+            var StrDate = '';
+            if (selectedDates[0] != undefined || selectedDates[0] != null) {
+                StrDate = selectedDates[0].getFullYear() + "/" + (selectedDates[0].getMonth() + 1) + "/" + selectedDates[0].getDate();
+                $("#dtStart").val(StrDate);
+            } else {
+                $("#dtStart").val('');
+            }
+            var EndDate = '';
+            if (selectedDates[1] != undefined || selectedDates[1] != null) {
+                EndDate = selectedDates[1].getFullYear() + "/" + (selectedDates[1].getMonth() + 1) + "/" + selectedDates[1].getDate();
+                $("#dtEnd").val(EndDate);
+            } else {
+                $("#dtEnd").val('');
+            }
+        }
+    });
+    $("input[name='numReportType']").click(function () {
+        if (document.getElementById('numReportType1').checked) {
+            $("#RequestDiv").show();
+            $("#OccupancyDiv").hide();
+            $("#CustomerDiv").hide();
+            $("#GuestDiv").hide();
+        }
+        else if (document.getElementById('numReportType2').checked) {
+            $("#OccupancyDiv").show();
+            $("#RequestDiv").hide();
+            $("#CustomerDiv").hide();
+            $("#GuestDiv").hide();
+        }
+        else if (document.getElementById('numReportType4').checked) {
+            $("#OccupancyDiv").hide();
+            $("#RequestDiv").hide();
+            $("#CustomerDiv").show();
+            $("#GuestDiv").hide();
+        }
+        else if (document.getElementById('numReportType5').checked) {
+            $("#OccupancyDiv").hide();
+            $("#RequestDiv").hide();
+            $("#CustomerDiv").hide();
+            $("#GuestDiv").show();
+        }
+        else {
+            $("#RequestDiv").hide();
+            $("#OccupancyDiv").hide();
+            $("#CustomerDiv").hide();
+            $("#GuestDiv").hide();
+        }
+    });
+</script>

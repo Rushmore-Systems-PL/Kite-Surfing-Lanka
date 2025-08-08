@@ -1,0 +1,201 @@
+﻿@model IEnumerable<KSL_HMS.DB.Currency>
+
+@{
+    ViewBag.Currency = "active";
+    ViewBag.Title = "Currency Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
+}
+
+<link href="~/Assest/vendor/libs/toastr/toastr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/animate-css/animate.css" rel="stylesheet" />
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="card-title header-elements">
+            <h4 class="m-0 me-2">Currency Master</h4>
+            <div class="card-title-elements ms-auto">
+                <button type="button" class="btn btn-secondary" id="NewCurrencyBtn">Add New Currency</button>
+            </div>
+        </div>
+        @using (Html.BeginForm("Create", "Currencies", FormMethod.Post, new { @class = "card-body" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="table-responsive text-nowrap">
+                <table class="table table-border-bottom-0" id="CurrencyTbl" width="100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Rate</th>
+                            <th width="2px">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    .@i.ToString("00")
+                                    <input hidden="hidden" id="numCurrencyID-@i" name="numCurrencyID" value="@item.numCurrencyID" class="form-control col-md-3" />
+                                </td>
+                                <td>
+                                    <input type="text" autocomplete="off" id="varCurrencyName-@i" name="varCurrencyName" value="@item.varCurrencyName" class="form-control col-md-3" placeholder="Name..." required="" title="Please Enter Currency Name." />
+                                    @*<p class="text-danger" id="NameErrorMsg-@i"></p>*@
+                                </td>
+                                <td>
+                                    <input type="text" autocomplete="off" id="varCurrencyCode-@i" name="varCurrencyCode" value="@item.varCurrencyCode" class="form-control col-md-3" placeholder="Code..." required="" title="Please Enter Currency Code." @*onkeyup="CheckCurrency(@i)"*@/>
+                                    @*<p class="text-danger" id="CodeErrorMsg-@i"></p>*@
+                                </td>
+                                <td>
+                                    <input type="text" autocomplete="off" id="numRate-@i" name="numRate" value="@item.numRate" class="form-control col-md-3" placeholder="Rate..." required="" title="Please Enter Currency Rate."/>
+                                </td>
+                                <td width="2px">
+                                    <span class="text-nowrap">
+                                        <button type="button" class="btn btn-sm btn-icon delete-record" onclick="RemoveCurrency(@item.numCurrencyID)"><i class="bx bx-trash text-danger"></i></button>
+                                    </span>
+                                </td>
+                                @Html.HiddenFor(model => item.bitActive)
+                                @Html.HiddenFor(model => item.numCreatedByID)
+                                @Html.HiddenFor(model => item.dtCreatedDate)
+                                @Html.HiddenFor(model => item.numUpdatetdByID)
+                                @Html.HiddenFor(model => item.dtUpdatetDate)
+                                @Html.HiddenFor(model => item.numDeletedByID)
+                                @Html.HiddenFor(model => item.dtDeletedDate)
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="pt-4">
+                <button type="submit" class="btn btn-primary me-sm-3 me-1" id="CurrencySubmitBtn">Submit</button>
+                <button type="reset" class="btn btn-warning" onClick="window.location.reload()">Clear</button>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="col-lg-3 col-md-6">
+    <div class="mt-3">
+        <div class="offcanvas offcanvas-bottom" data-bs-backdrop="false" tabindex="-1" id="CurrencyDeleteCanvas" aria-labelledby="CurrencyDeleteCanvasLabel">
+            <div class="offcanvas-header">
+                <h4 id="CurrencyDeleteCanvasLabel" class="offcanvas-title">Currency</h4>
+                <button type="button" class="btn-close text-reset" onclick="CancelCurrency()" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <h5>Are You Sure?</h5>
+                <p style="margin-top:-10px">Do You Want To Delete This Currency...!</p>
+                <button type="button" class="btn btn-primary me-2" onclick="DeleteCurrency()">Continue</button>
+                <button type="button" class="btn btn-warning" onclick="CancelCurrency()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script type="text/javascript">
+    var x = @i;
+    $("#NewCurrencyBtn").click(function () {
+        const zeroPad = (x, places) => String(x).padStart(places, '0')
+        var tbodyRef = document.getElementById('CurrencyTbl').getElementsByTagName('tbody')[0];
+        var newRow = tbodyRef.insertRow();
+        var noCell = newRow.insertCell();
+        noCell.innerHTML = "." + zeroPad(x, 2) + "<input hidden='hidden' id='numCurrencyID-" + x + "' name='numCurrencyID' value='" + x + "' class='form-control col-md-3'/>";
+        var nameCell = newRow.insertCell();
+        nameCell.innerHTML = "<input type='text' autocomplete='off' id='varCurrencyName-" + x + "' name='varCurrencyName' class='form-control col-md-3'  placeholder='Name...' required='' title='Please Enter Currency Name.' />";
+        var codeCell = newRow.insertCell();
+        codeCell.innerHTML = "<input type='text' autocomplete='off' id='varCurrencyCode-" + x + "' name='varCurrencyCode' class='form-control col-md-3'  placeholder='Code...' required='' title='Please Enter Currency Code.' />";
+        var rateCell = newRow.insertCell();
+        rateCell.innerHTML = "<input type='text' autocomplete='off' id='numRate-" + x + "' name='numRate' class='form-control col-md-3' placeholder='Rate...' required='' title='Please Enter Currency Rate.' />";
+        var actionCell = newRow.insertCell();
+        actionCell.innerHTML = "<span class='text-nowrap'><button type='button' class='btn btn-sm btn-icon delete-record' onclick='RemoveCurrency(" + x + ")'><i class='bx bx-trash text-danger'></i></button></span>";
+        x++;
+    })
+    function CheckCurrency(c) {
+        var Name = document.getElementById('varCurrencyName-' + c);
+        var Code = document.getElementById('varCurrencyCode-' + c);
+
+        if (Name != null && Code != null) {
+            $.ajax({
+                type: 'GET',
+                data: { Name: Name, Code: Code },
+                url: '@Url.Action("IsAlreadyExists", "Currencies")',
+                success: function (result) {
+                    if (result == true) {
+                        document.getElementById('NameErrorMsg-' + c).innerText = "";
+                        document.getElementById('CodeErrorMsg-' + c).innerText = "";
+                        document.getElementById("CurrencySubmitBtn").disabled = false;
+                    } else {
+                        document.getElementById('NameErrorMsg-' + c).innerText = "Name Already Available.";
+                        document.getElementById('CodeErrorMsg-' + c).innerText = "Code Already Available.";
+                        document.getElementById("CurrencySubmitBtn").disabled = true;
+                    }
+                }
+            });
+        }
+    }
+    $(function myfunction() {
+        var Msg = '@TempData["CurrencyStatus"]'
+        if (Msg != '') {
+            if (Msg == "Saved") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["success"]("Currencies Saved Successfully.", " Success");
+            } else if (Msg == "Deleted") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["error"]("Currency Deleted Successfully.", " Success");
+            }
+        }
+    })
+    var numCurrencyID = 0;
+    function RemoveCurrency(id) {
+        if (id != -1) {
+            numCurrencyID = id;
+            $('#CurrencyDeleteCanvas').offcanvas('show');
+        }
+    }
+    function DeleteCurrency() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Delete", "Currencies")/' + numCurrencyID
+        });
+        location.reload();
+    }
+    function CancelCurrency() {
+        numCurrencyID = 0;
+        $('#CurrencyDeleteCanvas').offcanvas('hide');
+    }
+</script>

@@ -1,0 +1,71 @@
+﻿@model IEnumerable<KSL_HMS.Controllers.BookingController.BookingAvailability>
+
+<br />
+<div class="hero-text-box text-center">
+    <h1 class="text-primary hero-title display-4 fw-light" id="numRoomCounth2"></h1>
+    <h2 class="hero-sub-title h5 mb-4 pb-1">
+        If your preferred option is not available <a href="#!">get in touch</a> and we will do a manual check.
+    </h2>
+</div>
+<br />
+<div class="row justify-content-center">
+    <div class="col-md-9">
+        @{
+            int i = 1;
+            foreach (var item in Model)
+            {
+                <div class="invoice-preview">
+                    <div class="card invoice-preview-card">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img class="card-img card-img-left" src="@Url.Action("Image","RoomTypes",new {id = item.numRoomtypeID })" alt="@item.varRoomtypeName" height="280" width="300">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <span class="card-title display-6">@item.varRoomtypeName</span>
+                                            @if (item.numAvailableCount > 1)
+                                            {
+                                                <p class="fw-bold text-muted">@item.numAvailableCount.ToString("00") Units Available</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="fw-bold text-muted">@item.numAvailableCount.ToString("00") Unit Available</p>
+                                            }
+                                            <input type="number" id="numRoomtypeID-@i" name="numRoomtypeID" value="@item.numRoomtypeID" hidden />
+                                            <input type="text" id="varRoomtype-@i" name="varRoomtype" value="@item.varRoomtypeName" hidden />
+                                            <input type="text" id="numRatePerPeriod-@i" name="numRatePerPeriod" value="@item.numRatePerPeriod" hidden />
+                                            <input type="text" id="varRoomDescription-@i" name="varRoomDescription" value="@item.varRoomDescription" hidden />
+                                            <input type="text" id="numRatePerRoom-@i" name="numRatePerRoom" value="@item.numRatePerRoom" hidden />
+                                            @item.varRoomDescription
+                                            <br />
+                                            <br />
+                                            <a href="#!"><u>View Unit Details</u></a>
+                                        </div>
+                                        <div class="col-md-4 text-end">
+                                            @if (item.numTotalDays == 1)
+                                            {
+                                                <h5 class="text-muted">@item.numTotalDays.ToString("00") Day<br><span>@item.varGuestText</span></h5>
+                                            }
+                                            else
+                                            {
+                                                <h5 class="text-muted">@item.numTotalDays.ToString("00") Days<br><span>@item.varGuestText</span></h5>
+                                            }
+                                            <h6 class="display-6">€ @item.numRatePerPeriod.ToString("00")</h6>
+                                            <br />
+                                            <button class="btn btn-primary" type="button">Book Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                i++;
+            }
+        }
+    </div>
+</div>

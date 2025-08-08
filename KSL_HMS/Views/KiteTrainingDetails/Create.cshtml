@@ -1,0 +1,136 @@
+﻿@model KSL_HMS.DB.KiteTrainingDetail
+
+@{
+    ViewBag.KiteTraining = "active open";
+    ViewBag.NewTraining = "active";
+    ViewBag.Title = "New Training";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/toastr/toastr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/animate-css/animate.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/flatpickr/flatpickr.css" rel="stylesheet" />
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h4>New Training</h4>
+        <hr class="my-4 mx-n4" />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label class="form-label" for="numBookingHeaderID">Room  <sup class="text-danger">*</sup></label>
+                    @Html.DropDownList("numBookingHeaderID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Room", @title = "Please Select Room.", @id = "numBookingHeaderID" })
+                    @Html.ValidationMessageFor(model => model.numBookingHeaderID, "", new { @class = "text-danger", @id = "numBookingHeaderID" })
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="numBookingDetailID">Guest  <sup class="text-danger">*</sup></label>
+                    <select id="numBookingDetailID" name="numBookingDetailID" required="" title="Please Select Guest."></select>
+                    @Html.ValidationMessageFor(model => model.numBookingDetailID, "", new { @class = "text-danger", @id = "numBookingDetailID" })
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="numInstructorID">Instructor  <sup class="text-danger">*</sup></label>
+                    @Html.DropDownList("numInstructorID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Room", @title = "Please Select Instructor.", @id = "numInstructorID" })
+                    @Html.ValidationMessageFor(model => model.numInstructorID, "", new { @class = "text-danger", @id = "numInstructorID" })
+                </div>
+            </div>
+            <br />
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label" for="numItemID">Item  <sup class="text-danger">*</sup></label>
+                    @Html.DropDownList("numItemID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Item", @title = "Please Select Item.", @id = "numItemID" })
+                    @Html.ValidationMessageFor(model => model.numItemID, "", new { @class = "text-danger", @id = "numItemID" })
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label" for="dtKiteTrainingDate">Training Date  <sup class="text-danger">*</sup></label>
+                        @Html.EditorFor(model => model.dtKiteTrainingDate, new { htmlAttributes = new { @class = "form-control", @type = "number", placeholder = "Training Date...", autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.dtKiteTrainingDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label" for="numKiteTrainingHours">Training Hours  <sup class="text-danger">*</sup></label>
+                        @Html.EditorFor(model => model.numKiteTrainingHours, new { htmlAttributes = new { @class = "form-control", @type = "number", placeholder = "Training Hours...", autocomplete = "off", @onkeyup = "FindTrainingRate();" } })
+                        @Html.ValidationMessageFor(model => model.numKiteTrainingHours, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label" for="numTrainingPaxCount">No Of People  <sup class="text-danger">*</sup></label>
+                        @Html.EditorFor(model => model.numTrainingPaxCount, new { htmlAttributes = new { @class = "form-control", @type = "number", placeholder = "No Of People...", autocomplete = "off", @Value = "1", @onkeyup = "CalculateFinalRate();" } })
+                        @Html.ValidationMessageFor(model => model.numTrainingPaxCount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="pt-4" style="margin-top:-20px">
+                <button type="submit" class="btn btn-primary me-sm-3 me-1" id="LoacationItemSubmitBtn">Submit</button>
+                <button type="reset" class="btn btn-warning">Clear</button>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script src="~/Assest/vendor/libs/flatpickr/flatpickr.js"></script>
+<script type="text/javascript">
+    $("#numBookingHeaderID").select2({
+        placeholder: "Select Room...",
+    });
+    $("#numBookingDetailID").select2({
+        placeholder: "Select Guest...",
+    });
+    $("#numItemID").select2({
+        placeholder: "Select Item...",
+    });
+    $("#numInstructorID").select2({
+        placeholder: "Select Instructor...",
+    });
+    $('#numBookingHeaderID').on('change', function () {
+        var Rid = $('#numBookingHeaderID option:selected').val();
+        $.ajax({
+            type: 'GET',
+            data: { id: Rid },
+            url: '@Url.Action("LoadGuests", "KiteTrainingDetails")',
+            success: function (result) {
+                var s = '<option value="">Select Guest...</option>';
+                for (var i = 0; i < result.length; i++) {
+                    s += '<option value="' + result[i].id + '">' + result[i].name + '</option>';
+                }
+                $('#numBookingDetailID').html(s);
+            }
+        });
+    });
+    flatpickr('#dtKiteTrainingDate', {});
+    $(function myfunction() {
+        var Msg = '@TempData["KiteTrainingStatus"]'
+        if (Msg != '') {
+            if (Msg == "Saved") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["success"]("Training Created Successfully.", " Success");
+            }
+        }
+    })
+</script>

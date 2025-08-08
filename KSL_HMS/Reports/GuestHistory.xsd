@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="GuestHistory" targetNamespace="http://tempuri.org/GuestHistory.xsd" xmlns:mstns="http://tempuri.org/GuestHistory.xsd" xmlns="http://tempuri.org/GuestHistory.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="GuestHistory" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="GuestHistory" msprop:Generator_DataSetName="GuestHistory">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTable1" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_RowClassName="DataTable1Row" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_UserTableName="DataTable1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="dtFromDate" msprop:Generator_ColumnPropNameInRow="dtFromDate" msprop:Generator_ColumnPropNameInTable="dtFromDateColumn" msprop:Generator_ColumnVarNameInTable="columndtFromDate" msprop:Generator_UserColumnName="dtFromDate" type="xs:string" minOccurs="0" />
+              <xs:element name="dtToDate" msprop:Generator_ColumnPropNameInRow="dtToDate" msprop:Generator_ColumnPropNameInTable="dtToDateColumn" msprop:Generator_ColumnVarNameInTable="columndtToDate" msprop:Generator_UserColumnName="dtToDate" type="xs:string" minOccurs="0" />
+              <xs:element name="varRefferenceNo" msprop:Generator_ColumnPropNameInRow="varRefferenceNo" msprop:Generator_ColumnPropNameInTable="varRefferenceNoColumn" msprop:Generator_ColumnVarNameInTable="columnvarRefferenceNo" msprop:Generator_UserColumnName="varRefferenceNo" type="xs:string" minOccurs="0" />
+              <xs:element name="varRoomType" msprop:Generator_ColumnPropNameInRow="varRoomType" msprop:Generator_ColumnPropNameInTable="varRoomTypeColumn" msprop:Generator_ColumnVarNameInTable="columnvarRoomType" msprop:Generator_UserColumnName="varRoomType" type="xs:string" minOccurs="0" />
+              <xs:element name="varRoomNo" msprop:Generator_ColumnPropNameInRow="varRoomNo" msprop:Generator_ColumnPropNameInTable="varRoomNoColumn" msprop:Generator_ColumnVarNameInTable="columnvarRoomNo" msprop:Generator_UserColumnName="varRoomNo" type="xs:string" minOccurs="0" />
+              <xs:element name="varDuration" msprop:Generator_ColumnPropNameInRow="varDuration" msprop:Generator_ColumnPropNameInTable="varDurationColumn" msprop:Generator_ColumnVarNameInTable="columnvarDuration" msprop:Generator_UserColumnName="varDuration" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,195 @@
+﻿@model KSL_HMS.DB.Receipt
+
+@{
+    ViewBag.Receipt = "active open";
+    ViewBag.NewReceipt = "active";
+    ViewBag.Title = "New Receipt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    var Currencies = (List<KSL_HMS.Models.CurrencyRate>)ViewBag.Currencies;
+}
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/toastr/toastr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/animate-css/animate.css" rel="stylesheet" />
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h4>New Receipt</h4>
+        <hr class="my-4 mx-n4" />
+        @using (Html.BeginForm("Create", "Receipts", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label" for="bitSingleBooking">Receipt <sup class="text-danger">*</sup></label><br />
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(model => model.bitSingleBooking, "True", new { @id = "bitSingleBooking1", @class = "form-check-input", @checked = "" })
+                        @Html.LabelFor(model => model.bitSingleBooking, "Room", new { @for = "bitSingleBooking1", @class = "form-check-label" })
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(model => model.bitSingleBooking, "False", new { @id = "bitSingleBooking2", @class = "form-check-input" })
+                        @Html.LabelFor(model => model.bitSingleBooking, "Reference", new { @for = "bitSingleBooking2", @class = "form-check-label" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.bitSingleBooking, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-5" id="BookingDiv">
+                    <label class="form-label" for="numBookingHeaderID">Select Booking<sup class="text-danger">*</sup></label>
+                    @Html.DropDownList("numBookingHeaderID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Booking", @title = "Please Select Booking.", @id = "numBookingHeaderID" })
+                    @Html.ValidationMessageFor(model => model.numBookingHeaderID, "", new { @class = "text-danger", @id = "numBookingHeaderID" })
+                </div>
+                <div class="col-md-4" id="ReferenceDiv">
+                    <label class="form-label" for="numBookingRefferenceID">Select Reference<sup class="text-danger">*</sup></label>
+                    @Html.DropDownList("numBookingRefferenceID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Booking", @title = "Please Select Booking.", @id = "numBookingRefferenceID" })
+                    @Html.ValidationMessageFor(model => model.numBookingRefferenceID, "", new { @class = "text-danger", @id = "numBookingRefferenceID" })
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="numAmountOutstanding">Amount Outstanding</label>
+                    <input type="number" id="numAmountOutstanding" name="numAmountOutstanding" class="form-control" placeholder="Outstanding Amount..." readonly="readonly" />
+                </div>
+            </div>
+            <br />
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label" for="numPaymentTypeID">Payment Category<sup class="text-danger">*</sup></label>
+                    @Html.DropDownList("numPaymentTypeID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Payment Category", @title = "Please Select Payment Category.", @id = "numPaymentTypeID" })
+                    @Html.ValidationMessageFor(model => model.numPaymentTypeID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="numReciptTypeID">Receipt Category<sup class="text-danger">*</sup></label>
+                    @Html.DropDownList("numReciptTypeID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Receipt Category", @title = "Please Select Receipt Category.", @id = "numReciptTypeID" })
+                    @Html.ValidationMessageFor(model => model.numReciptTypeID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="numAmount">Amount (€) <sup class="text-danger">*</sup></label>
+                    @Html.EditorFor(model => model.numAmount, new { htmlAttributes = new { @class = "form-control", @id= "numAmount", @type = "number", placeholder = "Amount...", autocomplete = "off", onkeyup = "LoadCurruncyAmount()" } })
+                    @Html.ValidationMessageFor(model => model.numAmount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label" for="numCurrencyID">Currency<sup class="text-danger">*</sup></label>
+                    @Html.DropDownList("numCurrencyID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Currency", @title = "Please Select Currency.", @id = "numCurrencyID" })
+                    @Html.ValidationMessageFor(model => model.numCurrencyID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="numPayInCurrencyAmount">Currency Rate</label>
+                    <input type="number" id="numCurrencyRate" name="numCurrencyRate" value="@ViewBag.DefaultCurrencyRate" class="form-control" placeholder="Rate..." autocomplete="off"  onkeyup = "LoadCurruncyAmount()" required="" title="Please Enter Rate." />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="numPayInCurrencyAmount">Pay-In Currency</label>
+                    <input type="number" id="numPayInCurrencyAmount" name="numPayInCurrencyAmount" class="form-control" placeholder="Pay-In Currency Amount..." readonly="readonly" />
+                </div>
+            </div>
+            <div class="pt-4">
+                <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+                <button type="reset" class="btn btn-warning">Clear</button>
+            </div>
+        }
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script type="text/javascript">
+    $("#numBookingHeaderID").select2({
+        placeholder: "Select Booking...",
+    });
+    $("#numBookingRefferenceID").select2({
+        placeholder: "Select Reference...",
+    });
+    $("#numPaymentTypeID").select2({
+        placeholder: "Select Payment Category...",
+    });
+    $("#numReciptTypeID").select2({
+        placeholder: "Select Recipt Category...",
+    });
+    $("#numCurrencyID").select2({
+        placeholder: "Select Currency...",
+    });
+    $("#ReferenceDiv").hide();
+    $("input[name='bitSingleBooking']").click(function () {
+        jQuery.noConflict();
+        $("#numBookingHeaderID").val(null).trigger("change");
+        $("#numBookingRefferenceID").val(null).trigger("change");
+        document.getElementById("numAmountOutstanding").value = '';
+
+        if (document.getElementById('bitSingleBooking2').checked) {
+            $("#ReferenceDiv").show();
+            $("#BookingDiv").hide();
+        }
+        else {
+            $("#ReferenceDiv").hide();
+            $("#BookingDiv").show();
+        }
+    });
+    $('#numBookingHeaderID').on('change', function () {
+        var id = $('#numBookingHeaderID option:selected').val();
+        var level = $("input[type='radio'][name='bitSingleBooking']:checked").val();
+        if (id != '') {
+            $.ajax({
+                type: 'GET',
+                data: { id: id, level: level },
+                url: '@Url.Action("LoadOutstandingAmount", "Receipts")',
+                success: function (result) {
+                    document.getElementById("numAmountOutstanding").value = parseFloat(result.numOutAmount).toFixed(2);
+                }
+            });
+        }
+    });
+    $('#numBookingRefferenceID').on('change', function () {
+        var id = $('#numBookingRefferenceID option:selected').val();
+        var level = $("input[type='radio'][name='bitSingleBooking']:checked").val();
+        if (id != '') {
+           $.ajax({
+                type: 'GET',
+                data: { id: id, level: level },
+                url: '@Url.Action("LoadOutstandingAmount", "Receipts")',
+                success: function (result) {
+                    document.getElementById("numAmountOutstanding").value = parseFloat(result.numOutAmount).toFixed(2);
+                }
+           });
+        }
+    });
+    $('#numCurrencyID').on('change', function () {
+        var id = $('#numCurrencyID option:selected').val();
+        const Currencies = @Html.Raw(Json.Encode(Currencies));
+        var Curr = Currencies.find((cur) => cur.numID == id);
+        document.getElementById("numCurrencyRate").value = parseFloat(Curr.numRate);
+        LoadCurruncyAmount();
+    });
+    function LoadCurruncyAmount() {
+        var Amount = document.getElementById("numAmount").value;
+        var Rate = document.getElementById("numCurrencyRate").value;
+        var Rate = document.getElementById("numCurrencyRate").value;
+        var PayInCurrency = parseFloat(Amount) * parseFloat(Rate);
+        document.getElementById("numPayInCurrencyAmount").value = (PayInCurrency).toFixed(2); ;
+    }
+    $(function myfunction() {
+        var Msg = '@TempData["ReceiptStatus"]'
+        if (Msg != '') {
+            if (Msg == "Saved") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["success"]("Receipt Saved Successfully.", " Success");
+            }
+        }
+    })
+</script>

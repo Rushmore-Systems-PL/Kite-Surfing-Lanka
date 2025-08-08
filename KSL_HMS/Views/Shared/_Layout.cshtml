@@ -1,0 +1,705 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed " dir="ltr" data-theme="theme-default" data-assets-path="~/Assest/" data-template="vertical-menu-template">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>@ViewBag.Title | KITESURFING </title>
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
+    <link href="~/Assest/vendor/fonts/boxicons.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/fonts/fontawesome.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/fonts/flag-icons.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/css/rtl/core.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/css/rtl/theme-default.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" />
+    <script src="~/Assest/vendor/js/helpers.js"></script>
+    <script src="~/Assest/js/config.js"></script>
+    <link href="~/Assest/css/demo.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/libs/typeahead-js/typeaheadjs.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo " style="margin-bottom:20px;margin-left:-10px">
+                    <a href="javascript:void(0);" class="app-brand-link">
+                        <span class="app-brand-logo demo">
+                            <img src="~/Assest/customer/KSL_Girl_ST_2000_B-removebg-preview111.png" height="90" width="40" style="margin-top:-20px">
+                        </span>
+                        <span class="app-brand-text demo text-body fw-bolder">
+                            <img src="~/Assest/customer/KSL_Girl_ST_2000_B-removebg-preview.png" height="90" width="200" style="margin-top:-20px;margin-left:-40px">
+                        </span>
+                    </a>
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                        <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                    </a>
+                </div>
+                @*<div class="menu-inner-shadow"></div>*@
+                @if (Session["UserPermission"].ToString() == "Administrator" || Session["UserPermission"].ToString() == "Finance")
+                {
+                    <ul class="menu-inner py-1">
+                        <li class="menu-item @ViewBag.Dashboard">
+                            <a href="~/Users/Dashboard" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                                <div data-i18n="Dashboard">Dashboard</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Reservations</span></li>
+                        <li class="menu-item @ViewBag.Booking">
+                            <a href="javascript:void(0)" class="menu-link menu-toggle">
+                                <i class="menu-icon tf-icons bx bx-book-bookmark"></i>
+                                <div data-i18n="Bookings">Bookings</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item @ViewBag.NewInternalBooking">
+                                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                        <div data-i18n="Internal Booking">Internal Booking</div>
+                                    </a>
+                                    <ul class="menu-sub">
+                                        <li class="menu-item @ViewBag.NewBooking">
+                                            <a href="~/BookingHeaders/Create" class="menu-link">
+                                                <div data-i18n="New Booking">New Booking</div>
+                                            </a>
+                                        </li>
+                                        <li class="menu-item @ViewBag.AddBooking">
+                                            <a href="~/BookingHeaders/AddBooking" class="menu-link">
+                                                <div data-i18n="Add Booking">Add Booking</div>
+                                            </a>
+                                        </li>
+                                        <li class="menu-item @ViewBag.ExtendBooking">
+                                            <a href="~/BookingHeaders/ExtendBooking" class="menu-link">
+                                                <div data-i18n="Extend Booking">Extend Booking</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item @ViewBag.NewExternalBooking">
+                                    <a href="~/BookingHeaders/CreateExternal" class="menu-link">
+                                        <div data-i18n="External Booking">External Booking</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-item @ViewBag.Bookings">
+                            <a href="~/BookingHeaders/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
+                                <div data-i18n="Booking Master">Booking Master</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.CheckInCheckOut">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class='menu-icon tf-icons bx bx-directions'></i>
+                                <div data-i18n="Check In | Check Out">Check In | Check Out</div>
+                            </a>
+                            <ul class="menu-sub ">
+                                <li class="menu-item @ViewBag.CheckIn">
+                                    <a href="~/BookingHeaders/CheckIn" class="menu-link">
+                                        <div data-i18n="Check-In">Check-In</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item @ViewBag.CheckOut">
+                                    <a href="~/BookingHeaders/CheckOut" class="menu-link">
+                                        <div data-i18n="Check-Out">Check-Out</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-item @ViewBag.Guest">
+                            <a href="~/Guests/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-face"></i>
+                                <div data-i18n="Guest Master">Guest Master</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Trainings</span></li>
+                        <li class="menu-item @ViewBag.KiteTraining">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class='menu-icon tf-icons  bx bxs-school'></i>
+                                <div data-i18n="Training">Training</div>
+                            </a>
+                            <ul class="menu-sub ">
+                                <li class="menu-item @ViewBag.NewTraining">
+                                    <a href="~/KiteTrainingDetails/Create" class="menu-link">
+                                        <div data-i18n="New Training">New Training</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item @ViewBag.TrainingDetails">
+                                    <a href="~/KiteTrainingDetails/Index" class="menu-link">
+                                        <div data-i18n="Trainings">Trainings</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-item @ViewBag.KiteTrainingRate">
+                            <a href="~/KiteTrainingRates/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-book-content"></i>
+                                <div data-i18n="Training Rate">Training Rate</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.Instructor">
+                            <a href="~/Instructors/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-swim"></i>
+                                <div data-i18n="Instructors">Instructors</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Rentings</span></li>
+                        <li class="menu-item @ViewBag.KiteRenting">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class='menu-icon tf-icons  bx bx-store-alt'></i>
+                                <div data-i18n="Renting">Renting</div>
+                            </a>
+                            <ul class="menu-sub ">
+                                <li class="menu-item @ViewBag.NewRenting">
+                                    <a href="~/KiteRentalDetails/Create" class="menu-link">
+                                        <div data-i18n="New Renting">New Renting</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item @ViewBag.RentingDetails">
+                                    <a href="~/KiteRentalDetails/Index" class="menu-link">
+                                        <div data-i18n="Rentings">Rentings</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-item @ViewBag.KiteRentalRate">
+                            <a href="~/KiteRentalRates/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-book-content"></i>
+                                <div data-i18n="Renting Rate">Renting Rate</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Payemnts</span></li>
+                        <li class="menu-item @ViewBag.Billing @ViewBag.TotalBilling">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class='menu-icon tf-icons bx bx-cart-alt'></i>
+                                <div data-i18n="Billing">Billing</div>
+                            </a>
+                            <ul class="menu-sub ">
+                                <li class="menu-item @ViewBag.NewBill">
+                                    <a href="~/BillDetails/AddToBill" class="menu-link">
+                                        <div data-i18n="Add To Bill">Add To Bill</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item @ViewBag.BillingMaster">
+                                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                        <div data-i18n="Bill Master">Bill Master</div>
+                                    </a>
+                                    <ul class="menu-sub">
+                                        <li class="menu-item @ViewBag.BillDetails">
+                                            <a href="~/BillDetails/Index" class="menu-link">
+                                                <div data-i18n="Bills">Bills</div>
+                                            </a>
+                                        </li>
+                                        <li class="menu-item @ViewBag.BillHeaders">
+                                            <a href="~/BillHeaders/Index" class="menu-link">
+                                                <div data-i18n="Total Bills">Total Bills</div>
+                                            </a>
+                                        </li>
+                                        <li class="menu-item @ViewBag.OutstandingBillHeaders">
+                                            <a href="~/BillHeaders/OutstandingBills" class="menu-link">
+                                                <div data-i18n="Outstanding Bills">Outstanding Bills</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item @ViewBag.CloseBill">
+                                    <a href="~/BillHeaders/CloseBill" class="menu-link">
+                                        <div data-i18n="Close Bill">Close Bill</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-item @ViewBag.Receipt">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class='menu-icon tf-icons  bx bx-receipt'></i>
+                                <div data-i18n="Receipt">Receipt</div>
+                            </a>
+                            <ul class="menu-sub ">
+                                <li class="menu-item @ViewBag.NewReceipt">
+                                    <a href="~/Receipts/Create" class="menu-link">
+                                        <div data-i18n="New Receipt">New Receipt</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item @ViewBag.ReceiptMaster">
+                                    <a href="~/Receipts/Index" class="menu-link">
+                                        <div data-i18n="Receipt Master">Receipt Master</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-item @ViewBag.Currency">
+                            <a href="~/Currencies/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-money"></i>
+                                <div data-i18n="Currency">Currency</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.PaymentType">
+                            <a href="~/PaymentTypes/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-coin-stack"></i>
+                                <div data-i18n="Payment Category">Payment Category</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.ReceiptType">
+                            <a href="~/ReciptTypes/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-archive"></i>
+                                <div data-i18n="Receipt Category">Receipt Category</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.ChargeType">
+                            <a href="~/ChargeTypes/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-cart-alt"></i>
+                                <div data-i18n="Charge Category">Charge Category</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.GuestChargeType">
+                            <a href="~/GuestChargeTypes/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-coin"></i>
+                                <div data-i18n="Guest Charge Category">Guest Charge Category</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Items</span></li>
+                        <li class="menu-item @ViewBag.Item">
+                            <a href="~/Items/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                                <div data-i18n="Item">Item</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.ItemType">
+                            <a href="~/ItemTypes/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-cabinet"></i>
+                                <div data-i18n="Item Category">Item Category</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Locations</span></li>
+                        <li class="menu-item @ViewBag.Location">
+                            <a href="~/Locations/Index" class="menu-link">
+                                <i class='menu-icon tf-icons bx bx-landscape'></i>
+                                <div data-i18n="Location">Location</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.LocationItemType">
+                            <a href="~/LocationItemTypes/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-store"></i>
+                                <div data-i18n="Location Item Category">Location Item Category</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Rooms</span></li>
+                        <li class="menu-item @ViewBag.Room">
+                            <a href="~/Rooms/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bxs-institution"></i>
+                                <div data-i18n="Room">Room</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.RoomType">
+                            <a href="~/RoomTypes/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-building-house"></i>
+                                <div data-i18n="Room Category">Room Category</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.RoomTypeRate">
+                            <a href="~/RoomTypeRates/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-book-content"></i>
+                                <div data-i18n="Room Category Rate">Room Category Rate</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.RoomCheckInOutTime">
+                            <a href="~/RoomCheckInOuts/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-timer"></i>
+                                <div data-i18n="Check-In | Out Time">Check In|Out Time</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Users</span></li>
+                        <li class="menu-item @ViewBag.User">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class='menu-icon tf-icons bx bx-group'></i>
+                                <div data-i18n="Users">Users</div>
+                            </a>
+                            <ul class="menu-sub ">
+                                <li class="menu-item @ViewBag.NewUser">
+                                    <a href="~/Users/Create" class="menu-link">
+                                        <div data-i18n="New User">New User</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item @ViewBag.Users">
+                                    <a href="~/Users/Index" class="menu-link">
+                                        <div data-i18n="User Master">User Master</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-item @ViewBag.Permission">
+                            <a href="~/Permissions/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-shield"></i>
+                                <div data-i18n="User Permission">User Permission</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Reports</span></li>
+                        <li class="menu-item @ViewBag.Report">
+                            <a href="~/Reports/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-file"></i>
+                                <div data-i18n="Reports">Reports</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
+                        <li class="menu-item">
+                            <a href="javascript:void(0)" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-support"></i>
+                                <div data-i18n="Support">Support</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="javascript:void(0)" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-file"></i>
+                                <div data-i18n="Documentation">Documentation</div>
+                            </a>
+                        </li>
+                    </ul>
+                }
+                else if (Session["UserPermission"].ToString() == "Bar")
+                {
+                    <ul class="menu-inner py-1">
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Reservations</span></li>
+                        <li class="menu-item @ViewBag.Booking @ViewBag.NewExternalBooking">
+                            <a href="~/BookingHeaders/CreateExternal" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-book-bookmark"></i>
+                                <div data-i18n="External Booking">External Booking</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Beverages</span></li>
+                        <li class="menu-item @ViewBag.Billing @ViewBag.NewBill">
+                            <a href="~/BillDetails/AddToBar" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-wine"></i>
+                                <div data-i18n="Bar">Bar</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Payemnts</span></li>
+                        <li class="menu-item @ViewBag.TotalBilling @ViewBag.BillHeaders">
+                            <a href="~/BillHeaders/Index" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-cart-alt"></i>
+                                <div data-i18n="Total Bills">Total Bills</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.Receipt @ViewBag.NewReceipt">
+                            <a href="~/Receipts/Create" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-receipt"></i>
+                                <div data-i18n="New Receipt">New Receipt</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Reports</span></li>
+                        <li class="menu-item @ViewBag.Report">
+                            <a href="~/Reports/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-file"></i>
+                                <div data-i18n="Reports">Reports</div>
+                            </a>
+                        </li>
+                    </ul>
+                }
+                else if (Session["UserPermission"].ToString() == "Training")
+                {
+                    <ul class="menu-inner py-1">
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Reservations</span></li>
+                        <li class="menu-item @ViewBag.Booking @ViewBag.NewExternalBooking">
+                            <a href="~/BookingHeaders/CreateExternal" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-book-bookmark"></i>
+                                <div data-i18n="External Booking">External Booking</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Trainings</span></li>
+                        <li class="menu-item @ViewBag.NewTraining">
+                            <a href="~/KiteTrainingDetails/Create" class="menu-link">
+                                <i class="menu-icon tf-icons bx bxs-school"></i>
+                                <div data-i18n="New Training">New Training</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.KiteTrainingRate">
+                            <a href="~/KiteTrainingRates/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-book-content"></i>
+                                <div data-i18n="Training Rate">Training Rate</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.Instructor">
+                            <a href="~/Instructors/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-swim"></i>
+                                <div data-i18n="Instructors">Instructors</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Payemnts</span></li>
+                        <li class="menu-item @ViewBag.TotalBilling @ViewBag.BillHeaders">
+                            <a href="~/BillHeaders/Index" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-cart-alt"></i>
+                                <div data-i18n="Total Bills">Total Bills</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.Receipt @ViewBag.NewReceipt">
+                            <a href="~/Receipts/Create" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-receipt"></i>
+                                <div data-i18n="New Receipt">New Receipt</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Reports</span></li>
+                        <li class="menu-item @ViewBag.Report">
+                            <a href="~/Reports/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-file"></i>
+                                <div data-i18n="Reports">Reports</div>
+                            </a>
+                        </li>
+                    </ul>
+                }
+                else if (Session["UserPermission"].ToString() == "Rental")
+                {
+                    <ul class="menu-inner py-1">
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Reservations</span></li>
+                        <li class="menu-item @ViewBag.Booking @ViewBag.NewExternalBooking">
+                            <a href="~/BookingHeaders/CreateExternal" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-book-bookmark"></i>
+                                <div data-i18n="External Booking">External Booking</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Rentings</span></li>
+                        <li class="menu-item @ViewBag.KiteRenting @ViewBag.NewRenting">
+                            <a href="~/KiteRentalDetails/Create" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-book-content"></i>
+                                <div data-i18n="New Renting">New Renting</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.KiteRentalRate">
+                            <a href="~/KiteRentalRates/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-book-content"></i>
+                                <div data-i18n="Renting Rate">Renting Rate</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Payemnts</span></li>
+                        <li class="menu-item @ViewBag.TotalBilling @ViewBag.BillHeaders">
+                            <a href="~/BillHeaders/Index" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-cart-alt"></i>
+                                <div data-i18n="Total Bills">Total Bills</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.Receipt @ViewBag.NewReceipt">
+                            <a href="~/Receipts/Create" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-receipt"></i>
+                                <div data-i18n="New Receipt">New Receipt</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Reports</span></li>
+                        <li class="menu-item @ViewBag.Report">
+                            <a href="~/Reports/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-file"></i>
+                                <div data-i18n="Reports">Reports</div>
+                            </a>
+                        </li>
+                    </ul>
+                }
+                else if (Session["UserPermission"].ToString() == "Repair")
+                {
+                    <ul class="menu-inner py-1">
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Reservations</span></li>
+                        <li class="menu-item @ViewBag.Booking @ViewBag.NewExternalBooking">
+                            <a href="~/BookingHeaders/CreateExternal" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-book-bookmark"></i>
+                                <div data-i18n="External Booking">External Booking</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Services</span></li>
+                        <li class="menu-item @ViewBag.Billing @ViewBag.NewBill">
+                            <a href="~/BillDetails/AddToRepairShop" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-store"></i>
+                                <div data-i18n="Repair Shop">Repair Shop</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Payemnts</span></li>
+                        <li class="menu-item @ViewBag.TotalBilling @ViewBag.BillHeaders">
+                            <a href="~/BillHeaders/Index" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-cart-alt"></i>
+                                <div data-i18n="Total Bills">Total Bills</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.Receipt @ViewBag.NewReceipt">
+                            <a href="~/Receipts/Create" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-receipt"></i>
+                                <div data-i18n="New Receipt">New Receipt</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Reports</span></li>
+                        <li class="menu-item @ViewBag.Report">
+                            <a href="~/Reports/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-file"></i>
+                                <div data-i18n="Reports">Reports</div>
+                            </a>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="menu-inner py-1">
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Reservations</span></li>
+                        <li class="menu-item @ViewBag.Booking @ViewBag.NewExternalBooking">
+                            <a href="~/BookingHeaders/CreateExternal" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-book-bookmark"></i>
+                                <div data-i18n="External Booking">External Booking</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Services</span></li>
+                        <li class="menu-item @ViewBag.Billing @ViewBag.NewBill">
+                            <a href="~/BillDetails/AddToShop" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-store-alt"></i>
+                                <div data-i18n="Shop">Shop</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Payemnts</span></li>
+                        <li class="menu-item @ViewBag.TotalBilling @ViewBag.BillHeaders">
+                            <a href="~/BillHeaders/Index" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-cart-alt"></i>
+                                <div data-i18n="Total Bills">Total Bills</div>
+                            </a>
+                        </li>
+                        <li class="menu-item @ViewBag.Receipt @ViewBag.NewReceipt">
+                            <a href="~/Receipts/Create" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-receipt"></i>
+                                <div data-i18n="New Receipt">New Receipt</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase"><span class="menu-header-text">Reports</span></li>
+                        <li class="menu-item @ViewBag.Report">
+                            <a href="~/Reports/Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-file"></i>
+                                <div data-i18n="Reports">Reports</div>
+                            </a>
+                        </li>
+                    </ul>
+                }
+            </aside>
+            <div class="layout-page">
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0   d-xl-none ">
+                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-sm"></i>
+                        </a>
+                    </div>
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <div class="navbar-nav align-items-center">
+                            <div class="nav-item navbar-search-wrapper mb-0">
+                                <a class="nav-item nav-link search-toggler px-0" href="javascript:void(0);">
+                                    <i class="bx bx-search bx-sm"></i>
+                                    <span class="d-none d-md-inline-block text-muted">Search</span>
+                                </a>
+                            </div>
+                        </div>
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            @if (Session["UserPermission"].ToString() == "Administrator" || Session["UserPermission"].ToString() == "Finance")
+                            {
+                                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
+                                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                        <i class='bx bx-grid-alt bx-sm'></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end py-0">
+                                        <div class="dropdown-menu-header border-bottom">
+                                            <div class="dropdown-header d-flex align-items-center py-3">
+                                                <h5 class="text-body mb-0 me-auto">Shortcuts</h5>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-shortcuts-list scrollable-container">
+                                            <div class="row row-bordered overflow-visible g-0">
+                                                <div class="dropdown-shortcuts-item col">
+                                                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
+                                                        <i class="bx bx-book-content fs-4"></i>
+                                                    </span>
+                                                    <a href="~/BookingHeaders/Index" class="stretched-link">Bookings</a>
+                                                    <small class="text-muted mb-0">Manage Booking</small>
+                                                </div>
+                                                <div class="dropdown-shortcuts-item col">
+                                                    <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
+                                                        <i class="bx bx-receipt fs-4"></i>
+                                                    </span>
+                                                    <a href="~/BillHeaders/Index" class="stretched-link">Bills</a>
+                                                    <small class="text-muted mb-0">View Bills</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="~/Assest/img/avatars/1.png" class="w-px-40 h-auto rounded-circle">
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="~/Assest/img/avatars/1.png" class="w-px-40 h-auto rounded-circle">
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <span class="fw-semibold d-block">@Session["UserName"].ToString()</span>
+                                                    <small class="text-muted">@Session["UserPermission"].ToString()</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);">
+                                            <i class="bx bx-support me-2"></i>
+                                            <span class="align-middle">Help</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);">
+                                            <i class="bx bx-file me-2"></i>
+                                            <span class="align-middle">User Manual</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="~/Users/Login">
+                                            <i class="bx bx-power-off me-2"></i>
+                                            <span class="align-middle">Log Out</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="navbar-search-wrapper search-input-wrapper  d-none">
+                        <input type="text" class="form-control search-input container-xxl border-0" placeholder="Search..." aria-label="Search...">
+                        <i class="bx bx-x bx-sm search-toggler cursor-pointer"></i>
+                    </div>
+                </nav>
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        @RenderBody()
+                    </div>
+                    <footer class="content-footer footer bg-footer-theme">
+                        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                            <div class="mb-2 mb-md-0">
+                                &copy; @DateTime.Now.Year <span class="footer-link fw-bolder">Kitesurfing Lanka. All rights reserved </span>
+                            </div>
+                            <div>
+                                <a href="#" class="footer-link me-4 fw-bolder" target="_blank">Version 5.0</a>
+                            </div>
+                        </div>
+                    </footer>
+                    <div class="content-backdrop fade"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+        <div class="drag-target"></div>
+    </div>
+    <script src="~/Assest/vendor/libs/jquery/jquery.js"></script>
+    <script src="~/Assest/vendor/libs/popper/popper.js"></script>
+    <script src="~/Assest/vendor/js/bootstrap.js"></script>
+    <script src="~/Assest/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/Assest/vendor/libs/hammer/hammer.js"></script>
+    <script src="~/Assest/vendor/libs/i18n/i18n.js"></script>
+    <script src="~/Assest/vendor/js/menu.js"></script>
+    <script src="~/Assest/js/main.js"></script>
+    <script src="~/Assest/vendor/libs/typeahead-js/bootstrap3-typeahead.min.js"></script>
+</body>
+</html>

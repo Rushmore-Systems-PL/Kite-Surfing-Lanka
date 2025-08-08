@@ -1,0 +1,1631 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{642F2E5F-41DA-4C21-8059-5702CE54F3F2}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KSL_HMS</RootNamespace>
+    <AssemblyName>KSL_HMS</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44306</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebDesign, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.WebDesign.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1537.0\lib\net40\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BillDetailsController.cs" />
+    <Compile Include="Controllers\BillHeadersController.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
+    <Compile Include="Controllers\BookingHeadersController.cs" />
+    <Compile Include="Controllers\ChargeTypesController.cs" />
+    <Compile Include="Controllers\CurrenciesController.cs" />
+    <Compile Include="Controllers\GuestChargeTypesController.cs" />
+    <Compile Include="Controllers\GuestsController.cs" />
+    <Compile Include="Controllers\InstructorsController.cs" />
+    <Compile Include="Controllers\ItemsController.cs" />
+    <Compile Include="Controllers\ItemTypesController.cs" />
+    <Compile Include="Controllers\KiteRentalDetailsController.cs" />
+    <Compile Include="Controllers\KiteRentalRatesController.cs" />
+    <Compile Include="Controllers\KiteTrainingDetailsController.cs" />
+    <Compile Include="Controllers\KiteTrainingRatesController.cs" />
+    <Compile Include="Controllers\LocationItemTypesController.cs" />
+    <Compile Include="Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\PaymentTypesController.cs" />
+    <Compile Include="Controllers\PermissionsController.cs" />
+    <Compile Include="Controllers\ReceiptsController.cs" />
+    <Compile Include="Controllers\ReciptTypesController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\RoomCheckInOutsController.cs" />
+    <Compile Include="Controllers\RoomsController.cs" />
+    <Compile Include="Controllers\RoomTypeRatesController.cs" />
+    <Compile Include="Controllers\RoomTypesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="DB\BillDetail.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\BillHeader.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\BookingDetail.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\BookingHeader.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\BookingRefference.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\ChargeType.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Currency.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Guest.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\GuestChargeType.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Instructor.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Item.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\ItemType.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\KiteRentalDetail.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\KiteRentalHeader.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\KiteRentalRate.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\KiteTrainingDetail.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\KiteTrainingHeader.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\KiteTrainingRate.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\KSL_HMS_DB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KSL_HMS_DB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\KSL_HMS_DB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\KSL_HMS_DB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KSL_HMS_DB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Location.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\LocationItemType.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\PaymentType.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Permission.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Receipt.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\ReciptType.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Room.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\RoomCheckInOut.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\RoomType.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\RoomTypeRate.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\sp_helpdiagrams_Result.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\User.cs">
+      <DependentUpon>KSL_HMS_DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BillHeaderDTO.cs" />
+    <Compile Include="Models\Booking.cs" />
+    <Compile Include="Models\BookingHeaderDTO.cs" />
+    <Compile Include="Models\CalendarEvent.cs" />
+    <Compile Include="Models\CalendarResource.cs" />
+    <Compile Include="Models\CurrencyRate.cs" />
+    <Compile Include="Models\Report.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\BookingDetails.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookingDetails.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CashCollection.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CashCollection.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CustomerStatement.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerStatement.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\GuestHistory.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GuestHistory.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\LessonsRequest.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LessonsRequest.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\OccupancyByGuest.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OccupancyByGuest.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\OccupancyByRoom.cs">
+      <DependentUpon>OccupancyByRoom.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\OccupancyByRoom.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OccupancyByRoom.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RentalRequest.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RentalRequest.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\TransportRequest.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransportRequest.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="Views\Reports\BookingDetails.aspx.cs">
+      <DependentUpon>BookingDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\BookingDetails.aspx.designer.cs">
+      <DependentUpon>BookingDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\CashCollection.aspx.cs">
+      <DependentUpon>CashCollection.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\CashCollection.aspx.designer.cs">
+      <DependentUpon>CashCollection.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\CustomerStatement.aspx.cs">
+      <DependentUpon>CustomerStatement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\CustomerStatement.aspx.designer.cs">
+      <DependentUpon>CustomerStatement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\GuestHistory.aspx.cs">
+      <DependentUpon>GuestHistory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\GuestHistory.aspx.designer.cs">
+      <DependentUpon>GuestHistory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\LessonsRequest.aspx.cs">
+      <DependentUpon>LessonsRequest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\LessonsRequest.aspx.designer.cs">
+      <DependentUpon>LessonsRequest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\OccupancyByGuest.aspx.cs">
+      <DependentUpon>OccupancyByGuest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\OccupancyByGuest.aspx.designer.cs">
+      <DependentUpon>OccupancyByGuest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\OccupancyByRoom.aspx.cs">
+      <DependentUpon>OccupancyByRoom.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\OccupancyByRoom.aspx.designer.cs">
+      <DependentUpon>OccupancyByRoom.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\RentalRequest.aspx.cs">
+      <DependentUpon>RentalRequest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\RentalRequest.aspx.designer.cs">
+      <DependentUpon>RentalRequest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\TransportRequest.aspx.cs">
+      <DependentUpon>TransportRequest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\TransportRequest.aspx.designer.cs">
+      <DependentUpon>TransportRequest.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assest\add\fullcalendar\css\fullcalendar.min.css" />
+    <Content Include="Assest\add\fullcalendar\js\fullcalendar.min.js" />
+    <Content Include="Assest\add\fullcalendar\js\lib\jquery-ui.min.js" />
+    <Content Include="Assest\add\fullcalendar\js\lib\moment.min.js" />
+    <Content Include="Assest\add\LightBox\lightbox.min.css" />
+    <Content Include="Assest\add\LightBox\lightbox.min.js" />
+    <Content Include="Assest\css\demo.css" />
+    <Content Include="Assest\customer\526443_407677729327035_1105320874_n.jpg" />
+    <Content Include="Assest\customer\KSL_Girl_ST_2000_B-removebg-preview.png" />
+    <Content Include="Assest\customer\KSL_Girl_ST_2000_B-removebg-preview111.png" />
+    <Content Include="Assest\customer\KSL_Girl_ST_2000_B.jpg" />
+    <Content Include="Assest\img\avatars\1.png" />
+    <Content Include="Assest\img\icons\payments\american-ex.png" />
+    <Content Include="Assest\img\icons\payments\master-light.png" />
+    <Content Include="Assest\img\icons\payments\mastercard.png" />
+    <Content Include="Assest\img\icons\payments\paypal-light.png" />
+    <Content Include="Assest\img\icons\payments\visa-light.png" />
+    <Content Include="Assest\img\icons\payments\visa.png" />
+    <Content Include="Assest\img\icons\unicons\bookmark.png" />
+    <Content Include="Assest\img\icons\unicons\briefcase-round.png" />
+    <Content Include="Assest\img\icons\unicons\briefcase.png" />
+    <Content Include="Assest\img\icons\unicons\bulb.png" />
+    <Content Include="Assest\img\icons\unicons\cc-primary.png" />
+    <Content Include="Assest\img\icons\unicons\cc-success.png" />
+    <Content Include="Assest\img\icons\unicons\cc-warning.png" />
+    <Content Include="Assest\img\icons\unicons\chart-success.png" />
+    <Content Include="Assest\img\icons\unicons\chart.png" />
+    <Content Include="Assest\img\icons\unicons\community.png" />
+    <Content Include="Assest\img\icons\unicons\computer.png" />
+    <Content Include="Assest\img\icons\unicons\cube-secondary.png" />
+    <Content Include="Assest\img\icons\unicons\desktop.png" />
+    <Content Include="Assest\img\icons\unicons\earphone.png" />
+    <Content Include="Assest\img\icons\unicons\iphone.png" />
+    <Content Include="Assest\img\icons\unicons\laptop-secondary.png" />
+    <Content Include="Assest\img\icons\unicons\laptop.png" />
+    <Content Include="Assest\img\icons\unicons\oneplus-success.png" />
+    <Content Include="Assest\img\icons\unicons\oneplus.png" />
+    <Content Include="Assest\img\icons\unicons\paypal.png" />
+    <Content Include="Assest\img\icons\unicons\pixel.png" />
+    <Content Include="Assest\img\icons\unicons\rocket.png" />
+    <Content Include="Assest\img\icons\unicons\surface.png" />
+    <Content Include="Assest\img\icons\unicons\wallet-info.png" />
+    <Content Include="Assest\img\icons\unicons\wallet-round.png" />
+    <Content Include="Assest\img\icons\unicons\wallet.png" />
+    <Content Include="Assest\img\icons\unicons\watch-primary.png" />
+    <Content Include="Assest\img\icons\unicons\watch.png" />
+    <Content Include="Assest\img\illustrations\boy-verify-email-light.png" />
+    <Content Include="Assest\img\illustrations\boy-with-laptop-light.png" />
+    <Content Include="Assest\img\illustrations\boy-with-rocket-light.png" />
+    <Content Include="Assest\img\illustrations\create-account-light.png" />
+    <Content Include="Assest\img\illustrations\girl-checkout-offer-light.png" />
+    <Content Include="Assest\img\illustrations\girl-doing-yoga-light.png" />
+    <Content Include="Assest\img\illustrations\girl-unlock-password-light.png" />
+    <Content Include="Assest\img\illustrations\girl-verify-password-light.png" />
+    <Content Include="Assest\img\illustrations\girl-with-laptop-light.png" />
+    <Content Include="Assest\img\illustrations\man-with-laptop-light.png" />
+    <Content Include="Assest\img\illustrations\page-misc-error-light.png" />
+    <Content Include="Assest\img\illustrations\pricing-illustration-dark.png" />
+    <Content Include="Assest\img\illustrations\pricing-illustration-light.png" />
+    <Content Include="Assest\img\illustrations\prize-light.png" />
+    <Content Include="Assest\img\illustrations\shopping-girl-light.png" />
+    <Content Include="Assest\img\illustrations\sitting-girl-with-laptop-light.png" />
+    <Content Include="Assest\img\illustrations\superman-flying-light.png" />
+    <Content Include="Assest\img\pages\header.png" />
+    <Content Include="Assest\img\pages\pricing-arrow-light.png" />
+    <Content Include="Assest\img\pages\profile-banner.png" />
+    <Content Include="Assest\img\unicons\bookmark.png" />
+    <Content Include="Assest\img\unicons\briefcase-round.png" />
+    <Content Include="Assest\img\unicons\briefcase.png" />
+    <Content Include="Assest\img\unicons\bulb.png" />
+    <Content Include="Assest\img\unicons\cc-primary.png" />
+    <Content Include="Assest\img\unicons\cc-success.png" />
+    <Content Include="Assest\img\unicons\cc-warning.png" />
+    <Content Include="Assest\img\unicons\chart-success.png" />
+    <Content Include="Assest\img\unicons\chart.png" />
+    <Content Include="Assest\img\unicons\community.png" />
+    <Content Include="Assest\img\unicons\computer.png" />
+    <Content Include="Assest\img\unicons\cube-secondary.png" />
+    <Content Include="Assest\img\unicons\desktop.png" />
+    <Content Include="Assest\img\unicons\earphone.png" />
+    <Content Include="Assest\img\unicons\iphone.png" />
+    <Content Include="Assest\img\unicons\laptop-secondary.png" />
+    <Content Include="Assest\img\unicons\laptop.png" />
+    <Content Include="Assest\img\unicons\oneplus-success.png" />
+    <Content Include="Assest\img\unicons\oneplus.png" />
+    <Content Include="Assest\img\unicons\paypal.png" />
+    <Content Include="Assest\img\unicons\pixel.png" />
+    <Content Include="Assest\img\unicons\rocket.png" />
+    <Content Include="Assest\img\unicons\surface.png" />
+    <Content Include="Assest\img\unicons\wallet-info.png" />
+    <Content Include="Assest\img\unicons\wallet-round.png" />
+    <Content Include="Assest\img\unicons\wallet.png" />
+    <Content Include="Assest\img\unicons\watch-primary.png" />
+    <Content Include="Assest\img\unicons\watch.png" />
+    <Content Include="Assest\js\app-invoice-print.js" />
+    <Content Include="Assest\js\config.js" />
+    <Content Include="Assest\js\front-config.js" />
+    <Content Include="Assest\js\front-main.js" />
+    <Content Include="Assest\js\front-page-landing.js" />
+    <Content Include="Assest\js\front-page-payment.js" />
+    <Content Include="Assest\js\front-page-pricing.js" />
+    <Content Include="Assest\js\main.js" />
+    <Content Include="Assest\js\pages-auth.js" />
+    <Content Include="Assest\js\wizard-ex-checkout.js" />
+    <Content Include="Assest\new\core.css" />
+    <Content Include="Assest\new\demo.css" />
+    <Content Include="Assest\new\front-page.css" />
+    <Content Include="Assest\new\theme-default.css" />
+    <Content Include="Assest\svg\wizard-checkout-address.svg" />
+    <Content Include="Assest\svg\wizard-checkout-cart.svg" />
+    <Content Include="Assest\svg\wizard-checkout-confirmation.svg" />
+    <Content Include="Assest\svg\wizard-checkout-payment.svg" />
+    <Content Include="Assest\vendor\css\pages\app-calendar.css" />
+    <Content Include="Assest\vendor\css\pages\page-auth.css" />
+    <Content Include="Assest\vendor\css\pages\page-misc.css" />
+    <Content Include="Assest\vendor\css\pages\wizard-ex-checkout.css" />
+    <Content Include="Assest\vendor\css\rtl\core.css" />
+    <Content Include="Assest\vendor\css\rtl\theme-default.css" />
+    <Content Include="Assest\vendor\fonts\boxicons-2.html" />
+    <Content Include="Assest\vendor\fonts\boxicons-3.html" />
+    <Content Include="Assest\vendor\fonts\boxicons-4.html" />
+    <Content Include="Assest\vendor\fonts\boxicons.css" />
+    <Content Include="Assest\vendor\fonts\boxicons.html" />
+    <Content Include="Assest\vendor\fonts\boxiconsd41d.html" />
+    <Content Include="Assest\vendor\fonts\boxicons\boxiconsd41d.svg" />
+    <Content Include="Assest\vendor\fonts\flag-icons.css" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ad.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ae.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\af.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ag.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ai.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\al.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\am.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ao.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\aq.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ar.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\as.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\at.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\au.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\aw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ax.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\az.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ba.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bb.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bd.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\be.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bh.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bi.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bj.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bo.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bq.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\br.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bs.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bv.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\by.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\bz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ca.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cd.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ch.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ci.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ck.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\co.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cv.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cx.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cy.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\cz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\de.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\dj.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\dk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\dm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\do.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\dz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ec.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ee.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\eg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\eh.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\er.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\es-ca.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\es.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\et.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\eu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\fi.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\fj.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\fk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\fm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\fo.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\fr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ga.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gb-eng.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gb-nir.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gb-sct.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gb-wls.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gb.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gd.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ge.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gh.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gi.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gp.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gq.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gs.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\gy.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\hk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\hm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\hn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\hr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ht.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\hu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\id.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ie.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\il.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\im.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\in.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\io.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\iq.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ir.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\is.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\it.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\je.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\jm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\jo.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\jp.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ke.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\kg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\kh.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ki.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\km.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\kn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\kp.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\kr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\kw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ky.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\kz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\la.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\lb.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\lc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\li.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\lk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\lr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ls.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\lt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\lu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\lv.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ly.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ma.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\md.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\me.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mh.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ml.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mo.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mp.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mq.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ms.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mv.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mx.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\my.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\mz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\na.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\nc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ne.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\nf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ng.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ni.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\nl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\no.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\np.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\nr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\nu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\nz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\om.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\pa.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\pe.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\pf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\pg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ph.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\pk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\pl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\pm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\pn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\pr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ps.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\pt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\pw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\py.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\qa.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\re.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ro.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\rs.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ru.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\rw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sa.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sb.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sd.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\se.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sh.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\si.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sj.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\so.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ss.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\st.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sv.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sx.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sy.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\sz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\td.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\th.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tj.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\to.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tv.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\tz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ua.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ug.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\um.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\un.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\us.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\uy.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\uz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\va.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\vc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ve.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\vg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\vi.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\vn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\vu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\wf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ws.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\xk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\ye.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\yt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\za.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\zm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\1x1\zw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ad.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ae.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\af.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ag.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ai.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\al.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\am.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ao.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\aq.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ar.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\as.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\at.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\au.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\aw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ax.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\az.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ba.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bb.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bd.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\be.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bh.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bi.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bj.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bo.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bq.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\br.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bs.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bv.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\by.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\bz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ca.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cd.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ch.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ci.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ck.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\co.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cv.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cx.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cy.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\cz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\de.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\dj.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\dk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\dm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\do.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\dz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ec.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ee.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\eg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\eh.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\er.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\es-ca.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\es.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\et.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\eu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\fi.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\fj.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\fk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\fm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\fo.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\fr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ga.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gb-eng.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gb-nir.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gb-sct.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gb-wls.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gb.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gd.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ge.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gh.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gi.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gp.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gq.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gs.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\gy.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\hk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\hm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\hn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\hr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ht.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\hu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\id.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ie.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\il.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\im.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\in.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\io.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\iq.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ir.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\is.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\it.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\je.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\jm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\jo.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\jp.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ke.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\kg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\kh.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ki.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\km.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\kn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\kp.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\kr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\kw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ky.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\kz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\la.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\lb.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\lc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\li.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\lk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\lr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ls.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\lt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\lu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\lv.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ly.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ma.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\md.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\me.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mh.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ml.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mo.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mp.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mq.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ms.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mv.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mx.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\my.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\mz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\na.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\nc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ne.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\nf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ng.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ni.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\nl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\no.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\np.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\nr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\nu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\nz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\om.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\pa.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\pe.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\pf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\pg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ph.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\pk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\pl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\pm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\pn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\pr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ps.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\pt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\pw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\py.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\qa.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\re.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ro.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\rs.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ru.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\rw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sa.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sb.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sd.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\se.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sh.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\si.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sj.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\so.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ss.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\st.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sv.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sx.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sy.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\sz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\td.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\th.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tj.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tl.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\to.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tr.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tv.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tw.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\tz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ua.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ug.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\um.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\un.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\us.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\uy.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\uz.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\va.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\vc.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ve.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\vg.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\vi.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\vn.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\vu.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\wf.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ws.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\xk.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\ye.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\yt.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\za.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\zm.svg" />
+    <Content Include="Assest\vendor\fonts\flags\4x3\zw.svg" />
+    <Content Include="Assest\vendor\fonts\fontawesome.css" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-brands-400.svg" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-regular-400.svg" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-solid-900.svg" />
+    <Content Include="Assest\vendor\fullcalendar\locales-all.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales-all.min.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\af.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ar-dz.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ar-kw.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ar-ly.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ar-ma.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ar-sa.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ar-tn.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ar.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\az.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\bg.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\bn.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\bs.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ca.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\cs.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\cy.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\da.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\de-at.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\de.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\el.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\en-au.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\en-gb.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\en-nz.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\eo.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\es-us.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\es.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\et.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\eu.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\fa.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\fi.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\fr-ca.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\fr-ch.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\fr.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\gl.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\he.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\hi.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\hr.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\hu.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\hy-am.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\id.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\is.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\it.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ja.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ka.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\kk.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\km.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ko.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ku.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\lb.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\lt.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\lv.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\mk.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ms.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\nb.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ne.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\nl.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\nn.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\pl.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\pt-br.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\pt.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ro.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ru.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\si-lk.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\sk.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\sl.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\sm.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\sq.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\sr-cyrl.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\sr.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\sv.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ta-in.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\th.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\tr.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\ug.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\uk.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\uz.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\vi.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\zh-cn.js" />
+    <Content Include="Assest\vendor\fullcalendar\locales\zh-tw.js" />
+    <Content Include="Assest\vendor\fullcalendar\main.css" />
+    <Content Include="Assest\vendor\fullcalendar\main.js" />
+    <Content Include="Assest\vendor\fullcalendar\main.min.css" />
+    <Content Include="Assest\vendor\fullcalendar\main.min.js" />
+    <Content Include="Assest\vendor\js\bootstrap.js" />
+    <Content Include="Assest\vendor\js\dropdown-hover.js" />
+    <Content Include="Assest\vendor\js\helpers.js" />
+    <Content Include="Assest\vendor\js\mega-dropdown.js" />
+    <Content Include="Assest\vendor\js\menu.js" />
+    <Content Include="Assest\vendor\js\template-customizer.js" />
+    <Content Include="Assest\vendor\libs\animate-css\animate.css" />
+    <Content Include="Assest\vendor\libs\animate-on-scroll\animate-on-scroll.css" />
+    <Content Include="Assest\vendor\libs\animate-on-scroll\animate-on-scroll.js" />
+    <Content Include="Assest\vendor\libs\apex-charts\apex-charts.css" />
+    <Content Include="Assest\vendor\libs\apex-charts\apexcharts.js" />
+    <Content Include="Assest\vendor\libs\autosize\autosize.js" />
+    <Content Include="Assest\vendor\libs\block-ui\block-ui.js" />
+    <Content Include="Assest\vendor\libs\bloodhound\bloodhound.js" />
+    <Content Include="Assest\vendor\libs\bootstrap-datepicker\bootstrap-datepicker.css" />
+    <Content Include="Assest\vendor\libs\bootstrap-datepicker\bootstrap-datepicker.js" />
+    <Content Include="Assest\vendor\libs\bootstrap-daterangepicker\bootstrap-daterangepicker.css" />
+    <Content Include="Assest\vendor\libs\bootstrap-daterangepicker\bootstrap-daterangepicker.js" />
+    <Content Include="Assest\vendor\libs\bootstrap-maxlength\bootstrap-maxlength.css" />
+    <Content Include="Assest\vendor\libs\bootstrap-maxlength\bootstrap-maxlength.js" />
+    <Content Include="Assest\vendor\libs\bootstrap-select\bootstrap-select.css" />
+    <Content Include="Assest\vendor\libs\bootstrap-select\bootstrap-select.js" />
+    <Content Include="Assest\vendor\libs\bs-stepper\bs-stepper.css" />
+    <Content Include="Assest\vendor\libs\bs-stepper\bs-stepper.js" />
+    <Content Include="Assest\vendor\libs\chartjs\chartjs.js" />
+    <Content Include="Assest\vendor\libs\cleavejs\cleave-phone.js" />
+    <Content Include="Assest\vendor\libs\cleavejs\cleave.js" />
+    <Content Include="Assest\vendor\libs\clipboard\clipboard.js" />
+    <Content Include="Assest\vendor\libs\datatables-bs5\datatables-bootstrap5.js" />
+    <Content Include="Assest\vendor\libs\datatables-bs5\datatables.bootstrap5.css" />
+    <Content Include="Assest\vendor\libs\datatables-buttons-bs5\buttons.bootstrap5.css" />
+    <Content Include="Assest\vendor\libs\datatables-buttons-bs5\buttons.bootstrap5.js" />
+    <Content Include="Assest\vendor\libs\datatables-buttons\buttons.html5.js" />
+    <Content Include="Assest\vendor\libs\datatables-buttons\buttons.print.js" />
+    <Content Include="Assest\vendor\libs\datatables-buttons\datatables-buttons.js" />
+    <Content Include="Assest\vendor\libs\datatables-checkboxes-jquery\datatables.checkboxes.css" />
+    <Content Include="Assest\vendor\libs\datatables-checkboxes-jquery\datatables.checkboxes.js" />
+    <Content Include="Assest\vendor\libs\datatables-fixedcolumns-bs5\fixedcolumns.bootstrap5.css" />
+    <Content Include="Assest\vendor\libs\datatables-fixedcolumns\datatables.fixedcolumns.js" />
+    <Content Include="Assest\vendor\libs\datatables-fixedheader-bs5\fixedheader.bootstrap5.css" />
+    <Content Include="Assest\vendor\libs\datatables-fixedheader-bs5\fixedheader.bootstrap5.js" />
+    <Content Include="Assest\vendor\libs\datatables-responsive-bs5\responsive.bootstrap5.css" />
+    <Content Include="Assest\vendor\libs\datatables-responsive-bs5\responsive.bootstrap5.js" />
+    <Content Include="Assest\vendor\libs\datatables-responsive\datatables.responsive.js" />
+    <Content Include="Assest\vendor\libs\datatables-rowgroup-bs5\rowgroup.bootstrap5.css" />
+    <Content Include="Assest\vendor\libs\datatables-rowgroup-bs5\rowgroup.bootstrap5.js" />
+    <Content Include="Assest\vendor\libs\datatables-rowgroup\datatables.rowgroup.js" />
+    <Content Include="Assest\vendor\libs\datatables-select-bs5\select.bootstrap5.css" />
+    <Content Include="Assest\vendor\libs\datatables-select-bs5\select.bootstrap5.js" />
+    <Content Include="Assest\vendor\libs\datatables-select\datatables-select.js" />
+    <Content Include="Assest\vendor\libs\datatables\jquery.dataTables.js" />
+    <Content Include="Assest\vendor\libs\dropzone\dropzone.css" />
+    <Content Include="Assest\vendor\libs\dropzone\dropzone.js" />
+    <Content Include="Assest\vendor\libs\flatpickr\flatpickr.css" />
+    <Content Include="Assest\vendor\libs\flatpickr\flatpickr.js" />
+    <Content Include="Assest\vendor\libs\formvalidation\dist\css\formValidation.min.css" />
+    <Content Include="Assest\vendor\libs\formvalidation\dist\js\FormValidation.min.js" />
+    <Content Include="Assest\vendor\libs\formvalidation\dist\js\plugins\AutoFocus.min.js" />
+    <Content Include="Assest\vendor\libs\formvalidation\dist\js\plugins\Bootstrap5.min.js" />
+    <Content Include="Assest\vendor\libs\fullcalendar\fullcalendar.css" />
+    <Content Include="Assest\vendor\libs\fullcalendar\fullcalendar.js" />
+    <Content Include="Assest\vendor\libs\fullcalendar\locales-all.js" />
+    <Content Include="Assest\vendor\libs\fullcalendar\locales-all.min.js" />
+    <Content Include="Assest\vendor\libs\fullcalendar\main.css" />
+    <Content Include="Assest\vendor\libs\fullcalendar\main.js" />
+    <Content Include="Assest\vendor\libs\fullcalendar\main.min.css" />
+    <Content Include="Assest\vendor\libs\fullcalendar\main.min.js" />
+    <Content Include="Assest\vendor\libs\hammer\hammer.js" />
+    <Content Include="Assest\vendor\libs\i18n\i18n.js" />
+    <Content Include="Assest\vendor\libs\idletimer\idletimer.js" />
+    <Content Include="Assest\vendor\libs\jquery-repeater\jquery-repeater.js" />
+    <Content Include="Assest\vendor\libs\jquery-sticky\jquery-sticky.js" />
+    <Content Include="Assest\vendor\libs\jquery-timepicker\jquery-timepicker.css" />
+    <Content Include="Assest\vendor\libs\jquery-timepicker\jquery-timepicker.js" />
+    <Content Include="Assest\vendor\libs\jquery\jquery.js" />
+    <Content Include="Assest\vendor\libs\jstree\32px.html" />
+    <Content Include="Assest\vendor\libs\jstree\40px.html" />
+    <Content Include="Assest\vendor\libs\jstree\jstree.css" />
+    <Content Include="Assest\vendor\libs\jstree\jstree.js" />
+    <Content Include="Assest\vendor\libs\jstree\themes\default-dark\32px.png" />
+    <Content Include="Assest\vendor\libs\jstree\themes\default-dark\40px.png" />
+    <Content Include="Assest\vendor\libs\jstree\themes\default-dark\throbber.gif" />
+    <Content Include="Assest\vendor\libs\jstree\themes\default\32px.png" />
+    <Content Include="Assest\vendor\libs\jstree\themes\default\40px.png" />
+    <Content Include="Assest\vendor\libs\jstree\themes\default\throbber.gif" />
+    <Content Include="Assest\vendor\libs\jstree\throbber.html" />
+    <Content Include="Assest\vendor\libs\jszip\buttons.colVis.min.js" />
+    <Content Include="Assest\vendor\libs\jszip\jszip.js" />
+    <Content Include="Assest\vendor\libs\jszip\vfs_fonts.js" />
+    <Content Include="Assest\vendor\libs\leaflet\images\layers-2x.png" />
+    <Content Include="Assest\vendor\libs\leaflet\images\layers.png" />
+    <Content Include="Assest\vendor\libs\leaflet\images\marker-icon.png" />
+    <Content Include="Assest\vendor\libs\leaflet\leaflet.css" />
+    <Content Include="Assest\vendor\libs\leaflet\leaflet.js" />
+    <Content Include="Assest\vendor\libs\masonry\masonry.js" />
+    <Content Include="Assest\vendor\libs\moment\moment.js" />
+    <Content Include="Assest\vendor\libs\nouislider\nouislider.css" />
+    <Content Include="Assest\vendor\libs\nouislider\nouislider.js" />
+    <Content Include="Assest\vendor\libs\numeral\numeral.js" />
+    <Content Include="Assest\vendor\libs\pdfmake\pdfmake.js" />
+    <Content Include="Assest\vendor\libs\perfect-scrollbar\perfect-scrollbar.css" />
+    <Content Include="Assest\vendor\libs\perfect-scrollbar\perfect-scrollbar.js" />
+    <Content Include="Assest\vendor\libs\pickr\pickr-themes.css" />
+    <Content Include="Assest\vendor\libs\pickr\pickr.js" />
+    <Content Include="Assest\vendor\libs\plyr\plyr.css" />
+    <Content Include="Assest\vendor\libs\plyr\plyr.js" />
+    <Content Include="Assest\vendor\libs\popper\popper.js" />
+    <Content Include="Assest\vendor\libs\quill\editor.css" />
+    <Content Include="Assest\vendor\libs\quill\katex.js" />
+    <Content Include="Assest\vendor\libs\quill\quill.js" />
+    <Content Include="Assest\vendor\libs\quill\typography.css" />
+    <Content Include="Assest\vendor\libs\rateyo\rateyo.css" />
+    <Content Include="Assest\vendor\libs\rateyo\rateyo.js" />
+    <Content Include="Assest\vendor\libs\select2\select2.css" />
+    <Content Include="Assest\vendor\libs\select2\select2.js" />
+    <Content Include="Assest\vendor\libs\shepherd\shepherd.css" />
+    <Content Include="Assest\vendor\libs\shepherd\shepherd.js" />
+    <Content Include="Assest\vendor\libs\sortablejs\sortable.js" />
+    <Content Include="Assest\vendor\libs\spinkit\spinkit.css" />
+    <Content Include="Assest\vendor\libs\sweetalert2\sweetalert2.css" />
+    <Content Include="Assest\vendor\libs\sweetalert2\sweetalert2.js" />
+    <Content Include="Assest\vendor\libs\swiper\swiper.css" />
+    <Content Include="Assest\vendor\libs\swiper\swiper.js" />
+    <Content Include="Assest\vendor\libs\tagify\tagify.css" />
+    <Content Include="Assest\vendor\libs\tagify\tagify.js" />
+    <Content Include="Assest\vendor\libs\toastr\toastr.css" />
+    <Content Include="Assest\vendor\libs\toastr\toastr.js" />
+    <Content Include="Assest\vendor\libs\typeahead-js\bootstrap3-typeahead.js" />
+    <Content Include="Assest\vendor\libs\typeahead-js\bootstrap3-typeahead.min.js" />
+    <Content Include="Assest\vendor\libs\typeahead-js\typeaheadjs.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="DB\KSL_HMS_DB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>KSL_HMS_DB.Context.cs</LastGenOutput>
+      <DependentUpon>KSL_HMS_DB.edmx</DependentUpon>
+    </Content>
+    <Content Include="DB\KSL_HMS_DB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KSL_HMS_DB.edmx</DependentUpon>
+      <LastGenOutput>KSL_HMS_DB.cs</LastGenOutput>
+    </Content>
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="DB\KSL_HMS_DB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>KSL_HMS_DB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DB\KSL_HMS_DB.edmx.diagram">
+      <DependentUpon>KSL_HMS_DB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Assest\vendor\fonts\boxicons\boxicons.eot" />
+    <Content Include="Assest\vendor\fonts\boxicons\boxicons.ttf" />
+    <Content Include="Assest\vendor\fonts\boxicons\boxicons.woff" />
+    <Content Include="Assest\vendor\fonts\boxicons\boxicons.woff2" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-brands-400.eot" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-brands-400.ttf" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-brands-400.woff" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-brands-400.woff2" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-brands-400d41d.eot" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-regular-400.eot" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-regular-400.ttf" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-regular-400.woff" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-regular-400.woff2" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-regular-400d41d.eot" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-solid-900.eot" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-solid-900.ttf" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-solid-900.woff" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-solid-900.woff2" />
+    <Content Include="Assest\vendor\fonts\fontawesome\fa-solid-900d41d.eot" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
+    <Content Include="Reports\TransportRequest.xsc">
+      <DependentUpon>TransportRequest.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\LessonsRequest.xsc">
+      <DependentUpon>LessonsRequest.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\CashCollection.xsc">
+      <DependentUpon>CashCollection.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\BookingDetails.xsc">
+      <DependentUpon>BookingDetails.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\BookingDetails.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>BookingDetails.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reports\BookingDetails.xss">
+      <DependentUpon>BookingDetails.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\CashCollection.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CashCollection.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reports\CashCollection.xss">
+      <DependentUpon>CashCollection.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\CustomerStatement.xsc">
+      <DependentUpon>CustomerStatement.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\CustomerStatement.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CustomerStatement.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reports\CustomerStatement.xss">
+      <DependentUpon>CustomerStatement.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\GuestHistory.xsc">
+      <DependentUpon>GuestHistory.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\GuestHistory.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>GuestHistory.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reports\GuestHistory.xss">
+      <DependentUpon>GuestHistory.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\LessonsRequest.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>LessonsRequest.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reports\LessonsRequest.xss">
+      <DependentUpon>LessonsRequest.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\RentalRequest.xsc">
+      <DependentUpon>RentalRequest.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\OccupancyByRoom.xsc">
+      <DependentUpon>OccupancyByRoom.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\OccupancyByGuest.xsc">
+      <DependentUpon>OccupancyByGuest.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\OccupancyByGuest.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>OccupancyByGuest.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reports\OccupancyByGuest.xss">
+      <DependentUpon>OccupancyByGuest.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\OccupancyByRoom.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>OccupancyByRoom.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reports\OccupancyByRoom.xss">
+      <DependentUpon>OccupancyByRoom.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\RentalRequest.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RentalRequest.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reports\RentalRequest.xss">
+      <DependentUpon>RentalRequest.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\TransportRequest.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>TransportRequest.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reports\TransportRequest.xss">
+      <DependentUpon>TransportRequest.xsd</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Reports\BookingDetails.aspx" />
+    <Content Include="Views\Reports\CashCollection.aspx" />
+    <Content Include="Views\Reports\CustomerStatement.aspx" />
+    <Content Include="Views\Reports\GuestHistory.aspx" />
+    <Content Include="Views\Reports\LessonsRequest.aspx" />
+    <Content Include="Views\Reports\OccupancyByGuest.aspx" />
+    <Content Include="Views\Reports\OccupancyByRoom.aspx" />
+    <Content Include="Views\Reports\RentalRequest.aspx" />
+    <Content Include="Views\Reports\TransportRequest.aspx" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\Users\Register.cshtml" />
+    <Content Include="Views\Users\Dashboard.cshtml" />
+    <Content Include="Views\ItemTypes\Index.cshtml" />
+    <Content Include="Views\ItemTypes\Create.cshtml" />
+    <Content Include="Views\ItemTypes\_ItemType.cshtml" />
+    <Content Include="Views\Locations\Index.cshtml" />
+    <Content Include="Views\Locations\Create.cshtml" />
+    <Content Include="Views\Locations\_Location.cshtml" />
+    <Content Include="Views\Items\Index.cshtml" />
+    <Content Include="Views\Items\Create.cshtml" />
+    <Content Include="Views\Items\_Item.cshtml" />
+    <Content Include="Views\PaymentTypes\Index.cshtml" />
+    <Content Include="Views\PaymentTypes\Create.cshtml" />
+    <Content Include="Views\PaymentTypes\_PaymentType.cshtml" />
+    <Content Include="Views\ReciptTypes\Index.cshtml" />
+    <Content Include="Views\ReciptTypes\_ReciptType.cshtml" />
+    <Content Include="Views\ReciptTypes\Create.cshtml" />
+    <Content Include="Views\RoomTypes\Index.cshtml" />
+    <Content Include="Views\RoomTypes\Create.cshtml" />
+    <Content Include="Views\RoomTypes\_RoomType.cshtml" />
+    <Content Include="Views\Rooms\Index.cshtml" />
+    <Content Include="Views\Rooms\Create.cshtml" />
+    <Content Include="Views\Rooms\_Room.cshtml" />
+    <Content Include="Views\BookingHeaders\Create.cshtml" />
+    <Content Include="Views\BookingHeaders\Index.cshtml" />
+    <Content Include="Views\Guests\Create.cshtml" />
+    <Content Include="Views\BookingHeaders\Confirmation.cshtml" />
+    <Content Include="Views\Permissions\Index.cshtml" />
+    <Content Include="Views\Permissions\Create.cshtml" />
+    <Content Include="Views\Permissions\_Permission.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\BookingHeaders\CheckIn.cshtml" />
+    <Content Include="Views\BookingHeaders\CheckOut.cshtml" />
+    <Content Include="Views\BookingHeaders\_BookingCheckout.cshtml" />
+    <Content Include="Views\ChargeTypes\Index.cshtml" />
+    <Content Include="Views\ChargeTypes\Create.cshtml" />
+    <Content Include="Views\ChargeTypes\_ChargeType.cshtml" />
+    <Content Include="Views\BillDetails\AddToBill.cshtml" />
+    <Content Include="Views\BillDetails\Index.cshtml" />
+    <Content Include="Views\BillDetails\EditAddToBill.cshtml" />
+    <Content Include="Views\BillHeaders\Index.cshtml" />
+    <Content Include="Views\BillHeaders\Details.cshtml" />
+    <Content Include="Views\BillHeaders\Invoice.cshtml" />
+    <Content Include="Views\Receipts\Create.cshtml" />
+    <Content Include="Views\Receipts\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\_User.cshtml" />
+    <Content Include="Views\Users\Eror.cshtml" />
+    <Content Include="Views\KiteTrainingRates\Index.cshtml" />
+    <Content Include="Views\KiteTrainingRates\Create.cshtml" />
+    <Content Include="Views\KiteTrainingRates\_KiteTrainingRate.cshtml" />
+    <Content Include="Views\KiteRentalRates\Index.cshtml" />
+    <Content Include="Views\KiteRentalRates\_KiteRentalRate.cshtml" />
+    <Content Include="Views\KiteRentalRates\Create.cshtml" />
+    <Content Include="Views\RoomTypeRates\Index.cshtml" />
+    <Content Include="Views\RoomTypeRates\_RoomTypeRate.cshtml" />
+    <Content Include="Views\RoomTypeRates\Create.cshtml" />
+    <Content Include="Views\BillHeaders\OutstandingBills.cshtml" />
+    <Content Include="Views\BookingHeaders\CreateExternal.cshtml" />
+    <Content Include="Views\Guests\Index.cshtml" />
+    <Content Include="Views\Guests\_Guest.cshtml" />
+    <Content Include="Views\BillHeaders\CloseBill.cshtml" />
+    <Content Include="Views\Users\Maintenance.cshtml" />
+    <Content Include="Views\GuestChargeTypes\Index.cshtml" />
+    <Content Include="Views\GuestChargeTypes\Create.cshtml" />
+    <Content Include="Views\GuestChargeTypes\_GuestChargeType.cshtml" />
+    <Content Include="Views\LocationItemTypes\Create.cshtml" />
+    <Content Include="Views\LocationItemTypes\Index.cshtml" />
+    <Content Include="Views\LocationItemTypes\_LocationItemType.cshtml" />
+    <Content Include="Views\Currencies\Index.cshtml" />
+    <Content Include="Views\Instructors\Index.cshtml" />
+    <Content Include="Views\Instructors\Create.cshtml" />
+    <Content Include="Views\Instructors\_Instructor.cshtml" />
+    <Content Include="Views\KiteTrainingDetails\Create.cshtml" />
+    <Content Include="Views\KiteTrainingDetails\Index.cshtml" />
+    <Content Include="Views\KiteRentalDetails\Create.cshtml" />
+    <Content Include="Views\KiteRentalDetails\Index.cshtml" />
+    <Content Include="Views\BookingHeaders\AddBooking.cshtml" />
+    <Content Include="Views\BookingHeaders\Bookings.cshtml" />
+    <Content Include="Views\BookingHeaders\AddBookingConfirmation.cshtml" />
+    <Content Include="Views\BookingHeaders\_BookingCalenderDetails.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\Viewer.cshtml" />
+    <Content Include="Views\BillDetails\AddToBar.cshtml" />
+    <Content Include="Views\BillDetails\AddToRepairShop.cshtml" />
+    <Content Include="Views\BillDetails\AddToShop.cshtml" />
+    <Content Include="Views\Booking\Index.cshtml" />
+    <Content Include="Views\RoomCheckInOuts\Index.cshtml" />
+    <Content Include="Views\RoomCheckInOuts\Create.cshtml" />
+    <Content Include="Views\RoomCheckInOuts\_RoomCheckInOut.cshtml" />
+    <Content Include="Views\BookingHeaders\ExtendBooking.cshtml" />
+    <Content Include="Views\BookingHeaders\Edit.cshtml" />
+    <Content Include="Views\Booking\_LoadSingleUnit.cshtml" />
+    <Content Include="Views\Booking\_loadMultipleUnits.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\BookingDetails.rdlc" />
+    <EmbeddedResource Include="Reports\GuestHistory.rdlc" />
+    <EmbeddedResource Include="Reports\CustomerStatement.rdlc" />
+    <EmbeddedResource Include="Reports\OccupancyByGuest.rdlc" />
+    <EmbeddedResource Include="Reports\RentalRequest.rdlc" />
+    <EmbeddedResource Include="Reports\LessonsRequest.rdlc" />
+    <EmbeddedResource Include="Reports\OccupancyByRoom.rdlc" />
+    <EmbeddedResource Include="Reports\CashCollection.rdlc" />
+    <EmbeddedResource Include="Reports\TransportRequest.rdlc" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52091</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44306/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

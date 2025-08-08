@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3d52bbbf6fd54302b60987b2e71899db" Name="Diagram1" ZoomLevel="80">
+        <EntityTypeShape EntityType="KSL_HMSModel.Guest" Width="2" PointX="11.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KSL_HMSModel.Permission" Width="2" PointX="19.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KSL_HMSModel.Location" Width="1.875" PointX="19.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KSL_HMSModel.PaymentType" Width="2.125" PointX="6.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KSL_HMSModel.ReciptType" Width="2.375" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KSL_HMSModel.User" Width="2" PointX="19.25" PointY="4.125" />
+        <EntityTypeShape EntityType="KSL_HMSModel.Item" Width="2" PointX="14.375" PointY="4.5" />
+        <AssociationConnector Association="KSL_HMSModel.FK_User_Permission" />
+        <EntityTypeShape EntityType="KSL_HMSModel.ChargeType" Width="2.25" PointX="8.875" PointY="0.5" />
+        <EntityTypeShape EntityType="KSL_HMSModel.BillHeader" Width="2.125" PointX="3.75" PointY="7" />
+        <EntityTypeShape EntityType="KSL_HMSModel.ItemType" Width="2" PointX="17" PointY="0.5" />
+        <AssociationConnector Association="KSL_HMSModel.FK_Item_ItemType" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="KSL_HMSModel.BillDetail" Width="2.125" PointX="8.875" PointY="4.375" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BillDetails_ChargeType" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BillDetails_Item" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BillDetails_Location" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BillDetails_BillHeader" />
+        <EntityTypeShape EntityType="KSL_HMSModel.BookingHeader" Width="2.125" PointX="0.625" PointY="4.375" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BillHeader_BookingHeader" />
+        <EntityTypeShape EntityType="KSL_HMSModel.BookingDetail" Width="2.375" PointX="11.5" PointY="4.875" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BookingDetails_Guest" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BillDetails_BookingDetails" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BookingDetails_BookingHeader" />
+        <EntityTypeShape EntityType="KSL_HMSModel.RoomTypeRate" Width="2" PointX="5.625" PointY="13" />
+        <EntityTypeShape EntityType="KSL_HMSModel.KiteRentalRate" Width="2" PointX="18.5" PointY="12" />
+        <AssociationConnector Association="KSL_HMSModel.FK_KiteRentalRate_Item" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="KSL_HMSModel.Receipt" Width="2.125" PointX="3.375" PointY="0.5" />
+        <AssociationConnector Association="KSL_HMSModel.FK_Receipt_PaymentType" />
+        <AssociationConnector Association="KSL_HMSModel.FK_Receipt_ReciptType" />
+        <AssociationConnector Association="KSL_HMSModel.FK_Receipt_BillHeader" />
+        <AssociationConnector Association="KSL_HMSModel.FK_Receipt_BookingHeader" />
+        <EntityTypeShape EntityType="KSL_HMSModel.Instructor" Width="2" PointX="18.75" PointY="15.5" />
+        <EntityTypeShape EntityType="KSL_HMSModel.Currency" Width="1.75" PointX="6.375" PointY="4.125" />
+        <EntityTypeShape EntityType="KSL_HMSModel.GuestChargeType" Width="2.375" PointX="14.25" PointY="0.5" />
+        <EntityTypeShape EntityType="KSL_HMSModel.LocationItemType" Width="2" PointX="16.625" PointY="4.75" />
+        <EntityTypeShape EntityType="KSL_HMSModel.BookingRefference" Width="2" PointX="2.875" PointY="13.875" />
+        <AssociationConnector Association="KSL_HMSModel.FK_Guest_GuestChargeType" />
+        <AssociationConnector Association="KSL_HMSModel.FK_Receipt_Currency" />
+        <AssociationConnector Association="KSL_HMSModel.FK_LocationItemType_ItemType" />
+        <AssociationConnector Association="KSL_HMSModel.FK_LocationItemType_Location" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BillHeader_BookingRefference" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BookingHeader_BookingRefference" />
+        <AssociationConnector Association="KSL_HMSModel.FK_Receipt_BookingRefference" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="KSL_HMSModel.Room" Width="1.75" PointX="8.25" PointY="12.375" IsExpanded="true" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BillDetails_Room" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BookingHeader_Room" />
+        <EntityTypeShape EntityType="KSL_HMSModel.KiteRentalDetail" Width="2" PointX="15.875" PointY="9.875" />
+        <EntityTypeShape EntityType="KSL_HMSModel.KiteRentalHeader" Width="2" PointX="16" PointY="16" />
+        <EntityTypeShape EntityType="KSL_HMSModel.KiteTrainingDetail" Width="2" PointX="13.125" PointY="12.5" />
+        <EntityTypeShape EntityType="KSL_HMSModel.KiteTrainingHeader" Width="2" PointX="10.75" PointY="12.125" />
+        <AssociationConnector Association="KSL_HMSModel.FK_KiteTrainingDetail_Instructor" />
+        <AssociationConnector Association="KSL_HMSModel.FK_KiteRentalHeader_Item" />
+        <AssociationConnector Association="KSL_HMSModel.FK_KiteTrainingHeader_Item" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BillDetail_KiteRentalDetail" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BillDetail_KiteTrainingDetail" />
+        <AssociationConnector Association="KSL_HMSModel.FK_KiteRentalDetail_BookingDetail" />
+        <AssociationConnector Association="KSL_HMSModel.FK_KiteTrainingDetail_BookingDetail" />
+        <AssociationConnector Association="KSL_HMSModel.FK_KiteRentalHeader_BookingRefference" />
+        <AssociationConnector Association="KSL_HMSModel.FK_KiteTrainingHeader_BookingRefference" />
+        <AssociationConnector Association="KSL_HMSModel.FK_KiteRentalDetails_KiteRentalHeader" />
+        <AssociationConnector Association="KSL_HMSModel.FK_KiteTrainingDetails_KiteTrainingHeader" />
+        <EntityTypeShape EntityType="KSL_HMSModel.RoomCheckInOut" Width="1.875" PointX="0.75" PointY="13.875" />
+        <EntityTypeShape EntityType="KSL_HMSModel.RoomType" Width="2" PointX="6.375" PointY="7.875" />
+        <AssociationConnector Association="KSL_HMSModel.FK_Room_RoomType" />
+        <AssociationConnector Association="KSL_HMSModel.FK_BookingHeader_RoomType" />
+        <AssociationConnector Association="KSL_HMSModel.FK_RoomTypeRate_RoomType" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

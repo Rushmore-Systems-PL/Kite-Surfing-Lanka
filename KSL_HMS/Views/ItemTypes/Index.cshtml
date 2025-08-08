@@ -1,0 +1,200 @@
+﻿@model IEnumerable<KSL_HMS.DB.ItemType>
+
+@{
+    ViewBag.ItemType = "active";
+    ViewBag.Title = "Item Category Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Assest/vendor/libs/datatables-bs5/datatables.bootstrap5.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/toastr/toastr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/animate-css/animate.css" rel="stylesheet" />
+
+@Html.Partial("Create")
+
+<div class="card">
+    <div class="card-body">
+        <h4>Item Category Master</h4>
+        <hr class="my-4 mx-n4" />
+        <table class="datatables-basic table border-top" id="MasterTable">
+            <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th>Item Category Name</th>
+                    <th>Created Date</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 1;
+                    foreach (var item in ViewBag.ItemTypes)
+                    {
+                        <tr>
+                            <td class="text-center" width="2px">
+                                .@i.ToString("00")
+                            </td>
+                            <td>
+                                @item.varItemTypeName
+                            </td>
+                            <td>
+                                @Convert.ToDateTime(item.dtCreatedDate).ToString("yyyy/MM/dd")
+                            </td>
+                            <td class="text-center">
+                                @if (item.bitActive == true)
+                                {
+                                    <span class="badge bg-label-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-label-danger">Disabled</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <span class="text-nowrap">
+                                    <button class="btn btn-sm btn-icon me-2" onclick="EditItemType('@Url.Action("Edit", "ItemTypes", new { id = item.numItemTypeID })')"><i class="bx bx-edit text-warning"></i></button>
+                                    <button class="btn btn-sm btn-icon delete-record" onclick="SetItemTypeID(@item.numItemTypeID)"><i class="bx bx-trash text-danger"></i></button>
+                                </span>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="ItemTypeModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Item Category</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="DisableValidation(document.getElementById('numItemTypeID').value)"></button>
+            </div>
+            <div class="modal-body" id="ItemTypeModalDiv"></div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 col-md-6">
+    <div class="mt-3">
+        <div class="offcanvas offcanvas-bottom" data-bs-backdrop="false" tabindex="-1" id="ItemTypeDeleteCanvas" aria-labelledby="ItemTypeDeleteCanvasLabel">
+            <div class="offcanvas-header">
+                <h4 id="ItemTypeDeleteCanvasLabel" class="offcanvas-title">Item Category</h4>
+                <button type="button" class="btn-close text-reset" onclick="CancelItemType()" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <h5>Are You Sure?</h5>
+                <p style="margin-top:-10px">Do You Want To Delete This Item Category...!</p>
+                <button type="button" class="btn btn-primary me-2" onclick="DeleteItemType()">Continue</button>
+                <button type="button" class="btn btn-warning" onclick="CancelItemType()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/datatables/jquery.dataTables.js"></script>
+<script src="~/Assest/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script type="text/javascript">
+    var numItemTypeID = 0;
+    var table = $('#MasterTable').DataTable({
+        scrollY: true,
+        scrollX: true,
+        scrollCollapse: true,
+        paging: true,
+        fixedColumns: false,
+        ordering: false
+    });
+    EditItemType = function (url) {
+        $.get(url).done(function (response) {
+            $("#ItemTypeModalDiv").html(response);
+            jQuery.noConflict();
+            $('#ItemTypeModal').modal('show');
+        });
+    }
+    function DisableValidation(id) {
+        $.ajax({
+            type: 'POST',
+            data: { id: id },
+            url: '@Url.Action("ChangeValidationStatus", "ItemTypes")',
+        });
+    }
+    function SetItemTypeID(id) {
+        numItemTypeID = id;
+        $('#ItemTypeDeleteCanvas').offcanvas('show');
+    }
+    function DeleteItemType() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Delete", "ItemTypes")/' + numItemTypeID
+        });
+        location.reload();
+    }
+    function CancelItemType() {
+        numItemTypeID = 0;
+        $('#ItemTypeDeleteCanvas').offcanvas('hide');
+    }
+    $(function myfunction() {
+        var Msg = '@TempData["ItemTypeStatus"]'
+        if (Msg != '') {
+            if (Msg == "Saved") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["success"]("Item Category Saved Successfully.", " Success");
+            } else if (Msg == "Deleted") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["error"]("Item Category Deleted Successfully.", " Success");
+            } else if (Msg == "Edited") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["warning"]("Item Category Updated Successfully.", " Success");
+            }
+        }
+    })
+</script>

@@ -1,0 +1,53 @@
+﻿@model KSL_HMS.DB.KiteRentalRate
+
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.numKiteRentalRateID)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row g-3">
+        <div class="col-md-5">
+            <label class="form-label" for="numItemIDE">Item  <sup class="text-danger">*</sup></label>
+            @Html.DropDownList("numItemID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Item", @title = "Please Select Item.", @id = "numItemIDE" })
+            @Html.ValidationMessageFor(model => model.numItemID, "", new { @class = "text-danger", @id = "numTrainingTypeIDE" })
+        </div>
+    </div>
+    <br />
+    <div class="row g-3">
+        <div class="col-md-5">
+            <label class="form-label" for="numKiteRentalRateDays">Renting Days  <sup class="text-danger">*</sup></label>
+            @Html.EditorFor(model => model.numKiteRentalRateDays, new { htmlAttributes = new { @class = "form-control", @id = "numKiteRentalRateDays", @type = "number", placeholder = "Renting Days...", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.numKiteRentalRateDays, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-5">
+            <label class="form-label" for="numKiteRentalRate">Rate (€) <sup class="text-danger">*</sup></label>
+            @Html.EditorFor(model => model.numKiteRentalRate, new { htmlAttributes = new { @class = "form-control", @id = "numKiteRentalRate", @type = "number", placeholder = "Rate...", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.numKiteRentalRate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.bitActive)
+    @Html.HiddenFor(model => model.numCreatedByID)
+    @Html.HiddenFor(model => model.dtCreatedDate)
+    @Html.HiddenFor(model => model.numUpdatetdByID)
+    @Html.HiddenFor(model => model.dtUpdatetDate)
+    @Html.HiddenFor(model => model.numDeletedByID)
+    @Html.HiddenFor(model => model.dtDeletedDate)
+    <div class="pt-4">
+        <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+        <button type="reset" class="btn btn-warning">Clear</button>
+    </div>
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script type="text/javascript">
+    $("#numItemIDE").select2({
+        dropdownParent: $("#KiteRentalRatesModal"),
+        placeholder: "Select Item...",
+        width: 'resolve'
+    });
+</script>

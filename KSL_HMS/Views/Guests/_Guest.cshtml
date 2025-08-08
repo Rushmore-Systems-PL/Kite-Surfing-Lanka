@@ -1,0 +1,57 @@
+﻿@model KSL_HMS.DB.Guest
+
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.numGuestID)
+    <div class="row g-3">
+        <div class="col-md-3">
+            <label class="form-label" for="varGuestName">Guest Name  <sup class="text-danger">*</sup></label>
+            @Html.EditorFor(model => model.varGuestName, new { htmlAttributes = new { @class = "form-control", @id = "varGuestName", @type = "text", placeholder = "Guest Name...", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.varGuestName, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="varGuestPPNo">Passport NO  <sup class="text-danger">*</sup></label>
+            @Html.EditorFor(model => model.varGuestPPNo, new { htmlAttributes = new { @class = "form-control", @id = "varGuestPPNo", @type = "text", placeholder = "Passport NO...", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.varGuestPPNo, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="varGuestEmail">Email <sup class="text-danger">*</sup></label>
+            @Html.EditorFor(model => model.varGuestEmail, new { htmlAttributes = new { @class = "form-control", @id = "varGuestEmail", @type = "text", placeholder = "Email...", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.varGuestEmail, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="numGuestChargeTypeIDE">Age Category  <sup class="text-danger">*</sup></label>
+            @Html.DropDownList("numGuestChargeTypeID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Age Category", @title = "Please Select Age Category.", @id = "numGuestChargeTypeIDE" })
+            @Html.ValidationMessageFor(model => model.numGuestChargeTypeID, "", new { @class = "text-danger", @id = "numGuestChargeTypeIDE" })
+        </div>
+    </div>
+    <br />
+    @Html.HiddenFor(model => model.bitActive)
+    @Html.HiddenFor(model => model.numCreatedByID)
+    @Html.HiddenFor(model => model.dtCreatedDate)
+    @Html.HiddenFor(model => model.numUpdatetdByID)
+    @Html.HiddenFor(model => model.dtUpdatetDate)
+    @Html.HiddenFor(model => model.numDeletedByID)
+    @Html.HiddenFor(model => model.dtDeletedDate)
+    <div class="pt-4">
+        <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+        <button type="reset" class="btn btn-warning">Clear</button>
+    </div>
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script type="text/javascript">
+    $("#numGuestChargeTypeIDE").select2({
+        dropdownParent: $("#GuestModal"),
+        placeholder: "Select Age Category...",
+        minimumResultsForSearch: -1,
+        width: 'resolve'
+    });
+</script>

@@ -1,0 +1,263 @@
+﻿@model KSL_HMS.DB.BillHeader
+@{
+    var BookingDetails = (List<KSL_HMS.DB.BookingDetail>)ViewBag.BookingDetails;
+}
+
+<div class="card">
+    <div class="card-body">
+        <h3>Booking Summary</h3>
+        <br />
+        <div class="row">
+            <div class="col-md-3">
+                <h5 class="pb-2 border-bottom mb-4">Booking Reference</h5>
+                <h5 class="text-secondary" style="margin-top:-10px">@Model.BookingRefference.varBookingRefferenceNo</h5>
+            </div>
+            <div class="col-md-3">
+                <h5 class="pb-2 border-bottom mb-4">No Of Rooms</h5>
+                <h5 class="text-secondary" style="margin-top:-10px">@ViewBag.RoomsCount.ToString("00")</h5>
+            </div>
+            <div class="col-md-3">
+                <h5 class="pb-2 border-bottom mb-4">No Of Guests</h5>
+                <h5 class="text-secondary" style="margin-top:-10px">@ViewBag.GuestCount.ToString("00")</h5>
+            </div>
+            <div class="col-md-3">
+                <h5 class="pb-2 border-bottom mb-4">Created Date</h5>
+                <h5 class="text-secondary" style="margin-top:-10px">From: @Model.dtCreatedDate.Value.ToString("yyyy/MM/dd")</h5>
+            </div>
+        </div>
+        <br />
+        @foreach (var header in ViewBag.BookingHeaders)
+        {
+            <div class="divider text-start">
+                <div class="divider-text">
+                    <h5 class="pb-2 mb-4">@header.RoomType.varRoomTypeName - @header.Room.varRoomNo</h5>
+                    @if (header.dtFromDate.ToString("yyyy/MM/dd") != header.dtCheckInDateTime.ToString("yyyy/MM/dd"))
+                    {
+                        <h6 style="margin-top:-30px">@header.dtCheckInDateTime.ToString("yyyy/MM/dd") - @header.dtToDate.ToString("yyyy/MM/dd")</h6>
+                    }
+                    else
+                    {
+                        <h6 style="margin-top:-30px">@header.dtFromDate.ToString("yyyy/MM/dd") - @header.dtToDate.ToString("yyyy/MM/dd")</h6>
+                    }
+                </div>
+            </div>
+            <div class="row">
+
+                @foreach (var detail in BookingDetails.Where(d => d.numBookingHeaderID == header.numBookingHeaderID))
+                {
+                    <div class="col" style="margin-top:-10px">
+                        <h4 class="mb-0">
+                            <span class="align-middle">@detail.Guest.varGuestName</span>
+                        </h4>
+                        <span>Passport No: @detail.Guest.varGuestPPNo | Age: @detail.Guest.GuestChargeType.varGuestChargeTypeName</span>
+                    </div>
+                }
+            </div>
+            <br />
+        }
+    </div>
+</div>
+<br />
+<div class="card invoice-preview-card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between flex-xl-row flex-md-column flex-sm-row flex-column p-sm-3 p-0">
+            <div class="mb-xl-0 mb-4">
+                <h4>Kitesurfing Lanka,</h4>
+                <p class="mb-1">Dutch Bay Road (Kudawa Road),</p>
+                <p class="mb-1">Kandakuliya Beach Road, Kalpitiya 61360, Sri Lanka</p>
+                <p class="mb-0">+94 77 368 6235, +33 78 330 0803</p>
+            </div>
+            <div>
+                <h4>Invoice #@Model.BookingRefference.varBookingRefferenceNo</h4>
+                <div class="mb-2">
+                    <span class="me-1">Date Issues:</span>
+                    <span class="fw-semibold">@System.DateTime.Now.ToString("dd/MM/yyyy")</span>
+                </div>
+                <div>
+                    <span class="me-1">Date Due:</span>
+                    <span class="fw-semibold">@Model.dtCreatedDate.Value.ToString("dd/MM/yyyy")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <h4>Bill Summary</h4>
+        <div class="table-responsive">
+            <table class="table border-top m-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Item</th>
+                        <th>Description</th>
+                        <th>Location</th>
+                        <th>Cost</th>
+                        <th>Qty</th>
+                        <th>Duration</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int i = 1;
+                        foreach (var item in ViewBag.BillDetails)
+                        {
+                            <tr>
+                                <td>@i.ToString("00")</td>
+                                <td>
+                                    @Convert.ToDateTime(item.dtCreatedDate).ToString("yyyy/MM/dd")
+                                </td>
+                                <td class="text-nowrap">
+                                    @if (item.numItemID != null)
+                                    {
+                                        <span>@item.Item.varItemName</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Room No: @item.Room.varRoomNo</span>
+
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.numItemID != null)
+                                    {
+                                        <span>@item.Item.ItemType.varItemTypeName</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@item.BillHeader.BookingHeader.RoomType.varRoomTypeName</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.numLocationID == null)
+                                    {
+                                        <span>Room</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@item.Location.varLocationName</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.bitDiscountOffered != true)
+                                    {
+                                        <span>€ @item.numCost</span>
+                                    }
+                                    else
+                                    {
+                                        <span>€ @item.numCost (@item.numDiscount%)</span>
+                                    }
+                                </td>
+                                <td>@item.numQuantity</td>
+                                <td>
+                                    @if (item.numDuration == null)
+                                    {
+                                        <span> - </span>
+                                    }
+                                    else
+                                    {
+                                        <span>@item.numDuration</span>
+                                    }
+                                </td>
+                                <td>@item.numFinalCost</td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @*@if (ViewBag.Receipts.Count != 0)
+            {
+                <br />
+                <h4>Payment Summary</h4>
+                <div class="table-responsive">
+                    <table class="table border-top m-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Receipt No</th>
+                                <th>Receipt Category</th>
+                                <th>PAYMENT Category</th>
+                                <th>AMOUNT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{
+                                int j = 1;
+                                foreach (var item in ViewBag.Receipts)
+                                {
+                                    <tr>
+                                        <td>@j.ToString("00")</td>
+                                        <td>
+                                            @Convert.ToDateTime(item.dtCreatedDate).ToString("yyyy/MM/dd")
+                                        </td>
+                                        <td>
+                                            @item.varReceiptNo
+                                        </td>
+                                        <td>
+                                            @item.PaymentType.varPaymentTypeName
+                                        </td>
+                                        <td>
+                                            @item.ReciptType.varReciptTypeName
+                                        </td>
+                                        <td>
+                                            € @item.numAmount
+                                        </td>
+                                    </tr>
+                                    j++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }*@
+        @*<br />
+            <div class="row py-3">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6 d-flex justify-content-md-start">
+                            <h6>Bill Total:</h6>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-md-end">
+                            <h6><b>€ @Model.numTotalCost</b></h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 d-flex justify-content-md-start">
+                            <h6>Payment Total:</h6>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-md-end">
+                            <h6><b>€ @Model.numPayedAmount</b></h6>
+                        </div>
+                    </div>
+                    <hr style="margin-top:-10px" />
+                    <div class="row">
+                        <div class="col-md-6 d-flex justify-content-md-start">
+                            <h6>Outstanding Amount:</h6>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-md-end">
+                            <h6><b>€ @Model.numBalanceToPay</b></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+    </div>
+</div>
+<br />
+<div class="card">
+    <div class="card-body">
+        <h4>Check-Out Confirmation</h4>
+        <div class="row">
+            <p style="margin-top:-10px">Please check booking details and booking guest details before confirm...</p>
+        </div>
+        <div class="pt-4">
+            <button type="button" class="btn btn-primary me-sm-3 me-1" onclick="checkOutBooking(@ViewBag.numBookingHeaderID)">Confirm</button>
+            <button type="button" class="btn btn-warning" onClick="window.location.reload();">Cancel</button>
+        </div>
+    </div>
+</div>

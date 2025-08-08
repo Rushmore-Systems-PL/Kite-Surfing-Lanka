@@ -1,0 +1,105 @@
+﻿
+@{
+    Layout = null;
+    var BookingDetails = (List<KSL_HMS.DB.BookingDetail>)ViewBag.BookingDetails;
+    int bno = 1;
+}
+
+@foreach (var bookingHeader in ViewBag.BookingHeaders)
+{
+    <div class="divider text-start" style="margin-top:-10px">
+        <div class="divider-text">
+            <h4 style="margin-top:15px">Booking No: @bno.ToString("00")</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h5 class="pb-2 border-bottom mb-4">Booking Reference</h5>
+            <h5 class="text-secondary" style="margin-top:-10px">@ViewBag.varBookingRefferenceNo</h5>
+        </div>
+        <div class="col-md-4">
+            <h5 class="pb-2 border-bottom mb-4">Booking Period</h5>
+            <h5 class="text-secondary" style="margin-top:-10px">From: @bookingHeader.dtFromDate.ToString("yyyy/MM/dd") | To: @bookingHeader.dtToDate.ToString("yyyy/MM/dd")</h5>
+        </div>
+        <div class="col-md-4">
+            <h5 class="pb-2 border-bottom mb-4">Created Date</h5>
+            <h5 class="text-secondary" style="margin-top:-10px">From: @bookingHeader.dtCreatedDate.ToString("yyyy/MM/dd")</h5>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-3">
+            <h5 class="pb-2 border-bottom mb-4">Room Category</h5>
+            <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.RoomType.varRoomTypeName</h5>
+        </div>
+        <div class="col-md-3">
+            <h5 class="pb-2 border-bottom mb-4">Room No</h5>
+            <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.Room.varRoomNo</h5>
+        </div>
+        <div class="col-md-3">
+            <h5 class="pb-2 border-bottom mb-4">Maximum Pax Allowed </h5>
+            <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.Room.numMaxPaxAllowed.ToString("00")</h5>
+        </div>
+    </div>
+    if (bookingHeader.bitTransportRequired == true)
+    {
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="pb-2 border-bottom mb-4">Flight Details </h5>
+                <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.varFlightDetails</h5>
+            </div>
+        </div>
+    }
+
+    if (BookingDetails.Where(b => b.numBookingHeaderID == bookingHeader.numBookingHeaderID).Count() != 0)
+    {
+        <br />
+        <h4 class="pb-2 border-bottom mb-4">Guests Details</h4>
+        foreach (var item in BookingDetails.Where(b => b.numBookingHeaderID == bookingHeader.numBookingHeaderID))
+        {
+            if (item.bitPrimaryGuest == true)
+            {
+                <div>
+                    <h4 class="mb-0">
+                        <span class="align-middle">@item.Guest.varGuestName</span> <sup><span class="badge bg-label-primary bage">Primary</span></sup>
+                    </h4>
+                    <span>Passport No: @item.Guest.varGuestPPNo | Email: @item.Guest.varGuestEmail | Age: @item.Guest.GuestChargeType.varGuestChargeTypeName</span>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <h4 class="mb-0">
+                        <span class="align-middle">@item.Guest.varGuestName</span>
+                    </h4>
+                    <span>Passport No: @item.Guest.varGuestPPNo | Email: @item.Guest.varGuestEmail | Age: @item.Guest.GuestChargeType.varGuestChargeTypeName</span>
+                </div>
+            }
+            <br />
+        }
+    }
+    else
+    {
+        <br />
+        <div class="row">
+            <div class="col-md-3">
+                <h5 class="pb-2 border-bottom mb-4">No Of Adults</h5>
+                <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.numAdultsCount.ToString("00")</h5>
+            </div>
+            <div class="col-md-3">
+                <h5 class="pb-2 border-bottom mb-4">No Of Children</h5>
+                <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.numChildrensCount.ToString("00")</h5>
+            </div>
+            <div class="col-md-3">
+                <h5 class="pb-2 border-bottom mb-4">No Of Infants </h5>
+                <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.numInfantsCount.ToString("00")</h5>
+            </div>
+        </div>
+    }
+    bno++;
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/js/bootstrap.js"></script>

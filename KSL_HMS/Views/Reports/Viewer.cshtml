@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Report = "active";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        @if (Convert.ToInt32(ViewBag.ReportID) == 1)
+        {
+            @Html.Partial("TransportRequest")
+            ViewBag.Title = "Reports | Transport Requests";
+        }
+        else if (Convert.ToInt32(ViewBag.ReportID) == 2)
+        {
+            @Html.Partial("LessonsRequest")
+            ViewBag.Title = "Reports | Lessons Requests";
+        }
+        else if (Convert.ToInt32(ViewBag.ReportID) == 3)
+        {
+            @Html.Partial("RentalRequest")
+            ViewBag.Title = "Reports | Rental Requests";
+        }
+        else if (Convert.ToInt32(ViewBag.ReportID) == 4)
+        {
+            @Html.Partial("OccupancyByRoom")
+            ViewBag.Title = "Reports | Occupancy By Room";
+        }
+        else if (Convert.ToInt32(ViewBag.ReportID) == 5)
+        {
+            @Html.Partial("OccupancyByGuest")
+            ViewBag.Title = "Reports | Occupancy By Guests";
+        }
+        else if (Convert.ToInt32(ViewBag.ReportID) == 6)
+        {
+            @Html.Partial("CashCollection")
+            ViewBag.Title = "Reports | Cash Collection";
+        }
+        else if (Convert.ToInt32(ViewBag.ReportID) == 7)
+        {
+            @Html.Partial("CustomerStatement")
+            ViewBag.Title = "Reports | Customer Statement";
+        }
+        else if (Convert.ToInt32(ViewBag.ReportID) == 8)
+        {
+            @Html.Partial("GuestHistory")
+            ViewBag.Title = "Guest History";
+        }
+        else
+        {
+            @Html.Partial("BookingDetails")
+            ViewBag.Title = "Daily Booking Details";
+        }
+    </div>
+</div>

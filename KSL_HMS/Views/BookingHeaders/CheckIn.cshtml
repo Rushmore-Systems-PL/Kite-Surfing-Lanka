@@ -1,0 +1,75 @@
+﻿@model KSL_HMS.DB.BookingHeader
+
+@{
+    ViewBag.CheckInCheckOut = "active open";
+    ViewBag.CheckIn = "active";
+    ViewBag.Title = "Check-In Booking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/toastr/toastr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/animate-css/animate.css" rel="stylesheet" />
+
+<div class="card">
+    <div class="card-body">
+        <h4>Check-In Booking</h4>
+        <hr class="my-4 mx-n4" />
+        <div class="row g-3">
+            <div class="col-md-8">
+                <label class="form-label" for="BookingID">Select Booking To Check-In<sup class="text-danger">*</sup></label>
+                @Html.DropDownList("BookingID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Booking", @title = "Please Select Booking.", @id = "numBookingID" })
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div id="BookingDetailsDiv"></div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script type="text/javascript">
+    $("#numBookingID").select2({
+        placeholder: "Select Booking...",
+    });
+    $('#numBookingID').on('change', function () {
+        $('#BookingDetailsDiv').hide();
+        $('#BookingDetailsDiv').html("");
+        var Bid = $('#numBookingID option:selected').val();
+        $.ajax({
+            type: 'GET',
+            data: { id: Bid },
+            url: '@Url.Action("Create", "Guests")',
+            success: function (result) {
+                $('#BookingDetailsDiv').show();
+                $('#BookingDetailsDiv').html(result);
+            }
+        });
+    });
+    $(function myfunction() {
+        var Msg1= '@TempData["CheckInConfirmationStatus"]'
+        if (Msg1 != '') {
+            if (Msg1 == "Saved") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["success"]("Check-In Confirmed Successfully.", " Success");
+            }
+        }
+    })
+</script>

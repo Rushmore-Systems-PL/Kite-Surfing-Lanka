@@ -1,0 +1,37 @@
+﻿@model KSL_HMS.DB.ItemType
+
+<div class="card mb-4">
+    @using (Html.BeginForm("Create", "ItemTypes", FormMethod.Post, new { @class = "card-body" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h4>New Item Category</h4>
+        <hr class="my-4 mx-n4" />
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label" for="varItemTypeName">Item Category Name  <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.varItemTypeName, new { htmlAttributes = new { @class = "form-control", @id = "varItemTypeName", @type = "text", placeholder = "Category Name...", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.varItemTypeName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="row g-3">
+            <div class="col-md-8">
+                <label class="form-label" for="varTypeDescription">Item Category Description</label>
+                @Html.EditorFor(model => model.varItemTypeDescription, new { htmlAttributes = new { @class = "form-control", @id = "varTypeDescription", @type = "text", placeholder = "Description...", autocomplete = "off", cols = 100, @rows = 3 } })
+                @Html.ValidationMessageFor(model => model.varItemTypeDescription, "", new { @class = "text-danger", @id = "varTypeDescription" })
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.bitActive)
+        @Html.HiddenFor(model => model.numCreatedByID)
+        @Html.HiddenFor(model => model.dtCreatedDate)
+        @Html.HiddenFor(model => model.numUpdatetdByID)
+        @Html.HiddenFor(model => model.dtUpdatetDate)
+        @Html.HiddenFor(model => model.numDeletedByID)
+        @Html.HiddenFor(model => model.dtDeletedDate)
+        <div class="pt-4">
+            <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+            <button type="reset" class="btn btn-warning">Clear</button>
+        </div>
+    }
+</div>

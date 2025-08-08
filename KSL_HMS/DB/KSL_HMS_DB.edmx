@@ -1,0 +1,3074 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="KSL_HMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Guest">
+          <Key>
+            <PropertyRef Name="numGuestID" />
+          </Key>
+          <Property Name="numGuestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varGuestName" Type="varchar" MaxLength="100" />
+          <Property Name="varGuestEmail" Type="varchar" MaxLength="50" />
+          <Property Name="varGuestPPNo" Type="varchar" MaxLength="50" />
+          <Property Name="numGuestChargeTypeID" Type="int" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Instructor">
+          <Key>
+            <PropertyRef Name="numInstructorID" />
+          </Key>
+          <Property Name="numInstructorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varInstructorName" Type="varchar" MaxLength="100" />
+          <Property Name="varInstructorEmail" Type="varchar" MaxLength="50" />
+          <Property Name="varInstructorNIC" Type="varchar" MaxLength="50" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="numPermissionID" />
+          </Key>
+          <Property Name="numPermissionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varPermissionName" Type="varchar" MaxLength="50" />
+          <Property Name="varPermissionDescription" Type="varchar" MaxLength="50" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="numUserID" />
+          </Key>
+          <Property Name="numUserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varFirstName" Type="varchar" MaxLength="50" />
+          <Property Name="varLastName" Type="varchar" MaxLength="50" />
+          <Property Name="varUserName" Type="varchar" MaxLength="50" />
+          <Property Name="varPassword" Type="varchar" MaxLength="50" />
+          <Property Name="varNIC" Type="varchar" MaxLength="50" />
+          <Property Name="varEPF" Type="varchar" MaxLength="50" />
+          <Property Name="varEmail" Type="varchar" MaxLength="50" />
+          <Property Name="numPermissionID" Type="int" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ChargeType">
+          <Key>
+            <PropertyRef Name="numChargeTypeID" />
+          </Key>
+          <Property Name="numChargeTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varChargeTypeName" Type="varchar" MaxLength="50" />
+          <Property Name="varChargeTypeDescription" Type="varchar" MaxLength="50" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="numCurrencyID" />
+          </Key>
+          <Property Name="numCurrencyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varCurrencyName" Type="varchar" MaxLength="50" />
+          <Property Name="varCurrencyCode" Type="varchar" MaxLength="50" />
+          <Property Name="numRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="GuestChargeType">
+          <Key>
+            <PropertyRef Name="numGuestChargeTypeID" />
+          </Key>
+          <Property Name="numGuestChargeTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varGuestChargeTypeName" Type="varchar" MaxLength="50" />
+          <Property Name="varGuestChargeTypeDescription" Type="varchar" MaxLength="50" />
+          <Property Name="numChargeTypeDiscount" Type="int" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="numItemID" />
+          </Key>
+          <Property Name="numItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varItemName" Type="varchar" MaxLength="50" />
+          <Property Name="varItemDescription" Type="varchar" MaxLength="50" />
+          <Property Name="numItemTypeID" Type="int" />
+          <Property Name="numRatePerUnit" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numItemOrder" Type="int" />
+          <Property Name="bitIsDeleted" Type="bit" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ItemType">
+          <Key>
+            <PropertyRef Name="numItemTypeID" />
+          </Key>
+          <Property Name="numItemTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varItemTypeName" Type="varchar" MaxLength="50" />
+          <Property Name="varItemTypeDescription" Type="varchar" MaxLength="50" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="KiteRentalRate">
+          <Key>
+            <PropertyRef Name="numKiteRentalRateID" />
+          </Key>
+          <Property Name="numKiteRentalRateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numItemID" Type="int" />
+          <Property Name="numKiteRentalRateDays" Type="int" Nullable="false" />
+          <Property Name="numKiteRentalRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="KiteTrainingRate">
+          <Key>
+            <PropertyRef Name="numKiteTrainingRateID" />
+          </Key>
+          <Property Name="numKiteTrainingRateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numItemID" Type="int" />
+          <Property Name="numKiteTrainingRateHours" Type="int" Nullable="false" />
+          <Property Name="numKiteTrainingRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="numLocationID" />
+          </Key>
+          <Property Name="numLocationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varLocationName" Type="varchar" MaxLength="50" />
+          <Property Name="varLocationDescription" Type="varchar" MaxLength="50" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LocationItemType">
+          <Key>
+            <PropertyRef Name="numLocationItemTypeID" />
+          </Key>
+          <Property Name="numLocationItemTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numLocationID" Type="int" />
+          <Property Name="numItemTypeID" Type="int" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="numPaymentTypeID" />
+          </Key>
+          <Property Name="numPaymentTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varPaymentTypeName" Type="varchar" MaxLength="50" />
+          <Property Name="varPaymentTypeDescription" Type="varchar" MaxLength="50" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ReciptType">
+          <Key>
+            <PropertyRef Name="numReciptTypeID" />
+          </Key>
+          <Property Name="numReciptTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varReciptTypeName" Type="varchar" MaxLength="50" />
+          <Property Name="varReciptTypeDescription" Type="varchar" MaxLength="50" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="numRoomID" />
+          </Key>
+          <Property Name="numRoomID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numRoomTypeID" Type="int" />
+          <Property Name="varRoomNo" Type="varchar" MaxLength="50" />
+          <Property Name="varRoomName" Type="varchar" MaxLength="50" />
+          <Property Name="varRoomDescription" Type="varchar" MaxLength="50" />
+          <Property Name="numMaxPaxAllowed" Type="int" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RoomCheckInOut">
+          <Key>
+            <PropertyRef Name="numRoomCheckInOutID" />
+          </Key>
+          <Property Name="numRoomCheckInOutID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varRoomCheckInTime" Type="varchar" MaxLength="50" />
+          <Property Name="varRoomCheckOutTime" Type="varchar" MaxLength="50" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RoomType">
+          <Key>
+            <PropertyRef Name="numRoomTypeID" />
+          </Key>
+          <Property Name="numRoomTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varRoomTypeName" Type="varchar" MaxLength="50" />
+          <Property Name="varRoomTypeDescription" Type="varchar" MaxLength="500" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RoomTypeRate">
+          <Key>
+            <PropertyRef Name="numRoomTypeRateID" />
+          </Key>
+          <Property Name="numRoomTypeRateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numRoomTypeID" Type="int" />
+          <Property Name="numRatePerPerson" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numPersonCount" Type="int" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BillDetail">
+          <Key>
+            <PropertyRef Name="numBillDetailID" />
+          </Key>
+          <Property Name="numBillDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numBillHeaderID" Type="int" />
+          <Property Name="numChargeTypeID" Type="int" />
+          <Property Name="numRoomID" Type="int" />
+          <Property Name="numLocationID" Type="int" />
+          <Property Name="numItemID" Type="int" />
+          <Property Name="numBookingDetailID" Type="int" />
+          <Property Name="numKiteRentalDetailID" Type="int" />
+          <Property Name="numKiteTrainingDetailID" Type="int" />
+          <Property Name="numCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numQuantity" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numDuration" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="bitDiscountOffered" Type="bit" />
+          <Property Name="numDiscount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numFinalCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BillHeader">
+          <Key>
+            <PropertyRef Name="numBillHeaderID" />
+          </Key>
+          <Property Name="numBillHeaderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numBookingRefferenceID" Type="int" />
+          <Property Name="numBookingHeaderID" Type="int" />
+          <Property Name="numTotalCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numPayedAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numBalanceToPay" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BookingDetail">
+          <Key>
+            <PropertyRef Name="numBookingDetailID" />
+          </Key>
+          <Property Name="numBookingDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numBookingHeaderID" Type="int" />
+          <Property Name="numGuestID" Type="int" />
+          <Property Name="bitPrimaryGuest" Type="bit" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BookingHeader">
+          <Key>
+            <PropertyRef Name="numBookingHeaderID" />
+          </Key>
+          <Property Name="numBookingHeaderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numBookingRefferenceID" Type="int" />
+          <Property Name="dtFromDate" Type="datetime" />
+          <Property Name="dtToDate" Type="datetime" />
+          <Property Name="numRoomTypeID" Type="int" />
+          <Property Name="numRoomID" Type="int" />
+          <Property Name="bitStandardRate" Type="bit" />
+          <Property Name="numRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="bitTransportRequired" Type="bit" />
+          <Property Name="varFlightDetails" Type="varchar" MaxLength="500" />
+          <Property Name="dtCheckInDateTime" Type="datetime" />
+          <Property Name="dtCheckOutDateTime" Type="datetime" />
+          <Property Name="varRemarks" Type="varchar" MaxLength="500" />
+          <Property Name="bitKSLessonRequired" Type="bit" />
+          <Property Name="dtKsLessonRequiredFrom" Type="date" />
+          <Property Name="dtKsLessonRequiredTo" Type="date" />
+          <Property Name="bitKSRentalRequired" Type="bit" />
+          <Property Name="dtKSRentalRequiredFrom" Type="date" />
+          <Property Name="dtKSRentalRequiredTo" Type="date" />
+          <Property Name="bitCheckedIn" Type="bit" />
+          <Property Name="bitCheckedOut" Type="bit" />
+          <Property Name="varBookingPersonName" Type="varchar" MaxLength="100" />
+          <Property Name="varBookingPersonEmail" Type="varchar" MaxLength="100" />
+          <Property Name="numAdultsCount" Type="int" />
+          <Property Name="numChildrensCount" Type="int" />
+          <Property Name="numInfantsCount" Type="int" />
+          <Property Name="bitAgentRequired" Type="bit" />
+          <Property Name="varAgentName" Type="varchar" MaxLength="100" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BookingRefference">
+          <Key>
+            <PropertyRef Name="numBookingRefferenceID" />
+          </Key>
+          <Property Name="numBookingRefferenceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varBookingRefferenceNo" Type="varchar" MaxLength="50" />
+          <Property Name="bitClosed" Type="bit" />
+          <Property Name="bitPayed" Type="bit" />
+          <Property Name="bitExternalBooking" Type="bit" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="KiteRentalDetail">
+          <Key>
+            <PropertyRef Name="numKiteRentalDetailID" />
+          </Key>
+          <Property Name="numKiteRentalDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numKiteRentalHeaderID" Type="int" />
+          <Property Name="numBookingDetailID" Type="int" />
+          <Property Name="dtKiteRentalDate" Type="datetime" />
+          <Property Name="numKiteRentalQuantity" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numKiteRentalDays" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numKiteRentalRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numKiteRentalCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="KiteRentalHeader">
+          <Key>
+            <PropertyRef Name="numKiteRentalHeaderID" />
+          </Key>
+          <Property Name="numKiteRentalHeaderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numBookingRefferenceID" Type="int" />
+          <Property Name="numItemID" Type="int" />
+          <Property Name="numTotalRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numTotalDays" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numTotalCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="KiteTrainingDetail">
+          <Key>
+            <PropertyRef Name="numKiteTrainingDetailID" />
+          </Key>
+          <Property Name="numKiteTrainingDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numKiteTrainingHeaderID" Type="int" />
+          <Property Name="numBookingDetailID" Type="int" />
+          <Property Name="numInstructorID" Type="int" />
+          <Property Name="dtKiteTrainingDate" Type="datetime" />
+          <Property Name="numTrainingPaxCount" Type="int" />
+          <Property Name="numKiteTrainingHours" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numKiteTrainingRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numKiteTrainingCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="KiteTrainingHeader">
+          <Key>
+            <PropertyRef Name="numKiteTrainingHeaderID" />
+          </Key>
+          <Property Name="numKiteTrainingHeaderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numBookingRefferenceID" Type="int" />
+          <Property Name="numItemID" Type="int" />
+          <Property Name="numTotalRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numTotalHours" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numTotalCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Receipt">
+          <Key>
+            <PropertyRef Name="numReceiptID" />
+          </Key>
+          <Property Name="numReceiptID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="varReceiptNo" Type="varchar" MaxLength="50" />
+          <Property Name="numBookingRefferenceID" Type="int" />
+          <Property Name="bitSingleBooking" Type="bit" />
+          <Property Name="numBookingHeaderID" Type="int" />
+          <Property Name="numBillHeaderID" Type="int" />
+          <Property Name="numPaymentTypeID" Type="int" />
+          <Property Name="numReciptTypeID" Type="int" />
+          <Property Name="numCurrencyID" Type="int" />
+          <Property Name="bitIsDefaultCurrency" Type="bit" />
+          <Property Name="numAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numCurrencyRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="numPayInCurrencyAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="bit" />
+          <Property Name="numCreatedByID" Type="int" />
+          <Property Name="dtCreatedDate" Type="datetime" />
+          <Property Name="numUpdatetdByID" Type="int" />
+          <Property Name="dtUpdatetDate" Type="datetime" />
+          <Property Name="numDeletedByID" Type="int" />
+          <Property Name="dtDeletedDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_BillDetail_KiteRentalDetail">
+          <End Role="KiteRentalDetail" Type="Self.KiteRentalDetail" Multiplicity="0..1" />
+          <End Role="BillDetail" Type="Self.BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KiteRentalDetail">
+              <PropertyRef Name="numKiteRentalDetailID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numKiteRentalDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetail_KiteTrainingDetail">
+          <End Role="KiteTrainingDetail" Type="Self.KiteTrainingDetail" Multiplicity="0..1" />
+          <End Role="BillDetail" Type="Self.BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KiteTrainingDetail">
+              <PropertyRef Name="numKiteTrainingDetailID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numKiteTrainingDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetails_BillHeader">
+          <End Role="BillHeader" Type="Self.BillHeader" Multiplicity="0..1" />
+          <End Role="BillDetail" Type="Self.BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillHeader">
+              <PropertyRef Name="numBillHeaderID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numBillHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetails_BookingDetails">
+          <End Role="BookingDetail" Type="Self.BookingDetail" Multiplicity="0..1" />
+          <End Role="BillDetail" Type="Self.BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingDetail">
+              <PropertyRef Name="numBookingDetailID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numBookingDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetails_ChargeType">
+          <End Role="ChargeType" Type="Self.ChargeType" Multiplicity="0..1" />
+          <End Role="BillDetail" Type="Self.BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChargeType">
+              <PropertyRef Name="numChargeTypeID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numChargeTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetails_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
+          <End Role="BillDetail" Type="Self.BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="numItemID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetails_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="BillDetail" Type="Self.BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="numLocationID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numLocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetails_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="BillDetail" Type="Self.BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="numRoomID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numRoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillHeader_BookingHeader">
+          <End Role="BookingHeader" Type="Self.BookingHeader" Multiplicity="0..1" />
+          <End Role="BillHeader" Type="Self.BillHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingHeader">
+              <PropertyRef Name="numBookingHeaderID" />
+            </Principal>
+            <Dependent Role="BillHeader">
+              <PropertyRef Name="numBookingHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillHeader_BookingRefference">
+          <End Role="BookingRefference" Type="Self.BookingRefference" Multiplicity="0..1" />
+          <End Role="BillHeader" Type="Self.BillHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingRefference">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Principal>
+            <Dependent Role="BillHeader">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingDetails_BookingHeader">
+          <End Role="BookingHeader" Type="Self.BookingHeader" Multiplicity="0..1" />
+          <End Role="BookingDetail" Type="Self.BookingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingHeader">
+              <PropertyRef Name="numBookingHeaderID" />
+            </Principal>
+            <Dependent Role="BookingDetail">
+              <PropertyRef Name="numBookingHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingDetails_Guest">
+          <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
+          <End Role="BookingDetail" Type="Self.BookingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="numGuestID" />
+            </Principal>
+            <Dependent Role="BookingDetail">
+              <PropertyRef Name="numGuestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingHeader_BookingRefference">
+          <End Role="BookingRefference" Type="Self.BookingRefference" Multiplicity="0..1" />
+          <End Role="BookingHeader" Type="Self.BookingHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingRefference">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Principal>
+            <Dependent Role="BookingHeader">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingHeader_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="BookingHeader" Type="Self.BookingHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="numRoomID" />
+            </Principal>
+            <Dependent Role="BookingHeader">
+              <PropertyRef Name="numRoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingHeader_RoomType">
+          <End Role="RoomType" Type="Self.RoomType" Multiplicity="0..1" />
+          <End Role="BookingHeader" Type="Self.BookingHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomType">
+              <PropertyRef Name="numRoomTypeID" />
+            </Principal>
+            <Dependent Role="BookingHeader">
+              <PropertyRef Name="numRoomTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Guest_GuestChargeType">
+          <End Role="GuestChargeType" Type="Self.GuestChargeType" Multiplicity="0..1" />
+          <End Role="Guest" Type="Self.Guest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GuestChargeType">
+              <PropertyRef Name="numGuestChargeTypeID" />
+            </Principal>
+            <Dependent Role="Guest">
+              <PropertyRef Name="numGuestChargeTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Item_ItemType">
+          <End Role="ItemType" Type="Self.ItemType" Multiplicity="0..1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemType">
+              <PropertyRef Name="numItemTypeID" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="numItemTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteRentalDetail_BookingDetail">
+          <End Role="BookingDetail" Type="Self.BookingDetail" Multiplicity="0..1" />
+          <End Role="KiteRentalDetail" Type="Self.KiteRentalDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingDetail">
+              <PropertyRef Name="numBookingDetailID" />
+            </Principal>
+            <Dependent Role="KiteRentalDetail">
+              <PropertyRef Name="numBookingDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteRentalDetails_KiteRentalHeader">
+          <End Role="KiteRentalHeader" Type="Self.KiteRentalHeader" Multiplicity="0..1" />
+          <End Role="KiteRentalDetail" Type="Self.KiteRentalDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KiteRentalHeader">
+              <PropertyRef Name="numKiteRentalHeaderID" />
+            </Principal>
+            <Dependent Role="KiteRentalDetail">
+              <PropertyRef Name="numKiteRentalHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteRentalHeader_BookingRefference">
+          <End Role="BookingRefference" Type="Self.BookingRefference" Multiplicity="0..1" />
+          <End Role="KiteRentalHeader" Type="Self.KiteRentalHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingRefference">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Principal>
+            <Dependent Role="KiteRentalHeader">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteRentalHeader_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
+          <End Role="KiteRentalHeader" Type="Self.KiteRentalHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="numItemID" />
+            </Principal>
+            <Dependent Role="KiteRentalHeader">
+              <PropertyRef Name="numItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteRentalRate_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
+          <End Role="KiteRentalRate" Type="Self.KiteRentalRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="numItemID" />
+            </Principal>
+            <Dependent Role="KiteRentalRate">
+              <PropertyRef Name="numItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteTrainingDetail_BookingDetail">
+          <End Role="BookingDetail" Type="Self.BookingDetail" Multiplicity="0..1" />
+          <End Role="KiteTrainingDetail" Type="Self.KiteTrainingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingDetail">
+              <PropertyRef Name="numBookingDetailID" />
+            </Principal>
+            <Dependent Role="KiteTrainingDetail">
+              <PropertyRef Name="numBookingDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteTrainingDetail_Instructor">
+          <End Role="Instructor" Type="Self.Instructor" Multiplicity="0..1" />
+          <End Role="KiteTrainingDetail" Type="Self.KiteTrainingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instructor">
+              <PropertyRef Name="numInstructorID" />
+            </Principal>
+            <Dependent Role="KiteTrainingDetail">
+              <PropertyRef Name="numInstructorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteTrainingDetails_KiteTrainingHeader">
+          <End Role="KiteTrainingHeader" Type="Self.KiteTrainingHeader" Multiplicity="0..1" />
+          <End Role="KiteTrainingDetail" Type="Self.KiteTrainingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KiteTrainingHeader">
+              <PropertyRef Name="numKiteTrainingHeaderID" />
+            </Principal>
+            <Dependent Role="KiteTrainingDetail">
+              <PropertyRef Name="numKiteTrainingHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteTrainingHeader_BookingRefference">
+          <End Role="BookingRefference" Type="Self.BookingRefference" Multiplicity="0..1" />
+          <End Role="KiteTrainingHeader" Type="Self.KiteTrainingHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingRefference">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Principal>
+            <Dependent Role="KiteTrainingHeader">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteTrainingHeader_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
+          <End Role="KiteTrainingHeader" Type="Self.KiteTrainingHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="numItemID" />
+            </Principal>
+            <Dependent Role="KiteTrainingHeader">
+              <PropertyRef Name="numItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteTrainingRate_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
+          <End Role="KiteTrainingRate" Type="Self.KiteTrainingRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="numItemID" />
+            </Principal>
+            <Dependent Role="KiteTrainingRate">
+              <PropertyRef Name="numItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationItemType_ItemType">
+          <End Role="ItemType" Type="Self.ItemType" Multiplicity="0..1" />
+          <End Role="LocationItemType" Type="Self.LocationItemType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemType">
+              <PropertyRef Name="numItemTypeID" />
+            </Principal>
+            <Dependent Role="LocationItemType">
+              <PropertyRef Name="numItemTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationItemType_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="LocationItemType" Type="Self.LocationItemType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="numLocationID" />
+            </Principal>
+            <Dependent Role="LocationItemType">
+              <PropertyRef Name="numLocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_BillHeader">
+          <End Role="BillHeader" Type="Self.BillHeader" Multiplicity="0..1" />
+          <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillHeader">
+              <PropertyRef Name="numBillHeaderID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="numBillHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_BookingHeader">
+          <End Role="BookingHeader" Type="Self.BookingHeader" Multiplicity="0..1" />
+          <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingHeader">
+              <PropertyRef Name="numBookingHeaderID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="numBookingHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_BookingRefference">
+          <End Role="BookingRefference" Type="Self.BookingRefference" Multiplicity="0..1" />
+          <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingRefference">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_Currency">
+          <End Role="Currency" Type="Self.Currency" Multiplicity="0..1" />
+          <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="numCurrencyID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="numCurrencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_PaymentType">
+          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="0..1" />
+          <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="numPaymentTypeID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="numPaymentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_ReciptType">
+          <End Role="ReciptType" Type="Self.ReciptType" Multiplicity="0..1" />
+          <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReciptType">
+              <PropertyRef Name="numReciptTypeID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="numReciptTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_RoomType">
+          <End Role="RoomType" Type="Self.RoomType" Multiplicity="0..1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomType">
+              <PropertyRef Name="numRoomTypeID" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="numRoomTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomTypeRate_RoomType">
+          <End Role="RoomType" Type="Self.RoomType" Multiplicity="0..1" />
+          <End Role="RoomTypeRate" Type="Self.RoomTypeRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomType">
+              <PropertyRef Name="numRoomTypeID" />
+            </Principal>
+            <Dependent Role="RoomTypeRate">
+              <PropertyRef Name="numRoomTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Permission">
+          <End Role="Permission" Type="Self.Permission" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="numPermissionID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="numPermissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KSL_HMSModelStoreContainer">
+          <EntitySet Name="Guest" EntityType="Self.Guest" Schema="GL" store:Type="Tables" />
+          <EntitySet Name="Instructor" EntityType="Self.Instructor" Schema="GL" store:Type="Tables" />
+          <EntitySet Name="Permission" EntityType="Self.Permission" Schema="GL" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="GL" store:Type="Tables" />
+          <EntitySet Name="ChargeType" EntityType="Self.ChargeType" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="Currency" EntityType="Self.Currency" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="GuestChargeType" EntityType="Self.GuestChargeType" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="Item" EntityType="Self.Item" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="ItemType" EntityType="Self.ItemType" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="KiteRentalRate" EntityType="Self.KiteRentalRate" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="KiteTrainingRate" EntityType="Self.KiteTrainingRate" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="LocationItemType" EntityType="Self.LocationItemType" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="ReciptType" EntityType="Self.ReciptType" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="Room" EntityType="Self.Room" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="RoomCheckInOut" EntityType="Self.RoomCheckInOut" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="RoomType" EntityType="Self.RoomType" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="RoomTypeRate" EntityType="Self.RoomTypeRate" Schema="MF" store:Type="Tables" />
+          <EntitySet Name="BillDetail" EntityType="Self.BillDetail" Schema="TR" store:Type="Tables" />
+          <EntitySet Name="BillHeader" EntityType="Self.BillHeader" Schema="TR" store:Type="Tables" />
+          <EntitySet Name="BookingDetail" EntityType="Self.BookingDetail" Schema="TR" store:Type="Tables" />
+          <EntitySet Name="BookingHeader" EntityType="Self.BookingHeader" Schema="TR" store:Type="Tables" />
+          <EntitySet Name="BookingRefference" EntityType="Self.BookingRefference" Schema="TR" store:Type="Tables" />
+          <EntitySet Name="KiteRentalDetail" EntityType="Self.KiteRentalDetail" Schema="TR" store:Type="Tables" />
+          <EntitySet Name="KiteRentalHeader" EntityType="Self.KiteRentalHeader" Schema="TR" store:Type="Tables" />
+          <EntitySet Name="KiteTrainingDetail" EntityType="Self.KiteTrainingDetail" Schema="TR" store:Type="Tables" />
+          <EntitySet Name="KiteTrainingHeader" EntityType="Self.KiteTrainingHeader" Schema="TR" store:Type="Tables" />
+          <EntitySet Name="Receipt" EntityType="Self.Receipt" Schema="TR" store:Type="Tables" />
+          <AssociationSet Name="FK_BillDetail_KiteRentalDetail" Association="Self.FK_BillDetail_KiteRentalDetail">
+            <End Role="KiteRentalDetail" EntitySet="KiteRentalDetail" />
+            <End Role="BillDetail" EntitySet="BillDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetail_KiteTrainingDetail" Association="Self.FK_BillDetail_KiteTrainingDetail">
+            <End Role="KiteTrainingDetail" EntitySet="KiteTrainingDetail" />
+            <End Role="BillDetail" EntitySet="BillDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetails_BillHeader" Association="Self.FK_BillDetails_BillHeader">
+            <End Role="BillHeader" EntitySet="BillHeader" />
+            <End Role="BillDetail" EntitySet="BillDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetails_BookingDetails" Association="Self.FK_BillDetails_BookingDetails">
+            <End Role="BookingDetail" EntitySet="BookingDetail" />
+            <End Role="BillDetail" EntitySet="BillDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetails_ChargeType" Association="Self.FK_BillDetails_ChargeType">
+            <End Role="ChargeType" EntitySet="ChargeType" />
+            <End Role="BillDetail" EntitySet="BillDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetails_Item" Association="Self.FK_BillDetails_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="BillDetail" EntitySet="BillDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetails_Location" Association="Self.FK_BillDetails_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="BillDetail" EntitySet="BillDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetails_Room" Association="Self.FK_BillDetails_Room">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="BillDetail" EntitySet="BillDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillHeader_BookingHeader" Association="Self.FK_BillHeader_BookingHeader">
+            <End Role="BookingHeader" EntitySet="BookingHeader" />
+            <End Role="BillHeader" EntitySet="BillHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillHeader_BookingRefference" Association="Self.FK_BillHeader_BookingRefference">
+            <End Role="BookingRefference" EntitySet="BookingRefference" />
+            <End Role="BillHeader" EntitySet="BillHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingDetails_BookingHeader" Association="Self.FK_BookingDetails_BookingHeader">
+            <End Role="BookingHeader" EntitySet="BookingHeader" />
+            <End Role="BookingDetail" EntitySet="BookingDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingDetails_Guest" Association="Self.FK_BookingDetails_Guest">
+            <End Role="Guest" EntitySet="Guest" />
+            <End Role="BookingDetail" EntitySet="BookingDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingHeader_BookingRefference" Association="Self.FK_BookingHeader_BookingRefference">
+            <End Role="BookingRefference" EntitySet="BookingRefference" />
+            <End Role="BookingHeader" EntitySet="BookingHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingHeader_Room" Association="Self.FK_BookingHeader_Room">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="BookingHeader" EntitySet="BookingHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingHeader_RoomType" Association="Self.FK_BookingHeader_RoomType">
+            <End Role="RoomType" EntitySet="RoomType" />
+            <End Role="BookingHeader" EntitySet="BookingHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Guest_GuestChargeType" Association="Self.FK_Guest_GuestChargeType">
+            <End Role="GuestChargeType" EntitySet="GuestChargeType" />
+            <End Role="Guest" EntitySet="Guest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Item_ItemType" Association="Self.FK_Item_ItemType">
+            <End Role="ItemType" EntitySet="ItemType" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteRentalDetail_BookingDetail" Association="Self.FK_KiteRentalDetail_BookingDetail">
+            <End Role="BookingDetail" EntitySet="BookingDetail" />
+            <End Role="KiteRentalDetail" EntitySet="KiteRentalDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteRentalDetails_KiteRentalHeader" Association="Self.FK_KiteRentalDetails_KiteRentalHeader">
+            <End Role="KiteRentalHeader" EntitySet="KiteRentalHeader" />
+            <End Role="KiteRentalDetail" EntitySet="KiteRentalDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteRentalHeader_BookingRefference" Association="Self.FK_KiteRentalHeader_BookingRefference">
+            <End Role="BookingRefference" EntitySet="BookingRefference" />
+            <End Role="KiteRentalHeader" EntitySet="KiteRentalHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteRentalHeader_Item" Association="Self.FK_KiteRentalHeader_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="KiteRentalHeader" EntitySet="KiteRentalHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteRentalRate_Item" Association="Self.FK_KiteRentalRate_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="KiteRentalRate" EntitySet="KiteRentalRate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteTrainingDetail_BookingDetail" Association="Self.FK_KiteTrainingDetail_BookingDetail">
+            <End Role="BookingDetail" EntitySet="BookingDetail" />
+            <End Role="KiteTrainingDetail" EntitySet="KiteTrainingDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteTrainingDetail_Instructor" Association="Self.FK_KiteTrainingDetail_Instructor">
+            <End Role="Instructor" EntitySet="Instructor" />
+            <End Role="KiteTrainingDetail" EntitySet="KiteTrainingDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteTrainingDetails_KiteTrainingHeader" Association="Self.FK_KiteTrainingDetails_KiteTrainingHeader">
+            <End Role="KiteTrainingHeader" EntitySet="KiteTrainingHeader" />
+            <End Role="KiteTrainingDetail" EntitySet="KiteTrainingDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteTrainingHeader_BookingRefference" Association="Self.FK_KiteTrainingHeader_BookingRefference">
+            <End Role="BookingRefference" EntitySet="BookingRefference" />
+            <End Role="KiteTrainingHeader" EntitySet="KiteTrainingHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteTrainingHeader_Item" Association="Self.FK_KiteTrainingHeader_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="KiteTrainingHeader" EntitySet="KiteTrainingHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteTrainingRate_Item" Association="Self.FK_KiteTrainingRate_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="KiteTrainingRate" EntitySet="KiteTrainingRate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationItemType_ItemType" Association="Self.FK_LocationItemType_ItemType">
+            <End Role="ItemType" EntitySet="ItemType" />
+            <End Role="LocationItemType" EntitySet="LocationItemType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationItemType_Location" Association="Self.FK_LocationItemType_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="LocationItemType" EntitySet="LocationItemType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_BillHeader" Association="Self.FK_Receipt_BillHeader">
+            <End Role="BillHeader" EntitySet="BillHeader" />
+            <End Role="Receipt" EntitySet="Receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_BookingHeader" Association="Self.FK_Receipt_BookingHeader">
+            <End Role="BookingHeader" EntitySet="BookingHeader" />
+            <End Role="Receipt" EntitySet="Receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_BookingRefference" Association="Self.FK_Receipt_BookingRefference">
+            <End Role="BookingRefference" EntitySet="BookingRefference" />
+            <End Role="Receipt" EntitySet="Receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_Currency" Association="Self.FK_Receipt_Currency">
+            <End Role="Currency" EntitySet="Currency" />
+            <End Role="Receipt" EntitySet="Receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_PaymentType" Association="Self.FK_Receipt_PaymentType">
+            <End Role="PaymentType" EntitySet="PaymentType" />
+            <End Role="Receipt" EntitySet="Receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_ReciptType" Association="Self.FK_Receipt_ReciptType">
+            <End Role="ReciptType" EntitySet="ReciptType" />
+            <End Role="Receipt" EntitySet="Receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_RoomType" Association="Self.FK_Room_RoomType">
+            <End Role="RoomType" EntitySet="RoomType" />
+            <End Role="Room" EntitySet="Room" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomTypeRate_RoomType" Association="Self.FK_RoomTypeRate_RoomType">
+            <End Role="RoomType" EntitySet="RoomType" />
+            <End Role="RoomTypeRate" EntitySet="RoomTypeRate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Permission" Association="Self.FK_User_Permission">
+            <End Role="Permission" EntitySet="Permission" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KSL_HMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Guest">
+          <Key>
+            <PropertyRef Name="numGuestID" />
+          </Key>
+          <Property Name="numGuestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varGuestName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="varGuestEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varGuestPPNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BookingDetails" Relationship="KSL_HMSModel.FK_BookingDetails_Guest" FromRole="Guest" ToRole="BookingDetail" />
+          <Property Name="numGuestChargeTypeID" Type="Int32" />
+          <NavigationProperty Name="GuestChargeType" Relationship="KSL_HMSModel.FK_Guest_GuestChargeType" FromRole="Guest" ToRole="GuestChargeType" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="numPermissionID" />
+          </Key>
+          <Property Name="numPermissionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varPermissionName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varPermissionDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="KSL_HMSModel.FK_User_Permission" FromRole="Permission" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="numLocationID" />
+          </Key>
+          <Property Name="numLocationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varLocationName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varLocationDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BillDetails" Relationship="KSL_HMSModel.FK_BillDetails_Location" FromRole="Location" ToRole="BillDetail" />
+          <NavigationProperty Name="LocationItemTypes" Relationship="KSL_HMSModel.FK_LocationItemType_Location" FromRole="Location" ToRole="LocationItemType" />
+        </EntityType>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="numPaymentTypeID" />
+          </Key>
+          <Property Name="numPaymentTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varPaymentTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varPaymentTypeDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Receipts" Relationship="KSL_HMSModel.FK_Receipt_PaymentType" FromRole="PaymentType" ToRole="Receipt" />
+        </EntityType>
+        <EntityType Name="ReciptType">
+          <Key>
+            <PropertyRef Name="numReciptTypeID" />
+          </Key>
+          <Property Name="numReciptTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varReciptTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varReciptTypeDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Receipts" Relationship="KSL_HMSModel.FK_Receipt_ReciptType" FromRole="ReciptType" ToRole="Receipt" />
+        </EntityType>
+        <EntityContainer Name="ConnectionHMSDB" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Guests" EntityType="Self.Guest" />
+          <EntitySet Name="Permissions" EntityType="Self.Permission" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
+          <EntitySet Name="ReciptTypes" EntityType="Self.ReciptType" />
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(KSL_HMSModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(KSL_HMSModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="Users" EntityType="KSL_HMSModel.User" />
+          <EntitySet Name="Items" EntityType="KSL_HMSModel.Item" />
+          <AssociationSet Name="FK_User_Permission" Association="KSL_HMSModel.FK_User_Permission">
+            <End Role="Permission" EntitySet="Permissions" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="ChargeTypes" EntityType="KSL_HMSModel.ChargeType" />
+          <EntitySet Name="BillHeaders" EntityType="KSL_HMSModel.BillHeader" />
+          <EntitySet Name="ItemTypes" EntityType="KSL_HMSModel.ItemType" />
+          <AssociationSet Name="FK_Item_ItemType" Association="KSL_HMSModel.FK_Item_ItemType">
+            <End Role="ItemType" EntitySet="ItemTypes" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <EntitySet Name="BillDetails" EntityType="KSL_HMSModel.BillDetail" />
+          <AssociationSet Name="FK_BillDetails_ChargeType" Association="KSL_HMSModel.FK_BillDetails_ChargeType">
+            <End Role="ChargeType" EntitySet="ChargeTypes" />
+            <End Role="BillDetail" EntitySet="BillDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetails_Item" Association="KSL_HMSModel.FK_BillDetails_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="BillDetail" EntitySet="BillDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetails_Location" Association="KSL_HMSModel.FK_BillDetails_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="BillDetail" EntitySet="BillDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetails_BillHeader" Association="KSL_HMSModel.FK_BillDetails_BillHeader">
+            <End Role="BillHeader" EntitySet="BillHeaders" />
+            <End Role="BillDetail" EntitySet="BillDetails" />
+          </AssociationSet>
+          <EntitySet Name="BookingHeaders" EntityType="KSL_HMSModel.BookingHeader" />
+          <AssociationSet Name="FK_BillHeader_BookingHeader" Association="KSL_HMSModel.FK_BillHeader_BookingHeader">
+            <End Role="BookingHeader" EntitySet="BookingHeaders" />
+            <End Role="BillHeader" EntitySet="BillHeaders" />
+          </AssociationSet>
+          <EntitySet Name="BookingDetails" EntityType="KSL_HMSModel.BookingDetail" />
+          <AssociationSet Name="FK_BookingDetails_Guest" Association="KSL_HMSModel.FK_BookingDetails_Guest">
+            <End Role="Guest" EntitySet="Guests" />
+            <End Role="BookingDetail" EntitySet="BookingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetails_BookingDetails" Association="KSL_HMSModel.FK_BillDetails_BookingDetails">
+            <End Role="BookingDetail" EntitySet="BookingDetails" />
+            <End Role="BillDetail" EntitySet="BillDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingDetails_BookingHeader" Association="KSL_HMSModel.FK_BookingDetails_BookingHeader">
+            <End Role="BookingHeader" EntitySet="BookingHeaders" />
+            <End Role="BookingDetail" EntitySet="BookingDetails" />
+          </AssociationSet>
+          <EntitySet Name="RoomTypeRates" EntityType="KSL_HMSModel.RoomTypeRate" />
+          <EntitySet Name="KiteTrainingRates" EntityType="KSL_HMSModel.KiteTrainingRate" />
+          <AssociationSet Name="FK_KiteTrainingRate_Item" Association="KSL_HMSModel.FK_KiteTrainingRate_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="KiteTrainingRate" EntitySet="KiteTrainingRates" />
+          </AssociationSet>
+          <EntitySet Name="KiteRentalRates" EntityType="KSL_HMSModel.KiteRentalRate" />
+          <AssociationSet Name="FK_KiteRentalRate_Item" Association="KSL_HMSModel.FK_KiteRentalRate_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="KiteRentalRate" EntitySet="KiteRentalRates" />
+          </AssociationSet>
+          <EntitySet Name="Receipts" EntityType="KSL_HMSModel.Receipt" />
+          <AssociationSet Name="FK_Receipt_PaymentType" Association="KSL_HMSModel.FK_Receipt_PaymentType">
+            <End Role="PaymentType" EntitySet="PaymentTypes" />
+            <End Role="Receipt" EntitySet="Receipts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_ReciptType" Association="KSL_HMSModel.FK_Receipt_ReciptType">
+            <End Role="ReciptType" EntitySet="ReciptTypes" />
+            <End Role="Receipt" EntitySet="Receipts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_BillHeader" Association="KSL_HMSModel.FK_Receipt_BillHeader">
+            <End Role="BillHeader" EntitySet="BillHeaders" />
+            <End Role="Receipt" EntitySet="Receipts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_BookingHeader" Association="KSL_HMSModel.FK_Receipt_BookingHeader">
+            <End Role="BookingHeader" EntitySet="BookingHeaders" />
+            <End Role="Receipt" EntitySet="Receipts" />
+          </AssociationSet>
+          <EntitySet Name="Instructors" EntityType="KSL_HMSModel.Instructor" />
+          <EntitySet Name="Currencies" EntityType="KSL_HMSModel.Currency" />
+          <EntitySet Name="GuestChargeTypes" EntityType="KSL_HMSModel.GuestChargeType" />
+          <EntitySet Name="LocationItemTypes" EntityType="KSL_HMSModel.LocationItemType" />
+          <EntitySet Name="BookingRefferences" EntityType="KSL_HMSModel.BookingRefference" />
+          <AssociationSet Name="FK_Guest_GuestChargeType" Association="KSL_HMSModel.FK_Guest_GuestChargeType">
+            <End Role="GuestChargeType" EntitySet="GuestChargeTypes" />
+            <End Role="Guest" EntitySet="Guests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_Currency" Association="KSL_HMSModel.FK_Receipt_Currency">
+            <End Role="Currency" EntitySet="Currencies" />
+            <End Role="Receipt" EntitySet="Receipts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationItemType_ItemType" Association="KSL_HMSModel.FK_LocationItemType_ItemType">
+            <End Role="ItemType" EntitySet="ItemTypes" />
+            <End Role="LocationItemType" EntitySet="LocationItemTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationItemType_Location" Association="KSL_HMSModel.FK_LocationItemType_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="LocationItemType" EntitySet="LocationItemTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillHeader_BookingRefference" Association="KSL_HMSModel.FK_BillHeader_BookingRefference">
+            <End Role="BookingRefference" EntitySet="BookingRefferences" />
+            <End Role="BillHeader" EntitySet="BillHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingHeader_BookingRefference" Association="KSL_HMSModel.FK_BookingHeader_BookingRefference">
+            <End Role="BookingRefference" EntitySet="BookingRefferences" />
+            <End Role="BookingHeader" EntitySet="BookingHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_BookingRefference" Association="KSL_HMSModel.FK_Receipt_BookingRefference">
+            <End Role="BookingRefference" EntitySet="BookingRefferences" />
+            <End Role="Receipt" EntitySet="Receipts" />
+          </AssociationSet>
+          <EntitySet Name="Rooms" EntityType="KSL_HMSModel.Room" />
+          <AssociationSet Name="FK_BillDetails_Room" Association="KSL_HMSModel.FK_BillDetails_Room">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="BillDetail" EntitySet="BillDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingHeader_Room" Association="KSL_HMSModel.FK_BookingHeader_Room">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="BookingHeader" EntitySet="BookingHeaders" />
+          </AssociationSet>
+          <EntitySet Name="KiteRentalDetails" EntityType="KSL_HMSModel.KiteRentalDetail" />
+          <EntitySet Name="KiteRentalHeaders" EntityType="KSL_HMSModel.KiteRentalHeader" />
+          <EntitySet Name="KiteTrainingDetails" EntityType="KSL_HMSModel.KiteTrainingDetail" />
+          <EntitySet Name="KiteTrainingHeaders" EntityType="KSL_HMSModel.KiteTrainingHeader" />
+          <AssociationSet Name="FK_KiteTrainingDetail_Instructor" Association="KSL_HMSModel.FK_KiteTrainingDetail_Instructor">
+            <End Role="Instructor" EntitySet="Instructors" />
+            <End Role="KiteTrainingDetail" EntitySet="KiteTrainingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteRentalHeader_Item" Association="KSL_HMSModel.FK_KiteRentalHeader_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="KiteRentalHeader" EntitySet="KiteRentalHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteTrainingHeader_Item" Association="KSL_HMSModel.FK_KiteTrainingHeader_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="KiteTrainingHeader" EntitySet="KiteTrainingHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetail_KiteRentalDetail" Association="KSL_HMSModel.FK_BillDetail_KiteRentalDetail">
+            <End Role="KiteRentalDetail" EntitySet="KiteRentalDetails" />
+            <End Role="BillDetail" EntitySet="BillDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillDetail_KiteTrainingDetail" Association="KSL_HMSModel.FK_BillDetail_KiteTrainingDetail">
+            <End Role="KiteTrainingDetail" EntitySet="KiteTrainingDetails" />
+            <End Role="BillDetail" EntitySet="BillDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteRentalDetail_BookingDetail" Association="KSL_HMSModel.FK_KiteRentalDetail_BookingDetail">
+            <End Role="BookingDetail" EntitySet="BookingDetails" />
+            <End Role="KiteRentalDetail" EntitySet="KiteRentalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteTrainingDetail_BookingDetail" Association="KSL_HMSModel.FK_KiteTrainingDetail_BookingDetail">
+            <End Role="BookingDetail" EntitySet="BookingDetails" />
+            <End Role="KiteTrainingDetail" EntitySet="KiteTrainingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteRentalHeader_BookingRefference" Association="KSL_HMSModel.FK_KiteRentalHeader_BookingRefference">
+            <End Role="BookingRefference" EntitySet="BookingRefferences" />
+            <End Role="KiteRentalHeader" EntitySet="KiteRentalHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteTrainingHeader_BookingRefference" Association="KSL_HMSModel.FK_KiteTrainingHeader_BookingRefference">
+            <End Role="BookingRefference" EntitySet="BookingRefferences" />
+            <End Role="KiteTrainingHeader" EntitySet="KiteTrainingHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteRentalDetails_KiteRentalHeader" Association="KSL_HMSModel.FK_KiteRentalDetails_KiteRentalHeader">
+            <End Role="KiteRentalHeader" EntitySet="KiteRentalHeaders" />
+            <End Role="KiteRentalDetail" EntitySet="KiteRentalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KiteTrainingDetails_KiteTrainingHeader" Association="KSL_HMSModel.FK_KiteTrainingDetails_KiteTrainingHeader">
+            <End Role="KiteTrainingHeader" EntitySet="KiteTrainingHeaders" />
+            <End Role="KiteTrainingDetail" EntitySet="KiteTrainingDetails" />
+          </AssociationSet>
+          <EntitySet Name="RoomCheckInOuts" EntityType="KSL_HMSModel.RoomCheckInOut" />
+          <EntitySet Name="RoomTypes" EntityType="KSL_HMSModel.RoomType" />
+          <AssociationSet Name="FK_Room_RoomType" Association="KSL_HMSModel.FK_Room_RoomType">
+            <End Role="RoomType" EntitySet="RoomTypes" />
+            <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingHeader_RoomType" Association="KSL_HMSModel.FK_BookingHeader_RoomType">
+            <End Role="RoomType" EntitySet="RoomTypes" />
+            <End Role="BookingHeader" EntitySet="BookingHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomTypeRate_RoomType" Association="KSL_HMSModel.FK_RoomTypeRate_RoomType">
+            <End Role="RoomType" EntitySet="RoomTypes" />
+            <End Role="RoomTypeRate" EntitySet="RoomTypeRates" />
+          </AssociationSet>
+          </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="numUserID" />
+          </Key>
+          <Property Name="numUserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varFirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varNIC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varEPF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="numPermissionID" Type="Int32" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Permission" Relationship="KSL_HMSModel.FK_User_Permission" FromRole="User" ToRole="Permission" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="numItemID" />
+          </Key>
+          <Property Name="numItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varItemName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varItemDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="numItemTypeID" Type="Int32" />
+          <Property Name="numRatePerUnit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ItemType" Relationship="KSL_HMSModel.FK_Item_ItemType" FromRole="Item" ToRole="ItemType" />
+          <NavigationProperty Name="BillDetails" Relationship="KSL_HMSModel.FK_BillDetails_Item" FromRole="Item" ToRole="BillDetail" />
+          <NavigationProperty Name="KiteTrainingRates" Relationship="KSL_HMSModel.FK_KiteTrainingRate_Item" FromRole="Item" ToRole="KiteTrainingRate" />
+          <NavigationProperty Name="KiteRentalRates" Relationship="KSL_HMSModel.FK_KiteRentalRate_Item" FromRole="Item" ToRole="KiteRentalRate" />
+          <Property Name="bitIsDeleted" Type="Boolean" />
+          <Property Name="numItemOrder" Type="Int32" />
+          <NavigationProperty Name="KiteRentalHeaders" Relationship="KSL_HMSModel.FK_KiteRentalHeader_Item" FromRole="Item" ToRole="KiteRentalHeader" />
+          <NavigationProperty Name="KiteTrainingHeaders" Relationship="KSL_HMSModel.FK_KiteTrainingHeader_Item" FromRole="Item" ToRole="KiteTrainingHeader" />
+        </EntityType>
+        <Association Name="FK_User_Permission">
+          <End Type="KSL_HMSModel.Permission" Role="Permission" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="numPermissionID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="numPermissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ChargeType">
+          <Key>
+            <PropertyRef Name="numChargeTypeID" />
+          </Key>
+          <Property Name="numChargeTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varChargeTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varChargeTypeDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BillDetails" Relationship="KSL_HMSModel.FK_BillDetails_ChargeType" FromRole="ChargeType" ToRole="BillDetail" />
+        </EntityType>
+        <EntityType Name="BillHeader">
+          <Key>
+            <PropertyRef Name="numBillHeaderID" />
+          </Key>
+          <Property Name="numBillHeaderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numBookingHeaderID" Type="Int32" />
+          <Property Name="numTotalCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numPayedAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numBalanceToPay" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BillDetails" Relationship="KSL_HMSModel.FK_BillDetails_BillHeader" FromRole="BillHeader" ToRole="BillDetail" />
+          <NavigationProperty Name="BookingHeader" Relationship="KSL_HMSModel.FK_BillHeader_BookingHeader" FromRole="BillHeader" ToRole="BookingHeader" />
+          <NavigationProperty Name="Receipts" Relationship="KSL_HMSModel.FK_Receipt_BillHeader" FromRole="BillHeader" ToRole="Receipt" />
+          <Property Name="numBookingRefferenceID" Type="Int32" />
+          <NavigationProperty Name="BookingRefference" Relationship="KSL_HMSModel.FK_BillHeader_BookingRefference" FromRole="BillHeader" ToRole="BookingRefference" />
+        </EntityType>
+        <EntityType Name="ItemType">
+          <Key>
+            <PropertyRef Name="numItemTypeID" />
+          </Key>
+          <Property Name="numItemTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varItemTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varItemTypeDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Items" Relationship="KSL_HMSModel.FK_Item_ItemType" FromRole="ItemType" ToRole="Item" />
+          <NavigationProperty Name="LocationItemTypes" Relationship="KSL_HMSModel.FK_LocationItemType_ItemType" FromRole="ItemType" ToRole="LocationItemType" />
+        </EntityType>
+        <Association Name="FK_Item_ItemType">
+          <End Type="KSL_HMSModel.ItemType" Role="ItemType" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemType">
+              <PropertyRef Name="numItemTypeID" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="numItemTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BillDetail">
+          <Key>
+            <PropertyRef Name="numBillDetailID" />
+          </Key>
+          <Property Name="numBillDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numBillHeaderID" Type="Int32" />
+          <Property Name="numChargeTypeID" Type="Int32" />
+          <Property Name="numRoomID" Type="Int32" />
+          <Property Name="numLocationID" Type="Int32" />
+          <Property Name="numItemID" Type="Int32" />
+          <Property Name="numBookingDetailID" Type="Int32" />
+          <Property Name="numCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numQuantity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitDiscountOffered" Type="Boolean" />
+          <Property Name="numDiscount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numFinalCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ChargeType" Relationship="KSL_HMSModel.FK_BillDetails_ChargeType" FromRole="BillDetail" ToRole="ChargeType" />
+          <NavigationProperty Name="Item" Relationship="KSL_HMSModel.FK_BillDetails_Item" FromRole="BillDetail" ToRole="Item" />
+          <NavigationProperty Name="Location" Relationship="KSL_HMSModel.FK_BillDetails_Location" FromRole="BillDetail" ToRole="Location" />
+          <NavigationProperty Name="BillHeader" Relationship="KSL_HMSModel.FK_BillDetails_BillHeader" FromRole="BillDetail" ToRole="BillHeader" />
+          <NavigationProperty Name="BookingDetail" Relationship="KSL_HMSModel.FK_BillDetails_BookingDetails" FromRole="BillDetail" ToRole="BookingDetail" />
+          <Property Name="numDuration" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numKiteRentalDetailID" Type="Int32" />
+          <Property Name="numKiteTrainingDetailID" Type="Int32" />
+          <NavigationProperty Name="Room" Relationship="KSL_HMSModel.FK_BillDetails_Room" FromRole="BillDetail" ToRole="Room" />
+          <NavigationProperty Name="KiteRentalDetail" Relationship="KSL_HMSModel.FK_BillDetail_KiteRentalDetail" FromRole="BillDetail" ToRole="KiteRentalDetail" />
+          <NavigationProperty Name="KiteTrainingDetail" Relationship="KSL_HMSModel.FK_BillDetail_KiteTrainingDetail" FromRole="BillDetail" ToRole="KiteTrainingDetail" />
+        </EntityType>
+        <Association Name="FK_BillDetails_ChargeType">
+          <End Type="KSL_HMSModel.ChargeType" Role="ChargeType" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BillDetail" Role="BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChargeType">
+              <PropertyRef Name="numChargeTypeID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numChargeTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetails_Item">
+          <End Type="KSL_HMSModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BillDetail" Role="BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="numItemID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetails_Location">
+          <End Type="KSL_HMSModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BillDetail" Role="BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="numLocationID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numLocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetails_BillHeader">
+          <End Type="KSL_HMSModel.BillHeader" Role="BillHeader" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BillDetail" Role="BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillHeader">
+              <PropertyRef Name="numBillHeaderID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numBillHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BookingHeader">
+          <Key>
+            <PropertyRef Name="numBookingHeaderID" />
+          </Key>
+          <Property Name="numBookingHeaderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtFromDate" Type="DateTime" Precision="3" />
+          <Property Name="dtToDate" Type="DateTime" Precision="3" />
+          <Property Name="numRoomTypeID" Type="Int32" />
+          <Property Name="numRoomID" Type="Int32" />
+          <Property Name="bitStandardRate" Type="Boolean" />
+          <Property Name="numRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitTransportRequired" Type="Boolean" />
+          <Property Name="varFlightDetails" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="dtCheckInDateTime" Type="DateTime" Precision="3" />
+          <Property Name="dtCheckOutDateTime" Type="DateTime" Precision="3" />
+          <Property Name="varRemarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="bitKSLessonRequired" Type="Boolean" />
+          <Property Name="dtKsLessonRequiredFrom" Type="DateTime" Precision="0" />
+          <Property Name="dtKsLessonRequiredTo" Type="DateTime" Precision="0" />
+          <Property Name="bitKSRentalRequired" Type="Boolean" />
+          <Property Name="dtKSRentalRequiredFrom" Type="DateTime" Precision="0" />
+          <Property Name="dtKSRentalRequiredTo" Type="DateTime" Precision="0" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="bitCheckedIn" Type="Boolean" />
+          <Property Name="bitCheckedOut" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BillHeaders" Relationship="KSL_HMSModel.FK_BillHeader_BookingHeader" FromRole="BookingHeader" ToRole="BillHeader" />
+          <NavigationProperty Name="BookingDetails" Relationship="KSL_HMSModel.FK_BookingDetails_BookingHeader" FromRole="BookingHeader" ToRole="BookingDetail" />
+          <NavigationProperty Name="Receipts" Relationship="KSL_HMSModel.FK_Receipt_BookingHeader" FromRole="BookingHeader" ToRole="Receipt" />
+          <Property Name="numBookingRefferenceID" Type="Int32" />
+          <NavigationProperty Name="BookingRefference" Relationship="KSL_HMSModel.FK_BookingHeader_BookingRefference" FromRole="BookingHeader" ToRole="BookingRefference" />
+          <NavigationProperty Name="Room" Relationship="KSL_HMSModel.FK_BookingHeader_Room" FromRole="BookingHeader" ToRole="Room" />
+          <Property Name="numAdultsCount" Type="Int32" />
+          <Property Name="numChildrensCount" Type="Int32" />
+          <Property Name="numInfantsCount" Type="Int32" />
+          <Property Name="varBookingPersonName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="varBookingPersonEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="bitAgentRequired" Type="Boolean" />
+          <Property Name="varAgentName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RoomType" Relationship="KSL_HMSModel.FK_BookingHeader_RoomType" FromRole="BookingHeader" ToRole="RoomType" />
+        </EntityType>
+        <Association Name="FK_BillHeader_BookingHeader">
+          <End Type="KSL_HMSModel.BookingHeader" Role="BookingHeader" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BillHeader" Role="BillHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingHeader">
+              <PropertyRef Name="numBookingHeaderID" />
+            </Principal>
+            <Dependent Role="BillHeader">
+              <PropertyRef Name="numBookingHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BookingDetail">
+          <Key>
+            <PropertyRef Name="numBookingDetailID" />
+          </Key>
+          <Property Name="numBookingDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numBookingHeaderID" Type="Int32" />
+          <Property Name="numGuestID" Type="Int32" />
+          <Property Name="bitPrimaryGuest" Type="Boolean" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Guest" Relationship="KSL_HMSModel.FK_BookingDetails_Guest" FromRole="BookingDetail" ToRole="Guest" />
+          <NavigationProperty Name="BillDetails" Relationship="KSL_HMSModel.FK_BillDetails_BookingDetails" FromRole="BookingDetail" ToRole="BillDetail" />
+          <NavigationProperty Name="BookingHeader" Relationship="KSL_HMSModel.FK_BookingDetails_BookingHeader" FromRole="BookingDetail" ToRole="BookingHeader" />
+          <NavigationProperty Name="KiteRentalDetails" Relationship="KSL_HMSModel.FK_KiteRentalDetail_BookingDetail" FromRole="BookingDetail" ToRole="KiteRentalDetail" />
+          <NavigationProperty Name="KiteTrainingDetails" Relationship="KSL_HMSModel.FK_KiteTrainingDetail_BookingDetail" FromRole="BookingDetail" ToRole="KiteTrainingDetail" />
+        </EntityType>
+        <Association Name="FK_BookingDetails_Guest">
+          <End Type="KSL_HMSModel.Guest" Role="Guest" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BookingDetail" Role="BookingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="numGuestID" />
+            </Principal>
+            <Dependent Role="BookingDetail">
+              <PropertyRef Name="numGuestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetails_BookingDetails">
+          <End Type="KSL_HMSModel.BookingDetail" Role="BookingDetail" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BillDetail" Role="BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingDetail">
+              <PropertyRef Name="numBookingDetailID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numBookingDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingDetails_BookingHeader">
+          <End Type="KSL_HMSModel.BookingHeader" Role="BookingHeader" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BookingDetail" Role="BookingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingHeader">
+              <PropertyRef Name="numBookingHeaderID" />
+            </Principal>
+            <Dependent Role="BookingDetail">
+              <PropertyRef Name="numBookingHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="RoomTypeRate">
+          <Key>
+            <PropertyRef Name="numRoomTypeRateID" />
+          </Key>
+          <Property Name="numRoomTypeRateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numRoomTypeID" Type="Int32" />
+          <Property Name="numRatePerPerson" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <Property Name="numPersonCount" Type="Int32" />
+          <NavigationProperty Name="RoomType" Relationship="KSL_HMSModel.FK_RoomTypeRate_RoomType" FromRole="RoomTypeRate" ToRole="RoomType" />
+        </EntityType>
+        <EntityType Name="KiteTrainingRate">
+          <Key>
+            <PropertyRef Name="numKiteTrainingRateID" />
+          </Key>
+          <Property Name="numKiteTrainingRateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numItemID" Type="Int32" />
+          <Property Name="numKiteTrainingRateHours" Type="Int32" Nullable="false" />
+          <Property Name="numKiteTrainingRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Item" Relationship="KSL_HMSModel.FK_KiteTrainingRate_Item" FromRole="KiteTrainingRate" ToRole="Item" />
+        </EntityType>
+        <Association Name="FK_KiteTrainingRate_Item">
+          <End Type="KSL_HMSModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.KiteTrainingRate" Role="KiteTrainingRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="numItemID" />
+            </Principal>
+            <Dependent Role="KiteTrainingRate">
+              <PropertyRef Name="numItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="KiteRentalRate">
+          <Key>
+            <PropertyRef Name="numKiteRentalRateID" />
+          </Key>
+          <Property Name="numKiteRentalRateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numItemID" Type="Int32" />
+          <Property Name="numKiteRentalRateDays" Type="Int32" Nullable="false" />
+          <Property Name="numKiteRentalRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Item" Relationship="KSL_HMSModel.FK_KiteRentalRate_Item" FromRole="KiteRentalRate" ToRole="Item" />
+        </EntityType>
+        <Association Name="FK_KiteRentalRate_Item">
+          <End Type="KSL_HMSModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.KiteRentalRate" Role="KiteRentalRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="numItemID" />
+            </Principal>
+            <Dependent Role="KiteRentalRate">
+              <PropertyRef Name="numItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Receipt">
+          <Key>
+            <PropertyRef Name="numReceiptID" />
+          </Key>
+          <Property Name="numReceiptID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varReceiptNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="numBookingHeaderID" Type="Int32" />
+          <Property Name="numBillHeaderID" Type="Int32" />
+          <Property Name="numPaymentTypeID" Type="Int32" />
+          <Property Name="numReciptTypeID" Type="Int32" />
+          <Property Name="numAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PaymentType" Relationship="KSL_HMSModel.FK_Receipt_PaymentType" FromRole="Receipt" ToRole="PaymentType" />
+          <NavigationProperty Name="ReciptType" Relationship="KSL_HMSModel.FK_Receipt_ReciptType" FromRole="Receipt" ToRole="ReciptType" />
+          <NavigationProperty Name="BillHeader" Relationship="KSL_HMSModel.FK_Receipt_BillHeader" FromRole="Receipt" ToRole="BillHeader" />
+          <NavigationProperty Name="BookingHeader" Relationship="KSL_HMSModel.FK_Receipt_BookingHeader" FromRole="Receipt" ToRole="BookingHeader" />
+          <Property Name="numBookingRefferenceID" Type="Int32" />
+          <Property Name="bitSingleBooking" Type="Boolean" />
+          <Property Name="numCurrencyID" Type="Int32" />
+          <Property Name="bitIsDefaultCurrency" Type="Boolean" />
+          <NavigationProperty Name="Currency" Relationship="KSL_HMSModel.FK_Receipt_Currency" FromRole="Receipt" ToRole="Currency" />
+          <NavigationProperty Name="BookingRefference" Relationship="KSL_HMSModel.FK_Receipt_BookingRefference" FromRole="Receipt" ToRole="BookingRefference" />
+          <Property Name="numCurrencyRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numPayInCurrencyAmount" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <Association Name="FK_Receipt_PaymentType">
+          <End Type="KSL_HMSModel.PaymentType" Role="PaymentType" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.Receipt" Role="Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="numPaymentTypeID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="numPaymentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_ReciptType">
+          <End Type="KSL_HMSModel.ReciptType" Role="ReciptType" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.Receipt" Role="Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReciptType">
+              <PropertyRef Name="numReciptTypeID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="numReciptTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_BillHeader">
+          <End Type="KSL_HMSModel.BillHeader" Role="BillHeader" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.Receipt" Role="Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillHeader">
+              <PropertyRef Name="numBillHeaderID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="numBillHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_BookingHeader">
+          <End Type="KSL_HMSModel.BookingHeader" Role="BookingHeader" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.Receipt" Role="Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingHeader">
+              <PropertyRef Name="numBookingHeaderID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="numBookingHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Instructor">
+          <Key>
+            <PropertyRef Name="numInstructorID" />
+          </Key>
+          <Property Name="numInstructorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varInstructorName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="varInstructorEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varInstructorNIC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="KiteTrainingDetails" Relationship="KSL_HMSModel.FK_KiteTrainingDetail_Instructor" FromRole="Instructor" ToRole="KiteTrainingDetail" />
+        </EntityType>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="numCurrencyID" />
+          </Key>
+          <Property Name="numCurrencyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varCurrencyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varCurrencyCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="numRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Receipts" Relationship="KSL_HMSModel.FK_Receipt_Currency" FromRole="Currency" ToRole="Receipt" />
+        </EntityType>
+        <EntityType Name="GuestChargeType">
+          <Key>
+            <PropertyRef Name="numGuestChargeTypeID" />
+          </Key>
+          <Property Name="numGuestChargeTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varGuestChargeTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varGuestChargeTypeDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="numChargeTypeDiscount" Type="Int32" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Guests" Relationship="KSL_HMSModel.FK_Guest_GuestChargeType" FromRole="GuestChargeType" ToRole="Guest" />
+        </EntityType>
+        <EntityType Name="LocationItemType">
+          <Key>
+            <PropertyRef Name="numLocationItemTypeID" />
+          </Key>
+          <Property Name="numLocationItemTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numLocationID" Type="Int32" />
+          <Property Name="numItemTypeID" Type="Int32" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ItemType" Relationship="KSL_HMSModel.FK_LocationItemType_ItemType" FromRole="LocationItemType" ToRole="ItemType" />
+          <NavigationProperty Name="Location" Relationship="KSL_HMSModel.FK_LocationItemType_Location" FromRole="LocationItemType" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="BookingRefference">
+          <Key>
+            <PropertyRef Name="numBookingRefferenceID" />
+          </Key>
+          <Property Name="numBookingRefferenceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varBookingRefferenceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bitClosed" Type="Boolean" />
+          <Property Name="bitPayed" Type="Boolean" />
+          <Property Name="bitExternalBooking" Type="Boolean" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BillHeaders" Relationship="KSL_HMSModel.FK_BillHeader_BookingRefference" FromRole="BookingRefference" ToRole="BillHeader" />
+          <NavigationProperty Name="BookingHeaders" Relationship="KSL_HMSModel.FK_BookingHeader_BookingRefference" FromRole="BookingRefference" ToRole="BookingHeader" />
+          <NavigationProperty Name="Receipts" Relationship="KSL_HMSModel.FK_Receipt_BookingRefference" FromRole="BookingRefference" ToRole="Receipt" />
+          <NavigationProperty Name="KiteRentalHeaders" Relationship="KSL_HMSModel.FK_KiteRentalHeader_BookingRefference" FromRole="BookingRefference" ToRole="KiteRentalHeader" />
+          <NavigationProperty Name="KiteTrainingHeaders" Relationship="KSL_HMSModel.FK_KiteTrainingHeader_BookingRefference" FromRole="BookingRefference" ToRole="KiteTrainingHeader" />
+        </EntityType>
+        <Association Name="FK_Guest_GuestChargeType">
+          <End Type="KSL_HMSModel.GuestChargeType" Role="GuestChargeType" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.Guest" Role="Guest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GuestChargeType">
+              <PropertyRef Name="numGuestChargeTypeID" />
+            </Principal>
+            <Dependent Role="Guest">
+              <PropertyRef Name="numGuestChargeTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_Currency">
+          <End Type="KSL_HMSModel.Currency" Role="Currency" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.Receipt" Role="Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="numCurrencyID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="numCurrencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationItemType_ItemType">
+          <End Type="KSL_HMSModel.ItemType" Role="ItemType" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.LocationItemType" Role="LocationItemType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemType">
+              <PropertyRef Name="numItemTypeID" />
+            </Principal>
+            <Dependent Role="LocationItemType">
+              <PropertyRef Name="numItemTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationItemType_Location">
+          <End Type="KSL_HMSModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.LocationItemType" Role="LocationItemType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="numLocationID" />
+            </Principal>
+            <Dependent Role="LocationItemType">
+              <PropertyRef Name="numLocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillHeader_BookingRefference">
+          <End Type="KSL_HMSModel.BookingRefference" Role="BookingRefference" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BillHeader" Role="BillHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingRefference">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Principal>
+            <Dependent Role="BillHeader">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingHeader_BookingRefference">
+          <End Type="KSL_HMSModel.BookingRefference" Role="BookingRefference" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BookingHeader" Role="BookingHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingRefference">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Principal>
+            <Dependent Role="BookingHeader">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_BookingRefference">
+          <End Type="KSL_HMSModel.BookingRefference" Role="BookingRefference" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.Receipt" Role="Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingRefference">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="numRoomID" />
+          </Key>
+          <Property Name="numRoomID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numRoomTypeID" Type="Int32" />
+          <Property Name="varRoomName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varRoomDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="numMaxPaxAllowed" Type="Int32" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BillDetails" Relationship="KSL_HMSModel.FK_BillDetails_Room" FromRole="Room" ToRole="BillDetail" />
+          <NavigationProperty Name="BookingHeaders" Relationship="KSL_HMSModel.FK_BookingHeader_Room" FromRole="Room" ToRole="BookingHeader" />
+          <Property Name="varRoomNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RoomType" Relationship="KSL_HMSModel.FK_Room_RoomType" FromRole="Room" ToRole="RoomType" />
+        </EntityType>
+        <Association Name="FK_BillDetails_Room">
+          <End Type="KSL_HMSModel.Room" Role="Room" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BillDetail" Role="BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="numRoomID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numRoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingHeader_Room">
+          <End Type="KSL_HMSModel.Room" Role="Room" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BookingHeader" Role="BookingHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="numRoomID" />
+            </Principal>
+            <Dependent Role="BookingHeader">
+              <PropertyRef Name="numRoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="KiteRentalDetail">
+          <Key>
+            <PropertyRef Name="numKiteRentalDetailID" />
+          </Key>
+          <Property Name="numKiteRentalDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numKiteRentalHeaderID" Type="Int32" />
+          <Property Name="numBookingDetailID" Type="Int32" />
+          <Property Name="dtKiteRentalDate" Type="DateTime" Precision="3" />
+          <Property Name="numKiteRentalQuantity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numKiteRentalDays" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numKiteRentalRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numKiteRentalCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BillDetails" Relationship="KSL_HMSModel.FK_BillDetail_KiteRentalDetail" FromRole="KiteRentalDetail" ToRole="BillDetail" />
+          <NavigationProperty Name="BookingDetail" Relationship="KSL_HMSModel.FK_KiteRentalDetail_BookingDetail" FromRole="KiteRentalDetail" ToRole="BookingDetail" />
+          <NavigationProperty Name="KiteRentalHeader" Relationship="KSL_HMSModel.FK_KiteRentalDetails_KiteRentalHeader" FromRole="KiteRentalDetail" ToRole="KiteRentalHeader" />
+        </EntityType>
+        <EntityType Name="KiteRentalHeader">
+          <Key>
+            <PropertyRef Name="numKiteRentalHeaderID" />
+          </Key>
+          <Property Name="numKiteRentalHeaderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numBookingRefferenceID" Type="Int32" />
+          <Property Name="numItemID" Type="Int32" />
+          <Property Name="numTotalRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numTotalDays" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numTotalCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Item" Relationship="KSL_HMSModel.FK_KiteRentalHeader_Item" FromRole="KiteRentalHeader" ToRole="Item" />
+          <NavigationProperty Name="BookingRefference" Relationship="KSL_HMSModel.FK_KiteRentalHeader_BookingRefference" FromRole="KiteRentalHeader" ToRole="BookingRefference" />
+          <NavigationProperty Name="KiteRentalDetails" Relationship="KSL_HMSModel.FK_KiteRentalDetails_KiteRentalHeader" FromRole="KiteRentalHeader" ToRole="KiteRentalDetail" />
+        </EntityType>
+        <EntityType Name="KiteTrainingDetail">
+          <Key>
+            <PropertyRef Name="numKiteTrainingDetailID" />
+          </Key>
+          <Property Name="numKiteTrainingDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numKiteTrainingHeaderID" Type="Int32" />
+          <Property Name="numBookingDetailID" Type="Int32" />
+          <Property Name="numInstructorID" Type="Int32" />
+          <Property Name="dtKiteTrainingDate" Type="DateTime" Precision="3" />
+          <Property Name="numTrainingPaxCount" Type="Int32" />
+          <Property Name="numKiteTrainingHours" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numKiteTrainingRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numKiteTrainingCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Instructor" Relationship="KSL_HMSModel.FK_KiteTrainingDetail_Instructor" FromRole="KiteTrainingDetail" ToRole="Instructor" />
+          <NavigationProperty Name="BillDetails" Relationship="KSL_HMSModel.FK_BillDetail_KiteTrainingDetail" FromRole="KiteTrainingDetail" ToRole="BillDetail" />
+          <NavigationProperty Name="BookingDetail" Relationship="KSL_HMSModel.FK_KiteTrainingDetail_BookingDetail" FromRole="KiteTrainingDetail" ToRole="BookingDetail" />
+          <NavigationProperty Name="KiteTrainingHeader" Relationship="KSL_HMSModel.FK_KiteTrainingDetails_KiteTrainingHeader" FromRole="KiteTrainingDetail" ToRole="KiteTrainingHeader" />
+        </EntityType>
+        <EntityType Name="KiteTrainingHeader">
+          <Key>
+            <PropertyRef Name="numKiteTrainingHeaderID" />
+          </Key>
+          <Property Name="numKiteTrainingHeaderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numBookingRefferenceID" Type="Int32" />
+          <Property Name="numItemID" Type="Int32" />
+          <Property Name="numTotalRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numTotalHours" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="numTotalCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Item" Relationship="KSL_HMSModel.FK_KiteTrainingHeader_Item" FromRole="KiteTrainingHeader" ToRole="Item" />
+          <NavigationProperty Name="BookingRefference" Relationship="KSL_HMSModel.FK_KiteTrainingHeader_BookingRefference" FromRole="KiteTrainingHeader" ToRole="BookingRefference" />
+          <NavigationProperty Name="KiteTrainingDetails" Relationship="KSL_HMSModel.FK_KiteTrainingDetails_KiteTrainingHeader" FromRole="KiteTrainingHeader" ToRole="KiteTrainingDetail" />
+        </EntityType>
+        <Association Name="FK_KiteTrainingDetail_Instructor">
+          <End Type="KSL_HMSModel.Instructor" Role="Instructor" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.KiteTrainingDetail" Role="KiteTrainingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instructor">
+              <PropertyRef Name="numInstructorID" />
+            </Principal>
+            <Dependent Role="KiteTrainingDetail">
+              <PropertyRef Name="numInstructorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteRentalHeader_Item">
+          <End Type="KSL_HMSModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.KiteRentalHeader" Role="KiteRentalHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="numItemID" />
+            </Principal>
+            <Dependent Role="KiteRentalHeader">
+              <PropertyRef Name="numItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteTrainingHeader_Item">
+          <End Type="KSL_HMSModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.KiteTrainingHeader" Role="KiteTrainingHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="numItemID" />
+            </Principal>
+            <Dependent Role="KiteTrainingHeader">
+              <PropertyRef Name="numItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetail_KiteRentalDetail">
+          <End Type="KSL_HMSModel.KiteRentalDetail" Role="KiteRentalDetail" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BillDetail" Role="BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KiteRentalDetail">
+              <PropertyRef Name="numKiteRentalDetailID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numKiteRentalDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillDetail_KiteTrainingDetail">
+          <End Type="KSL_HMSModel.KiteTrainingDetail" Role="KiteTrainingDetail" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BillDetail" Role="BillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KiteTrainingDetail">
+              <PropertyRef Name="numKiteTrainingDetailID" />
+            </Principal>
+            <Dependent Role="BillDetail">
+              <PropertyRef Name="numKiteTrainingDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteRentalDetail_BookingDetail">
+          <End Type="KSL_HMSModel.BookingDetail" Role="BookingDetail" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.KiteRentalDetail" Role="KiteRentalDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingDetail">
+              <PropertyRef Name="numBookingDetailID" />
+            </Principal>
+            <Dependent Role="KiteRentalDetail">
+              <PropertyRef Name="numBookingDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteTrainingDetail_BookingDetail">
+          <End Type="KSL_HMSModel.BookingDetail" Role="BookingDetail" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.KiteTrainingDetail" Role="KiteTrainingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingDetail">
+              <PropertyRef Name="numBookingDetailID" />
+            </Principal>
+            <Dependent Role="KiteTrainingDetail">
+              <PropertyRef Name="numBookingDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteRentalHeader_BookingRefference">
+          <End Type="KSL_HMSModel.BookingRefference" Role="BookingRefference" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.KiteRentalHeader" Role="KiteRentalHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingRefference">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Principal>
+            <Dependent Role="KiteRentalHeader">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteTrainingHeader_BookingRefference">
+          <End Type="KSL_HMSModel.BookingRefference" Role="BookingRefference" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.KiteTrainingHeader" Role="KiteTrainingHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingRefference">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Principal>
+            <Dependent Role="KiteTrainingHeader">
+              <PropertyRef Name="numBookingRefferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteRentalDetails_KiteRentalHeader">
+          <End Type="KSL_HMSModel.KiteRentalHeader" Role="KiteRentalHeader" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.KiteRentalDetail" Role="KiteRentalDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KiteRentalHeader">
+              <PropertyRef Name="numKiteRentalHeaderID" />
+            </Principal>
+            <Dependent Role="KiteRentalDetail">
+              <PropertyRef Name="numKiteRentalHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KiteTrainingDetails_KiteTrainingHeader">
+          <End Type="KSL_HMSModel.KiteTrainingHeader" Role="KiteTrainingHeader" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.KiteTrainingDetail" Role="KiteTrainingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KiteTrainingHeader">
+              <PropertyRef Name="numKiteTrainingHeaderID" />
+            </Principal>
+            <Dependent Role="KiteTrainingDetail">
+              <PropertyRef Name="numKiteTrainingHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="RoomCheckInOut">
+          <Key>
+            <PropertyRef Name="numRoomCheckInOutID" />
+          </Key>
+          <Property Name="numRoomCheckInOutID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varRoomCheckInTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varRoomCheckOutTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="RoomType">
+          <Key>
+            <PropertyRef Name="numRoomTypeID" />
+          </Key>
+          <Property Name="numRoomTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="varRoomTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="varRoomTypeDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="bitActive" Type="Boolean" />
+          <Property Name="numCreatedByID" Type="Int32" />
+          <Property Name="dtCreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="numUpdatetdByID" Type="Int32" />
+          <Property Name="dtUpdatetDate" Type="DateTime" Precision="3" />
+          <Property Name="numDeletedByID" Type="Int32" />
+          <Property Name="dtDeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Rooms" Relationship="KSL_HMSModel.FK_Room_RoomType" FromRole="RoomType" ToRole="Room" />
+          <NavigationProperty Name="BookingHeaders" Relationship="KSL_HMSModel.FK_BookingHeader_RoomType" FromRole="RoomType" ToRole="BookingHeader" />
+          <NavigationProperty Name="RoomTypeRates" Relationship="KSL_HMSModel.FK_RoomTypeRate_RoomType" FromRole="RoomType" ToRole="RoomTypeRate" />
+        </EntityType>
+        <Association Name="FK_Room_RoomType">
+          <End Type="KSL_HMSModel.RoomType" Role="RoomType" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.Room" Role="Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomType">
+              <PropertyRef Name="numRoomTypeID" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="numRoomTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingHeader_RoomType">
+          <End Type="KSL_HMSModel.RoomType" Role="RoomType" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.BookingHeader" Role="BookingHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomType">
+              <PropertyRef Name="numRoomTypeID" />
+            </Principal>
+            <Dependent Role="BookingHeader">
+              <PropertyRef Name="numRoomTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomTypeRate_RoomType">
+          <End Type="KSL_HMSModel.RoomType" Role="RoomType" Multiplicity="0..1" />
+          <End Type="KSL_HMSModel.RoomTypeRate" Role="RoomTypeRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomType">
+              <PropertyRef Name="numRoomTypeID" />
+            </Principal>
+            <Dependent Role="RoomTypeRate">
+              <PropertyRef Name="numRoomTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KSL_HMSModelStoreContainer" CdmEntityContainer="ConnectionHMSDB">
+          <EntitySetMapping Name="Guests">
+            <EntityTypeMapping TypeName="KSL_HMSModel.Guest">
+              <MappingFragment StoreEntitySet="Guest">
+                <ScalarProperty Name="numGuestChargeTypeID" ColumnName="numGuestChargeTypeID" />
+                <ScalarProperty Name="numGuestID" ColumnName="numGuestID" />
+                <ScalarProperty Name="varGuestName" ColumnName="varGuestName" />
+                <ScalarProperty Name="varGuestEmail" ColumnName="varGuestEmail" />
+                <ScalarProperty Name="varGuestPPNo" ColumnName="varGuestPPNo" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="KSL_HMSModel.Permission">
+              <MappingFragment StoreEntitySet="Permission">
+                <ScalarProperty Name="numPermissionID" ColumnName="numPermissionID" />
+                <ScalarProperty Name="varPermissionName" ColumnName="varPermissionName" />
+                <ScalarProperty Name="varPermissionDescription" ColumnName="varPermissionDescription" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="KSL_HMSModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="numLocationID" ColumnName="numLocationID" />
+                <ScalarProperty Name="varLocationName" ColumnName="varLocationName" />
+                <ScalarProperty Name="varLocationDescription" ColumnName="varLocationDescription" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentTypes">
+            <EntityTypeMapping TypeName="KSL_HMSModel.PaymentType">
+              <MappingFragment StoreEntitySet="PaymentType">
+                <ScalarProperty Name="numPaymentTypeID" ColumnName="numPaymentTypeID" />
+                <ScalarProperty Name="varPaymentTypeName" ColumnName="varPaymentTypeName" />
+                <ScalarProperty Name="varPaymentTypeDescription" ColumnName="varPaymentTypeDescription" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReciptTypes">
+            <EntityTypeMapping TypeName="KSL_HMSModel.ReciptType">
+              <MappingFragment StoreEntitySet="ReciptType">
+                <ScalarProperty Name="numReciptTypeID" ColumnName="numReciptTypeID" />
+                <ScalarProperty Name="varReciptTypeName" ColumnName="varReciptTypeName" />
+                <ScalarProperty Name="varReciptTypeDescription" ColumnName="varReciptTypeDescription" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="KSL_HMSModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numPermissionID" ColumnName="numPermissionID" />
+                <ScalarProperty Name="varEmail" ColumnName="varEmail" />
+                <ScalarProperty Name="varEPF" ColumnName="varEPF" />
+                <ScalarProperty Name="varNIC" ColumnName="varNIC" />
+                <ScalarProperty Name="varPassword" ColumnName="varPassword" />
+                <ScalarProperty Name="varUserName" ColumnName="varUserName" />
+                <ScalarProperty Name="varLastName" ColumnName="varLastName" />
+                <ScalarProperty Name="varFirstName" ColumnName="varFirstName" />
+                <ScalarProperty Name="numUserID" ColumnName="numUserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="KSL_HMSModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="numItemOrder" ColumnName="numItemOrder" />
+                <ScalarProperty Name="bitIsDeleted" ColumnName="bitIsDeleted" />
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numRatePerUnit" ColumnName="numRatePerUnit" />
+                <ScalarProperty Name="numItemTypeID" ColumnName="numItemTypeID" />
+                <ScalarProperty Name="varItemDescription" ColumnName="varItemDescription" />
+                <ScalarProperty Name="varItemName" ColumnName="varItemName" />
+                <ScalarProperty Name="numItemID" ColumnName="numItemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChargeTypes">
+            <EntityTypeMapping TypeName="KSL_HMSModel.ChargeType">
+              <MappingFragment StoreEntitySet="ChargeType">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="varChargeTypeDescription" ColumnName="varChargeTypeDescription" />
+                <ScalarProperty Name="varChargeTypeName" ColumnName="varChargeTypeName" />
+                <ScalarProperty Name="numChargeTypeID" ColumnName="numChargeTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillHeaders">
+            <EntityTypeMapping TypeName="KSL_HMSModel.BillHeader">
+              <MappingFragment StoreEntitySet="BillHeader">
+                <ScalarProperty Name="numBookingRefferenceID" ColumnName="numBookingRefferenceID" />
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numBalanceToPay" ColumnName="numBalanceToPay" />
+                <ScalarProperty Name="numPayedAmount" ColumnName="numPayedAmount" />
+                <ScalarProperty Name="numTotalCost" ColumnName="numTotalCost" />
+                <ScalarProperty Name="numBookingHeaderID" ColumnName="numBookingHeaderID" />
+                <ScalarProperty Name="numBillHeaderID" ColumnName="numBillHeaderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemTypes">
+            <EntityTypeMapping TypeName="KSL_HMSModel.ItemType">
+              <MappingFragment StoreEntitySet="ItemType">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="varItemTypeDescription" ColumnName="varItemTypeDescription" />
+                <ScalarProperty Name="varItemTypeName" ColumnName="varItemTypeName" />
+                <ScalarProperty Name="numItemTypeID" ColumnName="numItemTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillDetails">
+            <EntityTypeMapping TypeName="KSL_HMSModel.BillDetail">
+              <MappingFragment StoreEntitySet="BillDetail">
+                <ScalarProperty Name="numKiteTrainingDetailID" ColumnName="numKiteTrainingDetailID" />
+                <ScalarProperty Name="numKiteRentalDetailID" ColumnName="numKiteRentalDetailID" />
+                <ScalarProperty Name="numDuration" ColumnName="numDuration" />
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numFinalCost" ColumnName="numFinalCost" />
+                <ScalarProperty Name="numDiscount" ColumnName="numDiscount" />
+                <ScalarProperty Name="bitDiscountOffered" ColumnName="bitDiscountOffered" />
+                <ScalarProperty Name="numQuantity" ColumnName="numQuantity" />
+                <ScalarProperty Name="numCost" ColumnName="numCost" />
+                <ScalarProperty Name="numBookingDetailID" ColumnName="numBookingDetailID" />
+                <ScalarProperty Name="numItemID" ColumnName="numItemID" />
+                <ScalarProperty Name="numLocationID" ColumnName="numLocationID" />
+                <ScalarProperty Name="numRoomID" ColumnName="numRoomID" />
+                <ScalarProperty Name="numChargeTypeID" ColumnName="numChargeTypeID" />
+                <ScalarProperty Name="numBillHeaderID" ColumnName="numBillHeaderID" />
+                <ScalarProperty Name="numBillDetailID" ColumnName="numBillDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookingHeaders">
+            <EntityTypeMapping TypeName="KSL_HMSModel.BookingHeader">
+              <MappingFragment StoreEntitySet="BookingHeader">
+                <ScalarProperty Name="varAgentName" ColumnName="varAgentName" />
+                <ScalarProperty Name="bitAgentRequired" ColumnName="bitAgentRequired" />
+                <ScalarProperty Name="varBookingPersonEmail" ColumnName="varBookingPersonEmail" />
+                <ScalarProperty Name="varBookingPersonName" ColumnName="varBookingPersonName" />
+                <ScalarProperty Name="numInfantsCount" ColumnName="numInfantsCount" />
+                <ScalarProperty Name="numChildrensCount" ColumnName="numChildrensCount" />
+                <ScalarProperty Name="numAdultsCount" ColumnName="numAdultsCount" />
+                <ScalarProperty Name="numBookingRefferenceID" ColumnName="numBookingRefferenceID" />
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitCheckedOut" ColumnName="bitCheckedOut" />
+                <ScalarProperty Name="bitCheckedIn" ColumnName="bitCheckedIn" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="dtKSRentalRequiredTo" ColumnName="dtKSRentalRequiredTo" />
+                <ScalarProperty Name="dtKSRentalRequiredFrom" ColumnName="dtKSRentalRequiredFrom" />
+                <ScalarProperty Name="bitKSRentalRequired" ColumnName="bitKSRentalRequired" />
+                <ScalarProperty Name="dtKsLessonRequiredTo" ColumnName="dtKsLessonRequiredTo" />
+                <ScalarProperty Name="dtKsLessonRequiredFrom" ColumnName="dtKsLessonRequiredFrom" />
+                <ScalarProperty Name="bitKSLessonRequired" ColumnName="bitKSLessonRequired" />
+                <ScalarProperty Name="varRemarks" ColumnName="varRemarks" />
+                <ScalarProperty Name="dtCheckOutDateTime" ColumnName="dtCheckOutDateTime" />
+                <ScalarProperty Name="dtCheckInDateTime" ColumnName="dtCheckInDateTime" />
+                <ScalarProperty Name="varFlightDetails" ColumnName="varFlightDetails" />
+                <ScalarProperty Name="bitTransportRequired" ColumnName="bitTransportRequired" />
+                <ScalarProperty Name="numRate" ColumnName="numRate" />
+                <ScalarProperty Name="bitStandardRate" ColumnName="bitStandardRate" />
+                <ScalarProperty Name="numRoomID" ColumnName="numRoomID" />
+                <ScalarProperty Name="numRoomTypeID" ColumnName="numRoomTypeID" />
+                <ScalarProperty Name="dtToDate" ColumnName="dtToDate" />
+                <ScalarProperty Name="dtFromDate" ColumnName="dtFromDate" />
+                <ScalarProperty Name="numBookingHeaderID" ColumnName="numBookingHeaderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookingDetails">
+            <EntityTypeMapping TypeName="KSL_HMSModel.BookingDetail">
+              <MappingFragment StoreEntitySet="BookingDetail">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="bitPrimaryGuest" ColumnName="bitPrimaryGuest" />
+                <ScalarProperty Name="numGuestID" ColumnName="numGuestID" />
+                <ScalarProperty Name="numBookingHeaderID" ColumnName="numBookingHeaderID" />
+                <ScalarProperty Name="numBookingDetailID" ColumnName="numBookingDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoomTypeRates">
+            <EntityTypeMapping TypeName="KSL_HMSModel.RoomTypeRate">
+              <MappingFragment StoreEntitySet="RoomTypeRate">
+                <ScalarProperty Name="numPersonCount" ColumnName="numPersonCount" />
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numRatePerPerson" ColumnName="numRatePerPerson" />
+                <ScalarProperty Name="numRoomTypeID" ColumnName="numRoomTypeID" />
+                <ScalarProperty Name="numRoomTypeRateID" ColumnName="numRoomTypeRateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KiteTrainingRates">
+            <EntityTypeMapping TypeName="KSL_HMSModel.KiteTrainingRate">
+              <MappingFragment StoreEntitySet="KiteTrainingRate">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numKiteTrainingRate" ColumnName="numKiteTrainingRate" />
+                <ScalarProperty Name="numKiteTrainingRateHours" ColumnName="numKiteTrainingRateHours" />
+                <ScalarProperty Name="numItemID" ColumnName="numItemID" />
+                <ScalarProperty Name="numKiteTrainingRateID" ColumnName="numKiteTrainingRateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KiteRentalRates">
+            <EntityTypeMapping TypeName="KSL_HMSModel.KiteRentalRate">
+              <MappingFragment StoreEntitySet="KiteRentalRate">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numKiteRentalRate" ColumnName="numKiteRentalRate" />
+                <ScalarProperty Name="numKiteRentalRateDays" ColumnName="numKiteRentalRateDays" />
+                <ScalarProperty Name="numItemID" ColumnName="numItemID" />
+                <ScalarProperty Name="numKiteRentalRateID" ColumnName="numKiteRentalRateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Receipts">
+            <EntityTypeMapping TypeName="KSL_HMSModel.Receipt">
+              <MappingFragment StoreEntitySet="Receipt">
+                <ScalarProperty Name="numPayInCurrencyAmount" ColumnName="numPayInCurrencyAmount" />
+                <ScalarProperty Name="numCurrencyRate" ColumnName="numCurrencyRate" />
+                <ScalarProperty Name="bitIsDefaultCurrency" ColumnName="bitIsDefaultCurrency" />
+                <ScalarProperty Name="numCurrencyID" ColumnName="numCurrencyID" />
+                <ScalarProperty Name="bitSingleBooking" ColumnName="bitSingleBooking" />
+                <ScalarProperty Name="numBookingRefferenceID" ColumnName="numBookingRefferenceID" />
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numAmount" ColumnName="numAmount" />
+                <ScalarProperty Name="numReciptTypeID" ColumnName="numReciptTypeID" />
+                <ScalarProperty Name="numPaymentTypeID" ColumnName="numPaymentTypeID" />
+                <ScalarProperty Name="numBillHeaderID" ColumnName="numBillHeaderID" />
+                <ScalarProperty Name="numBookingHeaderID" ColumnName="numBookingHeaderID" />
+                <ScalarProperty Name="varReceiptNo" ColumnName="varReceiptNo" />
+                <ScalarProperty Name="numReceiptID" ColumnName="numReceiptID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Instructors">
+            <EntityTypeMapping TypeName="KSL_HMSModel.Instructor">
+              <MappingFragment StoreEntitySet="Instructor">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="varInstructorNIC" ColumnName="varInstructorNIC" />
+                <ScalarProperty Name="varInstructorEmail" ColumnName="varInstructorEmail" />
+                <ScalarProperty Name="varInstructorName" ColumnName="varInstructorName" />
+                <ScalarProperty Name="numInstructorID" ColumnName="numInstructorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Currencies">
+            <EntityTypeMapping TypeName="KSL_HMSModel.Currency">
+              <MappingFragment StoreEntitySet="Currency">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numRate" ColumnName="numRate" />
+                <ScalarProperty Name="varCurrencyCode" ColumnName="varCurrencyCode" />
+                <ScalarProperty Name="varCurrencyName" ColumnName="varCurrencyName" />
+                <ScalarProperty Name="numCurrencyID" ColumnName="numCurrencyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GuestChargeTypes">
+            <EntityTypeMapping TypeName="KSL_HMSModel.GuestChargeType">
+              <MappingFragment StoreEntitySet="GuestChargeType">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numChargeTypeDiscount" ColumnName="numChargeTypeDiscount" />
+                <ScalarProperty Name="varGuestChargeTypeDescription" ColumnName="varGuestChargeTypeDescription" />
+                <ScalarProperty Name="varGuestChargeTypeName" ColumnName="varGuestChargeTypeName" />
+                <ScalarProperty Name="numGuestChargeTypeID" ColumnName="numGuestChargeTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationItemTypes">
+            <EntityTypeMapping TypeName="KSL_HMSModel.LocationItemType">
+              <MappingFragment StoreEntitySet="LocationItemType">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numItemTypeID" ColumnName="numItemTypeID" />
+                <ScalarProperty Name="numLocationID" ColumnName="numLocationID" />
+                <ScalarProperty Name="numLocationItemTypeID" ColumnName="numLocationItemTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookingRefferences">
+            <EntityTypeMapping TypeName="KSL_HMSModel.BookingRefference">
+              <MappingFragment StoreEntitySet="BookingRefference">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="bitExternalBooking" ColumnName="bitExternalBooking" />
+                <ScalarProperty Name="bitPayed" ColumnName="bitPayed" />
+                <ScalarProperty Name="bitClosed" ColumnName="bitClosed" />
+                <ScalarProperty Name="varBookingRefferenceNo" ColumnName="varBookingRefferenceNo" />
+                <ScalarProperty Name="numBookingRefferenceID" ColumnName="numBookingRefferenceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="KSL_HMSModel.Room">
+              <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="varRoomNo" ColumnName="varRoomNo" />
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numMaxPaxAllowed" ColumnName="numMaxPaxAllowed" />
+                <ScalarProperty Name="varRoomDescription" ColumnName="varRoomDescription" />
+                <ScalarProperty Name="varRoomName" ColumnName="varRoomName" />
+                <ScalarProperty Name="numRoomTypeID" ColumnName="numRoomTypeID" />
+                <ScalarProperty Name="numRoomID" ColumnName="numRoomID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KiteRentalDetails">
+            <EntityTypeMapping TypeName="KSL_HMSModel.KiteRentalDetail">
+              <MappingFragment StoreEntitySet="KiteRentalDetail">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numKiteRentalCost" ColumnName="numKiteRentalCost" />
+                <ScalarProperty Name="numKiteRentalRate" ColumnName="numKiteRentalRate" />
+                <ScalarProperty Name="numKiteRentalDays" ColumnName="numKiteRentalDays" />
+                <ScalarProperty Name="numKiteRentalQuantity" ColumnName="numKiteRentalQuantity" />
+                <ScalarProperty Name="dtKiteRentalDate" ColumnName="dtKiteRentalDate" />
+                <ScalarProperty Name="numBookingDetailID" ColumnName="numBookingDetailID" />
+                <ScalarProperty Name="numKiteRentalHeaderID" ColumnName="numKiteRentalHeaderID" />
+                <ScalarProperty Name="numKiteRentalDetailID" ColumnName="numKiteRentalDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KiteRentalHeaders">
+            <EntityTypeMapping TypeName="KSL_HMSModel.KiteRentalHeader">
+              <MappingFragment StoreEntitySet="KiteRentalHeader">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numTotalCost" ColumnName="numTotalCost" />
+                <ScalarProperty Name="numTotalDays" ColumnName="numTotalDays" />
+                <ScalarProperty Name="numTotalRate" ColumnName="numTotalRate" />
+                <ScalarProperty Name="numItemID" ColumnName="numItemID" />
+                <ScalarProperty Name="numBookingRefferenceID" ColumnName="numBookingRefferenceID" />
+                <ScalarProperty Name="numKiteRentalHeaderID" ColumnName="numKiteRentalHeaderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KiteTrainingDetails">
+            <EntityTypeMapping TypeName="KSL_HMSModel.KiteTrainingDetail">
+              <MappingFragment StoreEntitySet="KiteTrainingDetail">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numKiteTrainingCost" ColumnName="numKiteTrainingCost" />
+                <ScalarProperty Name="numKiteTrainingRate" ColumnName="numKiteTrainingRate" />
+                <ScalarProperty Name="numKiteTrainingHours" ColumnName="numKiteTrainingHours" />
+                <ScalarProperty Name="numTrainingPaxCount" ColumnName="numTrainingPaxCount" />
+                <ScalarProperty Name="dtKiteTrainingDate" ColumnName="dtKiteTrainingDate" />
+                <ScalarProperty Name="numInstructorID" ColumnName="numInstructorID" />
+                <ScalarProperty Name="numBookingDetailID" ColumnName="numBookingDetailID" />
+                <ScalarProperty Name="numKiteTrainingHeaderID" ColumnName="numKiteTrainingHeaderID" />
+                <ScalarProperty Name="numKiteTrainingDetailID" ColumnName="numKiteTrainingDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KiteTrainingHeaders">
+            <EntityTypeMapping TypeName="KSL_HMSModel.KiteTrainingHeader">
+              <MappingFragment StoreEntitySet="KiteTrainingHeader">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="numTotalCost" ColumnName="numTotalCost" />
+                <ScalarProperty Name="numTotalHours" ColumnName="numTotalHours" />
+                <ScalarProperty Name="numTotalRate" ColumnName="numTotalRate" />
+                <ScalarProperty Name="numItemID" ColumnName="numItemID" />
+                <ScalarProperty Name="numBookingRefferenceID" ColumnName="numBookingRefferenceID" />
+                <ScalarProperty Name="numKiteTrainingHeaderID" ColumnName="numKiteTrainingHeaderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoomCheckInOuts">
+            <EntityTypeMapping TypeName="KSL_HMSModel.RoomCheckInOut">
+              <MappingFragment StoreEntitySet="RoomCheckInOut">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="varRoomCheckOutTime" ColumnName="varRoomCheckOutTime" />
+                <ScalarProperty Name="varRoomCheckInTime" ColumnName="varRoomCheckInTime" />
+                <ScalarProperty Name="numRoomCheckInOutID" ColumnName="numRoomCheckInOutID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoomTypes">
+            <EntityTypeMapping TypeName="KSL_HMSModel.RoomType">
+              <MappingFragment StoreEntitySet="RoomType">
+                <ScalarProperty Name="dtDeletedDate" ColumnName="dtDeletedDate" />
+                <ScalarProperty Name="numDeletedByID" ColumnName="numDeletedByID" />
+                <ScalarProperty Name="dtUpdatetDate" ColumnName="dtUpdatetDate" />
+                <ScalarProperty Name="numUpdatetdByID" ColumnName="numUpdatetdByID" />
+                <ScalarProperty Name="dtCreatedDate" ColumnName="dtCreatedDate" />
+                <ScalarProperty Name="numCreatedByID" ColumnName="numCreatedByID" />
+                <ScalarProperty Name="bitActive" ColumnName="bitActive" />
+                <ScalarProperty Name="varRoomTypeDescription" ColumnName="varRoomTypeDescription" />
+                <ScalarProperty Name="varRoomTypeName" ColumnName="varRoomTypeName" />
+                <ScalarProperty Name="numRoomTypeID" ColumnName="numRoomTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

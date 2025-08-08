@@ -1,0 +1,255 @@
+﻿@model KSL_HMS.DB.BookingHeader
+
+@{
+    ViewBag.Booking = "active open";
+    ViewBag.NewExternalBooking = "active";
+    ViewBag.Title = "New External Booking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Assest/vendor/libs/toastr/toastr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/flatpickr/flatpickr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/animate-css/animate.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/typeahead-js/typeaheadjs.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+
+<div class="card mb-4">
+    @using (Html.BeginForm("CreateExternal", "BookingHeaders", FormMethod.Post, new { @class = "card-body" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h4>New External Booking</h4>
+        <hr class="my-4 mx-n4" />
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label" for="varGuestPPNo">Passport No | NIC  <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.varGuestPPNo, new { htmlAttributes = new { @class = "form-control", @id = "varGuestPPNo", placeholder = "Passport No | NIC...", autocomplete = "off", @required = "", @title = "Please Enter Passport No | NIC." } })
+                @Html.ValidationMessageFor(model => model.varGuestPPNo, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="varGuestName">Name  <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.varGuestName, new { htmlAttributes = new { @class = "form-control", @id = "varGuestName", placeholder = "Name...", autocomplete = "off", @required = "", @title = "Please Enter Name." } })
+                @Html.ValidationMessageFor(model => model.varGuestName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="varGuestEmail">Email  <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.varGuestEmail, new { htmlAttributes = new { @class = "form-control", @id = "varGuestEmail", placeholder = "Email...", autocomplete = "off", @required = "", @title = "Please Enter Email." } })
+                @Html.ValidationMessageFor(model => model.varGuestEmail, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="numGuestChargeTypeID">Age Category  <sup class="text-danger">*</sup></label>
+                @Html.DropDownList("numGuestChargeTypeID", null, "Select Age...", htmlAttributes: new { @class = "form-control", @required = "Select Age Category", @title = "Please Select Age Category.", @id = "numGuestChargeTypeID" })
+                @Html.ValidationMessageFor(model => model.numGuestChargeTypeID, "", new { @class = "text-danger", @id = "numGuestChargeTypeID" })
+            </div>
+        </div>
+        <br />
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label" for="bitKSLessonRequired">Kite Surfing Lessons Required  <sup class="text-danger">*</sup></label><br />
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(model => model.bitKSLessonRequired, "True", new { @id = "bitKSLessonRequired1", @class = "form-check-input" })
+                    @Html.LabelFor(model => model.bitKSLessonRequired, "Yes", new { @for = "bitKSLessonRequired1", @class = "form-check-label" })
+                </div>
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(model => model.bitKSLessonRequired, "False", new { @id = "bitKSLessonRequired2", @class = "form-check-input", @checked = "" })
+                    @Html.LabelFor(model => model.bitKSLessonRequired, "No", new { @for = "bitKSLessonRequired2", @class = "form-check-label" })
+                </div>
+                @Html.ValidationMessageFor(model => model.bitKSLessonRequired, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3" id="KsLessonRequiredDiv">
+                <label class="form-label" for="varKsLessonRequiredStartToEndDates">Required Period  <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.varKsLessonRequiredStartToEndDates, new { htmlAttributes = new { @class = "form-control", @id = "varKsLessonRequiredStartToEndDates", @type = "text", placeholder = "Required Period...", autocomplete = "off", @required = "", @title = "Please Select Required Period." } })
+                @Html.ValidationMessageFor(model => model.varKsLessonRequiredStartToEndDates, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.dtKsLessonRequiredFrom, new { @id = "dtKsLessonRequiredFrom" })
+                @Html.HiddenFor(model => model.dtKsLessonRequiredTo, new { @id = "dtKsLessonRequiredTo" })
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="bitKSRentalRequired">Kite Rental Required  <sup class="text-danger">*</sup></label><br />
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(model => model.bitKSRentalRequired, "True", new { @id = "bitKSRentalRequired1", @class = "form-check-input" })
+                    @Html.LabelFor(model => model.bitKSRentalRequired, "Yes", new { @for = "bitKSRentalRequired1", @class = "form-check-label" })
+                </div>
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(model => model.bitKSRentalRequired, "False", new { @id = "bitKSRentalRequired2", @class = "form-check-input", @checked = "" })
+                    @Html.LabelFor(model => model.bitKSRentalRequired, "No", new { @for = "bitKSRentalRequired2", @class = "form-check-label" })
+                </div>
+                @Html.ValidationMessageFor(model => model.bitKSRentalRequired, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3" id="KsRentalRequiredDiv">
+                <label class="form-label" for="varKSRentalRequiredStartToEndDates">Required Period  <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.varKSRentalRequiredStartToEndDates, new { htmlAttributes = new { @class = "form-control", @id = "varKSRentalRequiredStartToEndDates", @type = "text", placeholder = "Required Period...", autocomplete = "off", @required = "", @title = "Please Select Required Period." } })
+                @Html.ValidationMessageFor(model => model.varKSRentalRequiredStartToEndDates, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.dtKSRentalRequiredFrom, new { @id = "dtKSRentalRequiredFrom" })
+                @Html.HiddenFor(model => model.dtKSRentalRequiredTo, new { @id = "dtKSRentalRequiredTo" })
+            </div>
+        </div>
+        <br />
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label" for="bitTransportRequired">Transport Required  <sup class="text-danger">*</sup></label><br />
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(model => model.bitTransportRequired, "True", new { @id = "bitTransportRequired1", @class = "form-check-input" })
+                    @Html.LabelFor(model => model.bitTransportRequired, "Yes", new { @for = "bitTransportRequired1", @class = "form-check-label" })
+                </div>
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(model => model.bitTransportRequired, "False", new { @id = "bitTransportRequired2", @class = "form-check-input", @checked = "" })
+                    @Html.LabelFor(model => model.bitTransportRequired, "No", new { @for = "bitTransportRequired2", @class = "form-check-label" })
+                </div>
+                @Html.ValidationMessageFor(model => model.bitTransportRequired, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-7" id="FlightDetailsDiv">
+                <label class="form-label" for="varFlightDetails">Flight Details <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.varFlightDetails, new { htmlAttributes = new { @class = "form-control", @id = "varFlightDetails", @type = "text", placeholder = "Description...", autocomplete = "off", cols = 100, @rows = 2 } })
+                @Html.ValidationMessageFor(model => model.varFlightDetails, "", new { @class = "text-danger", @id = "varFlightDetails" })
+            </div>
+        </div>
+        <br />
+        <div class="row g-3">
+            <div class="col-md-7">
+                <label class="form-label" for="varRemarks">Remarks</label>
+                @Html.EditorFor(model => model.varRemarks, new { htmlAttributes = new { @class = "form-control", @id = "varRemarks", @type = "text", placeholder = "Remarks...", autocomplete = "off", cols = 100, @rows = 2 } })
+                @Html.ValidationMessageFor(model => model.varRemarks, "", new { @class = "text-danger", @id = "varRemarks" })
+            </div>
+        </div>
+        <div class="pt-4">
+            <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+            <button type="button" class="btn btn-warning" onClick="window.location.reload();">Clear</button>
+        </div>
+    }
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/typeahead-js/bootstrap3-typeahead.min.js"></script>
+<script src="~/Assest/vendor/libs/flatpickr/flatpickr.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script type="text/javascript">
+    $("#FlightDetailsDiv").hide();
+    $("#KsLessonRequiredDiv").hide();
+    $("#KsRentalRequiredDiv").hide();
+    $("input[name='bitTransportRequired']").click(function () {
+        if (document.getElementById('bitTransportRequired1').checked) {
+            $("#FlightDetailsDiv").show();
+        }
+        else {
+            $("#FlightDetailsDiv").hide();
+        }
+    });
+    $("input[name='bitKSLessonRequired']").click(function () {
+        if (document.getElementById('bitKSLessonRequired1').checked) {
+            $("#KsLessonRequiredDiv").show();
+        }
+        else {
+            $("#KsLessonRequiredDiv").hide();
+        }
+    });
+    $("input[name='bitKSRentalRequired']").click(function () {
+        if (document.getElementById('bitKSRentalRequired1').checked) {
+            $("#KsRentalRequiredDiv").show();
+        }
+        else {
+            $("#KsRentalRequiredDiv").hide();
+        }
+    });
+    flatpickr('#varKsLessonRequiredStartToEndDates', {
+        mode: "range",
+        onChange: function (selectedDates, dateStr, instance) {
+            var StrDate = '';
+            if (selectedDates[0] != undefined || selectedDates[0] != null) {
+                StrDate = selectedDates[0].getFullYear() + "/" + (selectedDates[0].getMonth() + 1) + "/" + selectedDates[0].getDate();
+                $("#dtKsLessonRequiredFrom").val(StrDate);
+            } else {
+                $("#dtKsLessonRequiredFrom").val('');
+            }
+            var EndDate = '';
+            if (selectedDates[1] != undefined || selectedDates[1] != null) {
+                EndDate = selectedDates[1].getFullYear() + "/" + (selectedDates[1].getMonth() + 1) + "/" + selectedDates[1].getDate();
+                $("#dtKsLessonRequiredTo").val(EndDate);
+            } else {
+                $("#dtKsLessonRequiredTo").val('');
+            }
+        }
+    });
+    flatpickr('#varKSRentalRequiredStartToEndDates', {
+        mode: "range",
+        onChange: function (selectedDates, dateStr, instance) {
+            var StrDate = '';
+            if (selectedDates[0] != undefined || selectedDates[0] != null) {
+                StrDate = selectedDates[0].getFullYear() + "/" + (selectedDates[0].getMonth() + 1) + "/" + selectedDates[0].getDate();
+                $("#dtKSRentalRequiredFrom").val(StrDate);
+            } else {
+                $("#dtKSRentalRequiredFrom").val('');
+            }
+            var EndDate = '';
+            if (selectedDates[1] != undefined || selectedDates[1] != null) {
+                EndDate = selectedDates[1].getFullYear() + "/" + (selectedDates[1].getMonth() + 1) + "/" + selectedDates[1].getDate();
+                $("#dtKSRentalRequiredTo").val(EndDate);
+            } else {
+                $("#dtKSRentalRequiredTo").val('');
+            }
+        }
+    });
+    $("#varGuestPPNo").typeahead({
+        minLength: 1,
+        changeInputOnSelect: false,
+        source: function (request, response) {
+            $.ajax({
+                url: "/Guests/GetList/",
+                data: { "name": request },
+                type: "GET",
+                contentType: "json",
+                success: function (data) {
+                    items = [];
+                    map = {};
+                    $.each(data, function (i, item) {
+                        var id = item.id;
+                        var label = item.label;
+                        var name = item.name;
+                        var ppno = item.ppno;
+                        var email = item.email;
+                        var age = item.age;
+
+                        map[label] = { id: id, name: name, ppno: ppno, email: email, age: age };
+                        items.push(label);
+                    });
+                    response(items);
+                }
+            });
+        },
+        updater: function (item) {
+            var Selector = this.$element[0].id;
+            var SelectorId = Selector.split("-");
+            var id = Number(SelectorId[1]);
+
+            $("#varGuestPPNo").val(map[item].ppno);
+            $("#varGuestName").val(map[item].name);
+            $("#varGuestEmail").val(map[item].email);
+            document.getElementById("numGuestChargeTypeID").selectedIndex = map[item].age;
+            return item;
+        }
+    });
+    $(function myfunction() {
+        var Msg = '@TempData["BookingExternalStatus"]'
+        if (Msg != '') {
+            if (Msg == "Saved") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["success"]("Booking Created Successfully.", " Success");
+            }
+        }
+    })
+</script>

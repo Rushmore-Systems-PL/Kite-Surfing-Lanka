@@ -1,0 +1,200 @@
+﻿@model IEnumerable<KSL_HMS.DB.Permission>
+
+@{
+    ViewBag.Permission = "active";
+    ViewBag.Title = "Permission Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Assest/vendor/libs/datatables-bs5/datatables.bootstrap5.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/toastr/toastr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/animate-css/animate.css" rel="stylesheet" />
+
+@Html.Partial("Create")
+
+<div class="card">
+    <div class="card-body">
+        <h4>Permission Master</h4>
+        <hr class="my-4 mx-n4" />
+        <table class="datatables-basic table border-top" id="MasterTable">
+            <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th>Permission Name</th>
+                    <th>Created Date</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 1;
+                    foreach (var item in ViewBag.Permissions)
+                    {
+                        <tr>
+                            <td class="text-center" width="2px">
+                                .@i.ToString("00")
+                            </td>
+                            <td>
+                                @item.varPermissionName
+                            </td>
+                            <td>
+                                @Convert.ToDateTime(item.dtCreatedDate).ToString("yyyy/MM/dd")
+                            </td>
+                            <td class="text-center">
+                                @if (item.bitActive == true)
+                                {
+                                    <span class="badge bg-label-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-label-danger">Disabled</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <span class="text-nowrap">
+                                    <button class="btn btn-sm btn-icon me-2" onclick="EditPermission('@Url.Action("Edit", "Permissions", new { id = item.numPermissionID })')"><i class="bx bx-edit text-warning"></i></button>
+                                    <button class="btn btn-sm btn-icon delete-record" onclick="SetPermissionID(@item.numPermissionID)"><i class="bx bx-trash text-danger"></i></button>
+                                </span>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="PermissionModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Permission</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="DisableValidation(document.getElementById('numPermissionID').value)"></button>
+            </div>
+            <div class="modal-body" id="PermissionModalDiv"></div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 col-md-6">
+    <div class="mt-3">
+        <div class="offcanvas offcanvas-bottom" data-bs-backdrop="false" tabindex="-1" id="PermissionDeleteCanvas" aria-labelledby="PermissionDeleteCanvasLabel">
+            <div class="offcanvas-header">
+                <h4 id="PermissionDeleteCanvasLabel" class="offcanvas-title">Permission</h4>
+                <button type="button" class="btn-close text-reset" onclick="CancelPermission()" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <h5>Are You Sure?</h5>
+                <p style="margin-top:-10px">Do You Want To Delete This Permission...!</p>
+                <button type="button" class="btn btn-primary me-2" onclick="DeletePermission()">Continue</button>
+                <button type="button" class="btn btn-warning" onclick="CancelPermission()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/datatables/jquery.dataTables.js"></script>
+<script src="~/Assest/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script type="text/javascript">
+    var numPermissionID = 0;
+    var table = $('#MasterTable').DataTable({
+        scrollY: true,
+        scrollX: true,
+        scrollCollapse: true,
+        paging: true,
+        fixedColumns: false,
+        ordering: false
+    });
+    EditPermission = function (url) {
+        $.get(url).done(function (response) {
+            $("#PermissionModalDiv").html(response);
+            jQuery.noConflict();
+            $('#PermissionModal').modal('show');
+        });
+    }
+    function DisableValidation(id) {
+        $.ajax({
+            type: 'POST',
+            data: { id: id },
+            url: '@Url.Action("ChangeValidationStatus", "Permissions")',
+        });
+    }
+    function SetPermissionID(id) {
+        numPermissionID = id;
+        $('#PermissionDeleteCanvas').offcanvas('show');
+    }
+    function DeletePermission() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Delete", "Permissions")/' + numPermissionID
+        });
+        location.reload();
+    }
+    function CancelPermission() {
+        numPermissionID = 0;
+        $('#PermissionDeleteCanvas').offcanvas('hide');
+    }
+    $(function myfunction() {
+        var Msg = '@TempData["PermissionStatus"]'
+        if (Msg != '') {
+            if (Msg == "Saved") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["success"]("Permission Saved Successfully.", " Success");
+            } else if (Msg == "Deleted") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["error"]("Permission Deleted Successfully.", " Success");
+            } else if (Msg == "Edited") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["warning"]("Permission Updated Successfully.", " Success");
+            }
+        }
+    })
+</script>

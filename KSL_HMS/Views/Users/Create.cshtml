@@ -1,0 +1,90 @@
+﻿@model KSL_HMS.DB.User
+
+@{
+    ViewBag.User = "active open";
+    ViewBag.NewUser = "active";
+    ViewBag.Title = "New User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+<div class="card mb-4">
+    @using (Html.BeginForm("Create", "Users", FormMethod.Post, new { @class = "card-body" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h4>New User</h4>
+        <hr class="my-4 mx-n4" />
+        <p class="text-danger">@ViewBag.UserNoEmpExiError@ViewBag.UserExistError</p>
+        <div class="row g-3">
+            <div class="col-md-5">
+                <label class="form-label" for="varFirstName">First Name <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.varFirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First Name...", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.varFirstName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-5">
+                <label class="form-label" for="varLastName">Last Name <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.varLastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name...", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.varLastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label" for="varUserName">User Name <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.varUserName, new { htmlAttributes = new { @class = "form-control", placeholder = "User Name...", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.varUserName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" for="varPassword">Passowrd <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.varPassword, new { htmlAttributes = new { @class = "form-control", placeholder = "Passowrd...", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.varPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label" for="varNIC">NIC <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.varNIC, new { htmlAttributes = new { @class = "form-control", placeholder = "NIC...", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.varNIC, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="varEPF">EPF No </label>
+                @Html.EditorFor(model => model.varEPF, new { htmlAttributes = new { @class = "form-control", placeholder = "EPF No...", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.varEPF, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" for="varEmail">Email </label>
+                @Html.EditorFor(model => model.varEmail, new { htmlAttributes = new { @class = "form-control", placeholder = "Email...", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.varEmail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label" for="numPermissionID">Permission <sup class="text-danger">*</sup></label>
+                @Html.DropDownList("numPermissionID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Permission", @title = "Please Select Permission.", @id = "numPermissionID" })
+                @Html.ValidationMessageFor(model => model.numPermissionID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.bitActive)
+        @Html.HiddenFor(model => model.dtCreatedDate)
+        @Html.HiddenFor(model => model.numUpdatetdByID)
+        @Html.HiddenFor(model => model.dtUpdatetDate)
+        @Html.HiddenFor(model => model.numDeletedByID)
+        @Html.HiddenFor(model => model.dtDeletedDate)
+        <div class="pt-4">
+            <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+            <button type="reset" class="btn btn-warning">Clear</button>
+        </div>
+    }
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script type="text/javascript">
+    $("#numPermissionID").select2({
+        placeholder: "Select Permission...",
+    });
+</script>

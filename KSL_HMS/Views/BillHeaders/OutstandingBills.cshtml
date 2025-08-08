@@ -1,0 +1,80 @@
+﻿@model IEnumerable<KSL_HMS.Models.BillHeaderDTO>
+
+@{
+    ViewBag.Billing = "active open";
+    ViewBag.BillingMaster = "active open";
+    ViewBag.OutstandingBillHeaders = "active";
+    ViewBag.Title = "Outstanding Bill Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Assest/vendor/libs/datatables-bs5/datatables.bootstrap5.css" rel="stylesheet" />
+
+<div class="card">
+    <div class="card-body">
+        <h4>Outstanding Bill Master</h4>
+        <hr class="my-4 mx-n4" />
+        <table class="datatables-basic table border-top" id="MasterTable">
+            <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th>Booking Reference</th>
+                    <th class="text-center">Bill Total</th>
+                    <th class="text-center">Paid Amount</th>
+                    <th class="text-center">Amount To Be Paid</th>
+                    <th class="text-center">Info</th>
+                    @*<th class="text-center">Email</th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center" width="2px">
+                                .@i.ToString("00")
+                            </td>
+                            <td>
+                                @item.varBookingRefferenceNo
+                            </td>
+                            <td class="text-center">
+                                € @item.numTotalCost
+                            </td>
+                            <td class="text-center">
+                                € @item.numPayedAmount
+                            </td>
+                            <td class="text-center">
+                                € @item.numBalanceToPay
+                            </td>
+                            <td class="text-center">
+                                <span class="text-nowrap">
+                                    <a class="btn btn-sm btn-icon me-1" href="@Url.Action("Details", "BillHeaders", new { id = item.numBookingRefferenceID })"><i class="bx bx-info-circle text-info"></i></a>
+                                </span>
+                            </td>
+                            @*<td class="text-center"></td>*@
+                        </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/datatables/jquery.dataTables.js"></script>
+<script src="~/Assest/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script type="text/javascript">
+    var table = $('#MasterTable').DataTable({
+        scrollY: true,
+        scrollX: true,
+        scrollCollapse: true,
+        paging: true,
+        fixedColumns: false,
+        ordering: false
+    });
+</script>

@@ -1,0 +1,370 @@
+﻿@model IEnumerable<KSL_HMS.Controllers.BookingController.BookingAvailability>
+@{
+    Layout = null;
+    var roomsGuests = (KSL_HMS.Controllers.BookingController.RoomsGuests)ViewBag.RoomsGuests;
+}
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-navbar-fixed" dir="ltr" data-theme="theme-default" data-assets-path="~/Assest/" data-template="front-pages">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Dates - Units & Guests Selection | KITESURFING LANKA</title>
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
+    <link href="~/Assest/vendor/fonts/boxicons.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/fonts/fontawesome.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/fonts/flag-icons.css" rel="stylesheet" />
+    <script src="~/Assest/vendor/js/helpers.js"></script>
+    <link href="~/Assest/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" />
+    <link href="~/Assest/new/core.css" rel="stylesheet" />
+    <link href="~/Assest/new/theme-default.css" rel="stylesheet" />
+    <link href="~/Assest/new/demo.css" rel="stylesheet" />
+    <link href="~/Assest/new/front-page.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/libs/toastr/toastr.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/libs/flatpickr/flatpickr.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+        <div class="layout-container">
+            <nav class="layout-navbar shadow-none py-0">
+                <div class="container">
+                    <div class="navbar navbar-expand-lg landing-navbar px-3 px-md-4">
+                        <div class="navbar-brand app-brand demo d-flex py-0 me-4">
+                            <button class="navbar-toggler border-0 px-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <i class="tf-icons bx bx-menu bx-sm align-middle"></i>
+                            </button>
+                            <a href="javascript:void(0);" class="app-brand-link">
+                                @*<span class="app-brand-logo demo">
+                                        <img src="~/Assest/customer/KSL_Girl_ST_2000_B-removebg-preview111.png" height="90" width="40" style="margin-top:-20px">
+                                    </span>*@
+                                <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">
+                                    <img src="~/Assest/customer/KSL_Girl_ST_2000_B-removebg-preview.png" height="90" width="200" style="margin-top:-20px">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="collapse navbar-collapse landing-nav-menu" id="navbarSupportedContent">
+                            <button class="navbar-toggler border-0 text-heading position-absolute end-0 top-0 scaleX-n1-rtl" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <i class="tf-icons bx bx-x bx-sm"></i>
+                            </button>
+                            <ul class="navbar-nav me-auto">
+                                <li class="nav-item" style="min-width:485px;margin-right:20px">
+                                    <label class="fw-medium">Dates</label>
+                                    <input type="text" placeholder="Date" class="form-control" id="varStayPeriod" name="varStayPeriod" />
+                                    <input type="text" name="dtFromDate" id="dtFromDate" value="@TempData["dtFromDate"]" hidden="hidden" />
+                                    <input type="text" name="dtToDate" id="dtToDate" value="@TempData["dtToDate"]" hidden="hidden" />
+                                </li>
+                                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0" style="min-width: 450px;">
+                                    <label class="fw-medium">Units & Guests</label>
+                                    <input type="text" placeholder="Units & Guests" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" class="form-control dropdown-toggle hide-arrow" readonly="readonly" id="varGuests" name="varGuests" onclick="showDropdown()" value="@ViewBag.varRoomsGuestText" />
+                                    <div class="dropdown-menu dropdown-menu-end p-3" style=" min-width: 450px;" id="varGuestsContent">
+                                        <table class="p-3">
+                                            <thead>
+                                                <tr>
+                                                    <th width="50%">Units</th>
+                                                    <td width="10%"><button type="button" class="btn btn btn-outline-secondary" onclick="SubstractDefults('numDefultUnits')">-</button></td>
+                                                    <td width="30%"><input type="text" class="form-control text-center" readonly="readonly" id="numDefultUnits" name="numDefultUnits" value="@roomsGuests.numRoomsCount.ToString("00")" /></td>
+                                                    <td width="10%"><button type="button" class="btn btn btn-outline-primary" onclick="AddDefultUnits('numDefultUnits')">+</button></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="50%">Adults</th>
+                                                    <td width="10%"><button type="button" class="btn btn btn-outline-secondary" onclick="SubstractDefults('numDefultAdults')">-</button></td>
+                                                    <td width="30%"><input type="text" class="form-control text-center" readonly="readonly" id="numDefultAdults" name="numDefultAdults" value="@roomsGuests.numAdultsCount.ToString("00")" /></td>
+                                                    <td width="10%"><button type="button" class="btn btn btn-outline-primary" onclick="AddDefultAdults('numDefultAdults')">+</button></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="50%">Children (02 - 12 Years)</th>
+                                                    <td width="10%"><button type="button" class="btn btn btn-outline-secondary" onclick="SubstractDefultChildren('numDefultChildren')">-</button></td>
+                                                    <td width="30%"><input type="text" class="form-control text-center" readonly="readonly" id="numDefultChildren" name="numDefultChildren" value="@roomsGuests.numChildrenCount.ToString("00")" /></td>
+                                                    <td width="10%"><button type="button" class="btn btn btn-outline-primary" onclick="AddDefultChildren('numDefultChildren')">+</button></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="50%">Infants (00 - 02 Years)</th>
+                                                    <td width="10%"><button type="button" class="btn btn btn-outline-secondary" onclick="SubstractDefultChildren('numDefultInfants')">-</button></td>
+                                                    <td width="30%"><input type="text" class="form-control text-center" readonly="readonly" id="numDefultInfants" name="numDefultInfants" value="@roomsGuests.numInfantsCount.ToString("00")" /></td>
+                                                    <td width="10%"><button type="button" class="btn btn btn-outline-primary" onclick="AddDefultChildren('numDefultInfants')">+</button></td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <hr />
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="HideDropDownMenu()">Clear</button>
+                                            <button type="button" class="btn btn-outline-primary" id="ApplyBtn" onclick="SetRoomNGuests()">Apply</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="landing-menu-overlay d-lg-none"></div>
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <li><a href="javascript:void(0);" class="btn btn-outline-primary" onclick="loadAvailbleRooms();"><span class="d-none d-md-block">Search</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="layout-page">
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y" id="RoomDetailsDiv"></div>
+                    <footer class="landing-footer bg-body footer-text">
+                        <div class="footer-bottom py-3">
+                            <div class="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
+                                <div class="mb-2 mb-md-0">
+                                    <span class="footer-text">
+                                        &copy; @DateTime.Now.Year <span class="footer-link fw-bolder">Kitesurfing Lanka. All rights reserved </span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <a href="#" class="footer-link" target="_blank">Version 5.5</a>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                    <div class="content-backdrop fade"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layout-overlay layout-menu-toggle"></div>
+    <div class="drag-target"></div>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Assest/vendor/libs/popper/popper.js"></script>
+    <script src="~/Assest/vendor/js/bootstrap.js"></script>
+    <script src="~/Assest/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/Assest/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="~/Assest/js/front-config.js"></script>
+    <script src="~/Assest/js/front-main.js"></script>
+    <script src="~/Assest/vendor/libs/moment/moment.js"></script>
+    <script src="~/Assest/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js"></script>
+    <script src="~/Assest/vendor/libs/select2/select2.js"></script>
+    <script src="~/Assest/vendor/libs/flatpickr/flatpickr.js"></script>
+    <script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+    <script type="text/javascript">
+        var roomsGuests = @Html.Raw(Json.Encode(@ViewBag.RoomsGuests));
+        var _roomsGuests = @Html.Raw(Json.Encode(@ViewBag.RoomsGuests));;
+        $('input[name="varStayPeriod"]').daterangepicker({
+            startDate: new Date('@TempData["dtFromDate"]'),
+            endDate: new Date('@TempData["dtToDate"]'),
+            minDate: new Date('@TempData["dtFromDate"]'),
+            autoApply: true,
+            autoUpdateInput: true,
+            locale: {
+                format: 'ddd, MMM D, YYYY'
+            }
+        });
+        $('.daterangepicker .drp-buttons').hide();
+        $('#varStayPeriod').on('apply.daterangepicker', function (ev, picker)
+        {
+            $(this).val(picker.startDate.format('ddd, MMM D, YYYY') + ' - ' + picker.endDate.format('ddd, MMM D, YYYY'));
+            $("#dtFromDate").val(picker.startDate.format('YYYY-MM-DD'));
+            $("#dtToDate").val(picker.endDate.format('YYYY-MM-DD'));
+            loadAvailbleRooms();
+        });
+        function SubstractDefults(elementID)
+        {
+            let number = Number(document.getElementById(elementID).value);
+            if (number > 1) {
+                number = number - 1;
+                document.getElementById(elementID).value = number.toString().padStart(2, '0');
+            }
+        }
+        function AddDefultUnits(elementID)
+        {
+            let number = Number(document.getElementById(elementID).value);
+            if (number < 6) {
+                number = number + 1;
+                document.getElementById(elementID).value = number.toString().padStart(2, '0');
+            }
+        }
+        function SubstractAdults(elementID)
+        {
+            let number = Number(document.getElementById(elementID).value);
+            if (number > 1) {
+                number = number - 1;
+                document.getElementById(elementID).value = number.toString().padStart(2, '0');
+            }
+        }
+        function AddDefultAdults(elementID)
+        {
+            let number = Number(document.getElementById(elementID).value);
+            if (number < 10) {
+                number = number + 1;
+                document.getElementById(elementID).value = number.toString().padStart(2, '0');
+            }
+        }
+        function SubstractDefultChildren(elementID)
+        {
+            let number = Number(document.getElementById(elementID).value);
+            if (number > 0) {
+                number = number - 1;
+                document.getElementById(elementID).value = number.toString().padStart(2, '0');
+            }
+        }
+        function AddDefultChildren(elementID)
+        {
+            let number = Number(document.getElementById(elementID).value);
+            if (number < 10) {
+                number = number + 1;
+                document.getElementById(elementID).value = number.toString().padStart(2, '0');
+            }
+        }
+        function SetRoomNGuests()
+        {
+            let varRoomsGuestText = '';
+            let numUnitCount = document.getElementById('numDefultUnits').value;
+            let numAdultCount = document.getElementById('numDefultAdults').value;
+            let numChildCount = document.getElementById('numDefultChildren').value;
+            let numInfantCount = document.getElementById('numDefultInfants').value;
+
+            if (numUnitCount == 1) {
+                varRoomsGuestText += numUnitCount.toString().padStart(2, '0') + " Unit";
+            }
+            else {
+                varRoomsGuestText += numUnitCount.toString().padStart(2, '0') + " Units";
+            }
+
+            if (numAdultCount == 0) {
+                varRoomsGuestText = varRoomsGuestText;
+            }
+            else if (numAdultCount == 1) {
+                varRoomsGuestText += ", " + numAdultCount.toString().padStart(2, '0') + " Adult";
+            }
+            else {
+                varRoomsGuestText += ", " + numAdultCount.toString().padStart(2, '0') + " Adults";
+            }
+
+            if (numChildCount == 0) {
+                varRoomsGuestText = varRoomsGuestText;
+            }
+            else if (numChildCount == 1) {
+                varRoomsGuestText += ", " + numChildCount.toString().padStart(2, '0') + " Child";
+            }
+            else {
+                varRoomsGuestText += ", " + numChildCount.toString().padStart(2, '0') + " Children";
+            }
+
+            if (numInfantCount == 0) {
+                varRoomsGuestText = varRoomsGuestText;
+            }
+            else if (numInfantCount == 1) {
+                varRoomsGuestText += ", " + numInfantCount.toString().padStart(2, '0') + " Infant";
+            }
+            else {
+                varRoomsGuestText += ", " + numInfantCount.toString().padStart(2, '0') + " Infants";
+            }
+
+            roomsGuests.numRoomsCount = Number(numUnitCount);
+            roomsGuests.numAdultsCount = Number(numAdultCount);
+            roomsGuests.numChildrenCount = Number(numChildCount);
+            roomsGuests.numInfantsCount = Number(numInfantCount);
+
+            hideDropdown();
+            document.getElementById("varGuests").value = varRoomsGuestText;
+            loadAvailbleRooms();
+        }
+        const dropdownButton = document.getElementById('varGuests');
+        const dropdownContent = document.getElementById('varGuestsContent');
+        function showDropdown() { dropdownContent.style.display = 'block'; }
+        function hideDropdown() { dropdownContent.style.display = 'none'; }
+        function HideDropDownMenu()
+        {
+            let numUnitCount = _roomsGuests.numRoomsCount;
+            let numAdultCount = _roomsGuests.numAdultsCount;
+            let numChildCount = _roomsGuests.numChildrenCount;
+            let numInfantCount = _roomsGuests.numInfantsCount;
+            let varRoomsGuestText = '';
+
+            document.getElementById('numDefultUnits').value = numUnitCount.toString().padStart(2, '0');
+            document.getElementById('numDefultAdults').value = numAdultCount.toString().padStart(2, '0');
+            document.getElementById('numDefultChildren').value = numChildCount.toString().padStart(2, '0');
+            document.getElementById('numDefultInfants').value = numInfantCount.toString().padStart(2, '0');
+
+            if (numUnitCount == 1) {
+                varRoomsGuestText += numUnitCount.toString().padStart(2, '0') + " Unit";
+            }
+            else {
+                varRoomsGuestText += numUnitCount.toString().padStart(2, '0') + " Units";
+            }
+
+            if (numAdultCount == 0) {
+                varRoomsGuestText = varRoomsGuestText;
+            }
+            else if (numAdultCount == 1) {
+                varRoomsGuestText += ", " + numAdultCount.toString().padStart(2, '0') + " Adult";
+            }
+            else {
+                varRoomsGuestText += ", " + numAdultCount.toString().padStart(2, '0') + " Adults";
+            }
+
+            if (numChildCount == 0) {
+                varRoomsGuestText = varRoomsGuestText;
+            }
+            else if (numChildCount == 1) {
+                varRoomsGuestText += ", " + numChildCount.toString().padStart(2, '0') + " Child";
+            }
+            else {
+                varRoomsGuestText += ", " + numChildCount.toString().padStart(2, '0') + " Children";
+            }
+
+            if (numInfantCount == 0) {
+                varRoomsGuestText = varRoomsGuestText;
+            }
+            else if (numInfantCount == 1) {
+                varRoomsGuestText += ", " + numInfantCount.toString().padStart(2, '0') + " Infant";
+            }
+            else {
+                varRoomsGuestText += ", " + numInfantCount.toString().padStart(2, '0') + " Infants";
+            }
+
+            roomsGuests.numRoomsCount = numUnitCount;
+            roomsGuests.numAdultsCount = numAdultCount;
+            roomsGuests.numChildrenCount = numChildCount;
+            roomsGuests.numInfantsCount = numInfantCount;
+
+            hideDropdown();
+            document.getElementById("varGuests").value = varRoomsGuestText;
+            loadAvailbleRooms();
+        }
+        loadAvailbleRooms();
+        function loadAvailbleRooms()
+        {
+            document.getElementById("RoomDetailsDiv").innerHTML = "";
+            var setRoomsGuests = {
+                "dtFromDate": document.getElementById('dtFromDate').value,
+                "dtToDate": document.getElementById('dtToDate').value,
+                "RoomsGuests": JSON.stringify(roomsGuests),
+            };
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                async: false,
+                cache: false,
+                url: '@Url.Action("loadPeriodAvailbleRooms", "Booking")',
+                context: document.body,
+                data: setRoomsGuests,
+                success: function (result)
+                {
+                    if (result.varBookingType == "Single") {
+                        $("#RoomDetailsDiv").html(result.PartialView);
+                        document.getElementById("numRoomCounth2").innerHTML = result.numRoomCount + " Units Found For Your Selection";
+                    } else {
+                        $("#RoomDetailsDiv").html(result.PartialView);
+                        $("#SelectedRoomsDiv").hide();
+                        document.getElementById("numRoomCounth2").innerHTML = result.numRoomCount + " Units Found For Your Selection...";
+                        document.getElementById("dtCheckInstrong").innerHTML = result.dtCheckIn;
+                        document.getElementById("dtCheckOutstrong").innerHTML = result.dtCheckOut;
+                        document.getElementById("CheckInTimeh5").innerHTML = "From " + result.CheckInTime;
+                        document.getElementById("CheckOutTimeh5").innerHTML = "Until " + result.CheckOutTime;
+                        document.getElementById("numTotalDaysStrong").innerHTML = result.numTotalDays + " Nights";
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

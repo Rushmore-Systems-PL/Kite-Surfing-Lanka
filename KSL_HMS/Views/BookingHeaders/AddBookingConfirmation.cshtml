@@ -1,0 +1,213 @@
+﻿
+@{
+    ViewBag.NewInternalBooking = "active open";
+    ViewBag.Booking = "active open";
+    ViewBag.AddBooking = "active";
+    ViewBag.Title = "Add Booking Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    var BookingDetails = (List<KSL_HMS.DB.BookingDetail>)ViewBag.BookingDetails;
+}
+
+<link href="~/Assest/vendor/libs/toastr/toastr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/animate-css/animate.css" rel="stylesheet" />
+
+@foreach (var bookingHeader in ViewBag.BookingHeaders)
+{
+    <div class="card">
+        <div class="card-body">
+            <h4>Booking Details</h4>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <h5 class="pb-2 border-bottom mb-4">Booking Reference</h5>
+                    <h5 class="text-secondary" style="margin-top:-10px">@ViewBag.varBookingRefferenceNo</h5>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="pb-2 border-bottom mb-4">Booking Period</h5>
+                    <h5 class="text-secondary" style="margin-top:-10px">From: @bookingHeader.dtFromDate.ToString("yyyy/MM/dd") | To: @bookingHeader.dtToDate.ToString("yyyy/MM/dd")</h5>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="pb-2 border-bottom mb-4">Created Date</h5>
+                    <h5 class="text-secondary" style="margin-top:-10px">From: @bookingHeader.dtCreatedDate.ToString("yyyy/MM/dd")</h5>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-3">
+                    <h5 class="pb-2 border-bottom mb-4">Room Category</h5>
+                    <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.RoomType.varRoomTypeName</h5>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="pb-2 border-bottom mb-4">Room No</h5>
+                    <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.Room.varRoomNo</h5>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="pb-2 border-bottom mb-4">Maximum Pax Allowed </h5>
+                    <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.Room.numMaxPaxAllowed.ToString("00")</h5>
+                </div>
+                @if (bookingHeader.bitStandardRate == true)
+                {
+                    <div class="col-md-3">
+                        <h5 class="pb-2 border-bottom mb-4">Custom Rate </h5>
+                        <h5 class="text-secondary" style="margin-top:-10px">€ @bookingHeader.numRate</h5>
+                    </div>
+                }
+            </div>
+            @if (bookingHeader.bitKSLessonRequired == true || bookingHeader.bitKSRentalRequired == true)
+            {
+                <br />
+                <div class="row">
+                    @if (bookingHeader.bitKSLessonRequired == true)
+                    {
+                        <div class="col-md-4">
+                            <h5 class="pb-2 border-bottom mb-4">Kite Surfing Lessons Required Period</h5>
+                            <h5 class="text-secondary" style="margin-top:-10px">From: @bookingHeader.dtKsLessonRequiredFrom.ToString("yyyy/MM/dd") | To: @bookingHeader.dtKsLessonRequiredTo.ToString("yyyy/MM/dd")</h5>
+                        </div>
+                    }
+                    @if (bookingHeader.bitKSRentalRequired == true)
+                    {
+                        <div class="col-md-4">
+                            <h5 class="pb-2 border-bottom mb-4">Kite Rental Required Period</h5>
+                            <h5 class="text-secondary" style="margin-top:-10px">From: @bookingHeader.dtKSRentalRequiredFrom.ToString("yyyy/MM/dd") | To: @bookingHeader.dtKSRentalRequiredTo.ToString("yyyy/MM/dd")</h5>
+                        </div>
+                    }
+                </div>
+            }
+            @if (bookingHeader.bitTransportRequired == true || bookingHeader.bitAgentRequired == true)
+            {
+                <br />
+                <div class="row">
+                    @if (bookingHeader.bitAgentRequired == true)
+                    {
+                        <div class="col-md-4">
+                            <h5 class="pb-2 border-bottom mb-4">Booking Agent </h5>
+                            <h5 class="text-secondary" style="margin-top:-10px"> @bookingHeader.varAgentName</h5>
+                        </div>
+                    }
+                    @if (bookingHeader.bitTransportRequired == true)
+                    {
+                        <div class="col-md-7">
+                            <h5 class="pb-2 border-bottom mb-4">Flight Details </h5>
+                            <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.varFlightDetails</h5>
+                        </div>
+                    }
+                </div>
+            }
+            <br />
+            <div class="row">
+                <div class="col-md-3">
+                    <h5 class="pb-2 border-bottom mb-4">No Of Adults</h5>
+                    <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.numAdultsCount.ToString("00")</h5>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="pb-2 border-bottom mb-4">No Of Children</h5>
+                    <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.numChildrensCount.ToString("00")</h5>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="pb-2 border-bottom mb-4">No Of Infants </h5>
+                    <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.numInfantsCount.ToString("00")</h5>
+                </div>
+            </div>
+            @if (bookingHeader.varRemarks != "")
+            {
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="pb-2 border-bottom mb-4">Remarks</h5>
+                        <h5 class="text-secondary" style="margin-top:-10px">@bookingHeader.varRemarks</h5>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4>Booking Confirmation</h4>
+        <div class="row">
+            <p style="margin-top:-10px">Please check booking details before confirm...</p>
+        </div>
+        <div class="pt-4">
+            <button type="button" class="btn btn-primary me-sm-3 me-1" onclick="ConfirmBooking(@ViewBag.numBookingRefferenceID)">Confirm</button>
+            <button type="button" class="btn btn-warning" onclick="SetBooking()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 col-md-6">
+    <div class="mt-3">
+        <div class="offcanvas offcanvas-bottom" data-bs-backdrop="false" tabindex="-1" id="BookingsDeleteCanvas" aria-labelledby="BookingsDeleteCanvasLabel">
+            <div class="offcanvas-header">
+                <h4 id="BookingsDeleteCanvasLabel" class="offcanvas-title">Booking Confirmation</h4>
+                <button type="button" class="btn-close text-reset" onclick="CancelBookings()" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <h5>Are You Sure?</h5>
+                <p style="margin-top:-10px">Do You Want To Cancel This Booking...!</p>
+                <button type="button" class="btn btn-primary me-2" onclick="DeleteBookings(@ViewBag.numBookingRefferenceID)">Continue</button>
+                <button type="button" class="btn btn-warning" onclick="CancelBookings()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/typeahead-js/bootstrap3-typeahead.min.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script type="text/javascript">
+    $(function myfunction() {
+        var Msg = '@TempData["BookingHeaderStatus"]'
+        if (Msg != '') {
+            if (Msg == "Saved") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["success"]("Booking Saved Successfully.", " Success");
+            }
+        }
+    })
+    function SetBooking() {
+        $('#BookingsDeleteCanvas').offcanvas('show');
+    }
+    function DeleteBookings(id) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("DeleteAddBooking", "BookingHeaders")/' + id
+        });
+        window.location.href = "@Url.Action("AddBooking", "BookingHeaders")";
+    }
+    function CancelBookings() {
+        $('#BookingsDeleteCanvas').offcanvas('hide');
+    }
+    function ConfirmBooking(id) {
+        var str = "Booking";
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ConfirmAddBooking", "BookingHeaders")/' + id,
+            success: function () {
+                window.location.replace("/BookingHeaders/Index?varPage=" + str);
+            }
+        });
+    }
+</script>
+
+
+

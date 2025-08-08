@@ -1,0 +1,234 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en" class="light-style " dir="ltr" data-theme="theme-default" data-assets-path="~/Assest/" data-template="vertical-menu-template">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Invoice | Sneat </title>
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
+    <link href="~/Assest/vendor/fonts/boxicons.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/fonts/fontawesome.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/fonts/flag-icons.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/css/rtl/core.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/css/rtl/theme-default.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" />
+    <script src="~/Assest/vendor/js/helpers.js"></script>
+    <script src="~/Assest/js/config.js"></script>
+    <link href="~/Assest/css/demo.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/libs/typeahead-js/typeaheadjs.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Assest/vendor/css/pages/app-invoice-print.css" />
+</head>
+<body>
+    <div class="invoice-print p-5">
+        <div class="d-flex justify-content-between flex-row">
+            <div class="mb-4">
+                <h4>Kitesurfing Lanka,</h4>
+                <p class="mb-1">Dutch Bay Road (Kudawa Road),</p>
+                <p class="mb-1">Kandakuliya Beach Road, Kalpitiya 61360, Sri Lanka</p>
+                <p class="mb-0">+94 77 368 6235, +33 78 330 0803</p>
+            </div>
+            <div>
+                <h4>Invoice #@Model.varBookingRefferenceNo</h4>
+                <div class="mb-2">
+                    <span class="me-1">Date Issues:</span>
+                    <span class="fw-semibold">@System.DateTime.Now.ToString("dd/MM/yyyy")</span>
+                </div>
+                <div>
+                    <span class="me-1">Date Due:</span>
+                    <span class="fw-semibold">@Model.dtCreatedDate.ToString("dd/MM/yyyy")</span>
+                </div>
+            </div>
+        </div>
+        <br />
+        <h4>Bill Summary</h4>
+        <div class="table-responsive">
+            <table class="table border-top m-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Item</th>
+                        <th>Description</th>
+                        <th>Location</th>
+                        <th>Cost</th>
+                        <th>Qty</th>
+                        <th>Duration</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int i = 1;
+                        foreach (var item in ViewBag.BillDetails)
+                        {
+                            <tr>
+                                <td>@i.ToString("00")</td>
+                                <td>
+                                    @Convert.ToDateTime(item.dtCreatedDate).ToString("yyyy/MM/dd")
+                                </td>
+                                <td class="text-nowrap">
+                                    @if (item.numItemID != null)
+                                    {
+                                        <span>@item.Item.varItemName</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Room No: @item.Room.varRoomNo</span>
+
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.numItemID != null)
+                                    {
+                                        <span>@item.Item.ItemType.varItemTypeName</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@item.BillHeader.BookingHeader.RoomType.varRoomTypeName</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.numLocationID == null)
+                                    {
+                                        <span>Room</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@item.Location.varLocationName</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.bitDiscountOffered != true)
+                                    {
+                                        <span>€ @item.numCost</span>
+                                    }
+                                    else
+                                    {
+                                        <span>€ @item.numCost (@item.numDiscount%)</span>
+                                    }
+                                </td>
+                                <td>@item.numQuantity</td>
+                                <td>
+                                    @if (item.numDuration == null)
+                                    {
+                                        <span> - </span>
+                                    }
+                                    else
+                                    {
+                                        <span>@item.numDuration</span>
+                                    }
+                                </td>
+                                <td>@item.numFinalCost</td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (ViewBag.Receipts.Count != 0)
+        {
+            <br />
+            <h4>Payment Summary</h4>
+            <div class="table-responsive">
+                <table class="table border-top m-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Receipt No</th>
+                            <th>Receipt Category</th>
+                            <th>PAYMENT Category</th>
+                            <th>AMOUNT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{
+                            int j = 1;
+                            foreach (var item in ViewBag.Receipts)
+                            {
+                                <tr>
+                                    <td>@j.ToString("00")</td>
+                                    <td>
+                                        @Convert.ToDateTime(item.dtCreatedDate).ToString("yyyy/MM/dd")
+                                    </td>
+                                    <td>
+                                        @item.varReceiptNo
+                                    </td>
+                                    <td>
+                                        @item.PaymentType.varPaymentTypeName
+                                    </td>
+                                    <td>
+                                        @item.ReciptType.varReciptTypeName
+                                    </td>
+                                    <td>
+                                        € @item.numAmount
+                                    </td>
+                                </tr>
+                                j++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        <br />
+        <div class="row py-3">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-6 d-flex justify-content-md-start">
+                        <h6>Bill Total:</h6>
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-md-end">
+                        <h6><b>€ @Model.numTotalCost</b></h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 d-flex justify-content-md-start">
+                        <h6>Payment Total:</h6>
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-md-end">
+                        <h6><b>€ @Model.numPayedAmount</b></h6>
+                    </div>
+                </div>
+                <hr style="margin-top:-10px" />
+                <div class="row">
+                    <div class="col-md-6 d-flex justify-content-md-start">
+                        <h6>Outstanding Amount:</h6>
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-md-end">
+                        <h6><b>€ @Model.numBalanceToPay</b></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row text-center">
+            <div class="col-12">
+                <span>
+                    Thank You for your business. Looking forward to your next visit!
+                </span>
+            </div>
+        </div>
+    </div>
+    <script src="~/Assest/vendor/libs/jquery/jquery.js"></script>
+    <script src="~/Assest/vendor/libs/popper/popper.js"></script>
+    <script src="~/Assest/vendor/js/bootstrap.js"></script>
+    <script src="~/Assest/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/Assest/vendor/libs/hammer/hammer.js"></script>
+    <script src="~/Assest/vendor/libs/i18n/i18n.js"></script>
+    <script src="~/Assest/vendor/js/menu.js"></script>
+    <script src="~/Assest/js/main.js"></script>
+    <script src="~/Assest/vendor/libs/typeahead-js/bootstrap3-typeahead.min.js"></script>
+    <script src="~/Assest/js/app-invoice-print.js"></script>
+</body>
+</html>

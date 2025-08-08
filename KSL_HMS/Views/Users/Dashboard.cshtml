@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Dashboard = "active";
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Assest/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet" href="~/Assest/vendor/libs/flatpickr/flatpickr.css" />
+<link rel="stylesheet" href="~/Assest/vendor/libs/select2/select2.css" />
+<link rel="stylesheet" href="~/Assest/vendor/libs/quill/editor.css" />
+<link rel="stylesheet" href="~/Assest/vendor/libs/formvalidation/dist/css/formValidation.min.css" />
+<link href="~/Assest/vendor/fullcalendar/main.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/fullcalendar/fullcalendar.css" rel="stylesheet" />
+<link href="~/Assest/vendor/css/pages/app-calendar.css" rel="stylesheet" />
+
+<div class="card app-calendar-wrapper">
+    <div class="row g-0">
+        <div class="col app-calendar-content">
+            <div class="card shadow-none border-0">
+                <div class="card-body pb-0">
+                    <div class="d-flex align-items-center flex-wrap" style="margin-left:-10px">
+                        <div class="avatar avatar-xs me-2">
+                            <span class="avatar-initial rounded-circle bg-label-primary"></span>
+                        </div>Reserved
+                        <div class="avatar avatar-xs ms-3 me-2">
+                            <span class="avatar-initial rounded-circle bg-label-success"></span>
+                        </div>Checked-In
+                        <div class="avatar avatar-xs ms-3 me-2">
+                            <span class="avatar-initial rounded-circle bg-label-warning"></span>
+                        </div>Checked-Out
+                        <div class="avatar avatar-xs ms-3 me-2">
+                            <span class="avatar-initial rounded-circle bg-label-danger"></span>
+                        </div>Closed
+                    </div>
+                    <div id="calendar" style="margin:10px"></div>
+                </div>
+            </div>
+            <div class="app-overlay"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="BookingModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="BookingModalDiv" style="margin-top:-20px"></div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="~/Assest/vendor/fullcalendar/main.min.js"></script>
+<script src="~/Assest/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script>
+<script src="~/Assest/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
+<script src="~/Assest/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>
+<script src="~/Assest/vendor/libs/flatpickr/flatpickr.js"></script>
+<script src="~/Assest/vendor/libs/moment/moment.js"></script>
+<script type="text/javascript">
+    var calendarResource = @Html.Raw(Json.Encode(TempData["CalendarResource"]));
+    var calendarEvent = @Html.Raw(Json.Encode(TempData["CalendarEvent"]));
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            themeSystem: 'bootstrap4',
+            initialView: 'resourceTimelineMonth',
+            displayEventTime: false,
+            defaultDate: moment(),
+            selectable: true,
+            nowIndicator: true,
+            resourceOrder: 'category,title',
+            resourceGroupField: 'category',
+            resources: calendarResource,
+            events: calendarEvent,
+            eventClick: function (e) {
+                $.ajax({
+                    type: 'GET',
+                    data: { id: e.event.id },
+                    url: '@Url.Action("BookingCalenderDetails", "BookingHeaders")',
+                    success: function (response) {
+                        $("#BookingModalDiv").html(response);
+                        $('#BookingModal').modal('show');
+                    }
+                });
+            },
+            dateClick: function (e) {
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0');
+                var yyyy = today.getFullYear();
+                today = yyyy + '-' + mm + '-' + dd;
+                e = moment(e.date).format("YYYY-MM-DD");
+
+                if (today <= e) {
+                    window.location.href = '/BookingHeaders/Create';
+                }
+            },
+            views: {
+                resourceTimelineYear: {
+                    buttonText: 'Year',
+                    slotDuration: { months: 1 }
+                },
+                resourceTimelineMonth: {
+                    buttonText: 'Month'
+                },
+                resourceTimelineWeek: {
+                    buttonText: 'Week',
+                    slotDuration: { days: 1 }
+                },
+                resourceTimelineDay: {
+                    buttonText: 'Day',
+                    slotDuration: '01:00'
+                }
+            },
+            headerToolbar: {
+                left: 'prev,next',
+                center: 'title',
+                right: 'resourceTimelineYear,resourceTimelineMonth,resourceTimelineWeek,resourceTimelineDay'
+            }
+        });
+        calendar.setOption("now", new Date());
+        calendar.render();
+    });
+</script>

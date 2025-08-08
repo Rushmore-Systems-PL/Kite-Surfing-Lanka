@@ -1,0 +1,78 @@
+﻿@model KSL_HMS.DB.LocationItemType
+
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+
+<div class="card mb-4">
+    @using (Html.BeginForm("Create", "LocationItemTypes", FormMethod.Post, new { @class = "card-body" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger", id = "JasonErrorMsgID" })
+        <h4>New Location Item Category</h4>
+        <hr class="my-4 mx-n4" />
+        <div class="row g-3">
+            <div class="col-md-5">
+                <label class="form-label" for="numLocationID">Location  <sup class="text-danger">*</sup></label>
+                @Html.DropDownList("numLocationID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Item Category", @title = "Please Select Location.", @id = "numLocationID" })
+                @Html.ValidationMessageFor(model => model.numLocationID, "", new { @class = "text-danger", @id = "numLocationID" })
+                <p class="text-danger" id="JasonnumErrorMsg"></p>
+            </div>
+            <div class="col-md-5">
+                <label class="form-label" for="numItemTypeID">Item Category <sup class="text-danger">*</sup></label>
+                @Html.DropDownList("numItemTypeID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Item Category", @title = "Please Select Item Category.", @id = "numItemTypeID" })
+                @Html.ValidationMessageFor(model => model.numItemTypeID, "", new { @class = "text-danger", @id = "numItemTypeID" })
+            </div>
+        </div>
+        <br />
+        @Html.HiddenFor(model => model.bitActive)
+        @Html.HiddenFor(model => model.numCreatedByID)
+        @Html.HiddenFor(model => model.dtCreatedDate)
+        @Html.HiddenFor(model => model.numUpdatetdByID)
+        @Html.HiddenFor(model => model.dtUpdatetDate)
+        @Html.HiddenFor(model => model.numDeletedByID)
+        @Html.HiddenFor(model => model.dtDeletedDate)
+        <div class="pt-4" style="margin-top:-20px">
+            <button type="submit" class="btn btn-primary me-sm-3 me-1" id="LoacationItemSubmitBtn">Submit</button>
+            <button type="reset" class="btn btn-warning">Clear</button>
+        </div>
+    }
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script type="text/javascript">
+    $("#numLocationID").select2({
+        placeholder: "Select Location...",
+    });
+    $("#numItemTypeID").select2({
+        placeholder: "Select Item Category...",
+    });
+    $('#numLocationID').on('change', function () {
+        var Lid = $('#numLocationID option:selected').val();
+        var Iid = $('#numItemTypeID option:selected').val();
+        CheckLoactionItems(Lid, Iid);
+    });
+    $('#numItemTypeID').on('change', function () {
+        var Lid = $('#numLocationID option:selected').val();
+        var Iid = $('#numItemTypeID option:selected').val();
+        CheckLoactionItems(Lid, Iid);
+    });
+    function CheckLoactionItems(Lid, Iid) {
+        if (Lid != null && Iid != null) {
+            $.ajax({
+                type: 'GET',
+                data: { numLocationID: Lid, numItemTypeID: Iid },
+                url: '@Url.Action("IsAlreadyExists", "LocationItemTypes")',
+                success: function (result) {
+                    if (result == true) {
+                        document.getElementById('JasonnumErrorMsg').innerText = "";
+                        document.getElementById("LoacationItemSubmitBtn").disabled = false;
+                    } else {
+                        document.getElementById('JasonnumErrorMsg').innerText = "Selected Location And Item Already Available.";
+                        document.getElementById("LoacationItemSubmitBtn").disabled = true;
+                    }
+                }
+            });
+        }
+    }
+</script>

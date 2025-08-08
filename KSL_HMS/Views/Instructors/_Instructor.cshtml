@@ -1,0 +1,40 @@
+﻿@model KSL_HMS.DB.Instructor
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.numInstructorID)
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label class="form-label" for="varInstructorName">Instructor Name  <sup class="text-danger">*</sup></label>
+            @Html.EditorFor(model => model.varInstructorName, new { htmlAttributes = new { @class = "form-control", @id = "varInstructorName", @type = "text", placeholder = "Name...", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.varInstructorName, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="varInstructorNIC">Instructor NIC  <sup class="text-danger">*</sup></label>
+            @Html.EditorFor(model => model.varInstructorNIC, new { htmlAttributes = new { @class = "form-control", @id = "varInstructorNIC", @type = "text", placeholder = "NIC...", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.varInstructorNIC, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="varInstructorEmail">Instructor Email  <sup class="text-danger">*</sup></label>
+            @Html.EditorFor(model => model.varInstructorEmail, new { htmlAttributes = new { @class = "form-control", @id = "varInstructorEmail", @type = "text", placeholder = "Email...", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.varInstructorEmail, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.bitActive)
+    @Html.HiddenFor(model => model.numCreatedByID)
+    @Html.HiddenFor(model => model.dtCreatedDate)
+    @Html.HiddenFor(model => model.numUpdatetdByID)
+    @Html.HiddenFor(model => model.dtUpdatetDate)
+    @Html.HiddenFor(model => model.numDeletedByID)
+    @Html.HiddenFor(model => model.dtDeletedDate)
+    <div class="pt-4">
+        <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+        <button type="reset" class="btn btn-warning">Clear</button>
+    </div>
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

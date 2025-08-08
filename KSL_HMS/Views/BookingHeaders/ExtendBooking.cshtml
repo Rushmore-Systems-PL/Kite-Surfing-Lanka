@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewBag.NewInternalBooking = "active open";
+    ViewBag.Booking = "active open";
+    ViewBag.ExtendBooking = "active";
+    ViewBag.Title = "Add Booking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Assest/vendor/libs/toastr/toastr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/flatpickr/flatpickr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+
+<div class="card">
+    <div class="card-body">
+        <h4>Extend Booking</h4>
+        <hr class="my-4 mx-n4" />
+        @using (Html.BeginForm("ExtendBooking", "BookingHeaders", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label class="form-label" for="numBookingRefferenceID">Select Booking Reference<sup class="text-danger">*</sup></label>
+                    @Html.DropDownList("numBookingRefferenceID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Booking Reference", @title = "Please Select Booking Reference.", @id = "numBookingRefferenceID" })
+                </div>
+                <div class="col-md-2" style="margin-top:46px">
+                    <button type="button" class="btn btn-info me-sm-3 me-1" onclick="LoadBookings()" id="LoadBookingBtn">View Bookings</button>
+                </div>
+            </div>
+            <br />
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label class="form-label" for="numBookingHeaderID">Select Extending Room<sup class="text-danger">*</sup></label>
+                    <select class="form-control" required="" title="Please Select Room" id="numBookingHeaderID" name="numBookingHeaderID"></select>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label" for="extendingToDate">Select New Check-Out Date<sup class="text-danger">*</sup></label>
+                    <input type="text" class="form-control" placeholder="Extending Date..." required="" title="Please Select New Check-Out Date" id="extendingToDate" name="extendingToDate" readonly="readonly"/>
+                </div>
+            </div>
+            <br />
+            <p class="text-danger" hidden="hidden" id="ErrorAlertMsg">Selected room is not available.</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary me-sm-3 me-1" id="SubmitBtn">Submit</button>
+                    <button type="button" class="btn btn-warning" onClick="window.location.reload();">Clear</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="BookingModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="BookingModalDiv" style="margin-top:-20px"></div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script src="~/Assest/vendor/libs/flatpickr/flatpickr.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script type="text/javascript">
+    document.getElementById("SubmitBtn").disabled = true;
+    let Bookings = [];
+    document.getElementById('LoadBookingBtn').style.visibility = 'hidden';
+    $("#numBookingRefferenceID").select2({
+        placeholder: "Booking Reference...",
+    });
+    $("#numBookingHeaderID").select2({
+        placeholder: "Select Room...",
+    });
+    $('#numBookingRefferenceID').on('change', function ()
+    {
+        var Bid = $('#numBookingRefferenceID option:selected').val();
+        if (Bid != null) {
+            document.getElementById('LoadBookingBtn').style.visibility = 'visible';
+        }
+        $.ajax({
+            type: 'GET',
+            data: { numBookingRefferenceID: Bid },
+            url: '@Url.Action("LoadBooking", "BookingHeaders")',
+            success: function (result) {
+                var s = '<option value="">Select Room...</option>';
+                for (var i = 0; i < result.length; i++) {
+                    s += '<option value="' + result[i].id + '">' + result[i].booking + '</option>';
+                    var bookings = {};
+                    bookings["id"] = result[i].id;
+                    bookings["booking"] = result[i].booking;
+                    bookings["dtEndDate"] = result[i].dtEndDate;
+                    Bookings.push(bookings);
+                }
+                $("#numBookingHeaderID").html(s);
+            }
+        });
+        $("#extendingToDate").val('');
+        document.getElementById('extendingToDate').setAttribute('readonly', true);
+        document.getElementById("SubmitBtn").disabled = false;
+        let p = document.getElementById('ErrorAlertMsg');
+        p.hidden = true
+    });
+    function LoadBookings() {
+        var Bid = $('#numBookingRefferenceID option:selected').val();
+        jQuery.noConflict();
+        $.ajax({
+            type: 'GET',
+            data: { id: Bid },
+            url: '@Url.Action("Bookings", "BookingHeaders")',
+            success: function (response) {
+                $("#BookingModalDiv").html(response);
+                $('#BookingModal').modal('show');
+            }
+        });
+    }
+    $('#numBookingHeaderID').on('change', function ()
+    {
+        $("#extendingToDate").val('');
+        var Hid = $('#numBookingHeaderID option:selected').val();
+        var booking = Bookings.find(x => x.id == Hid);
+        const timestamp = parseInt(booking.dtEndDate.match(/\d+/)[0]);
+        var date = new Date(timestamp)
+        date.setDate(date.getDate() + 1)
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const Mindate = `${year}-${month}-${day}`;
+
+        document.getElementById("extendingToDate").value = Mindate;
+        flatpickr('#extendingToDate', {
+            minDate: Mindate,
+            defaultDate: Mindate,
+            onChange: (selectedDates, dateStr, instance) =>
+            {
+                CheckBookingExtend(dateStr);
+            },
+        });
+        document.getElementById('extendingToDate').removeAttribute('readonly');
+        CheckBookingExtend(Mindate);
+    });
+    function CheckBookingExtend(fromDate)
+    {
+        var Bid = $('#numBookingHeaderID option:selected').val();
+        if (Bid != null) {
+        $.ajax({
+            type: 'GET',
+            data: { numBookingHeaderId: Bid, extToDate: fromDate },
+            url: '@Url.Action("CheckBookingExtend", "BookingHeaders")',
+            success: function (response)
+            {
+                if (response.status) {
+                    document.getElementById("SubmitBtn").disabled = false;
+                    let p = document.getElementById('ErrorAlertMsg');
+                    p.hidden = true
+                } else {
+                    document.getElementById("SubmitBtn").disabled = true;
+                    let p = document.getElementById('ErrorAlertMsg');
+                    p.hidden = false
+                }
+            }
+        });
+        }
+    }
+    $(function myfunction() {
+        var Msg = '@TempData["BookingStatus"]'
+        if (Msg != '') {
+            if (Msg == "Extended") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["success"]("Booking Extended Successfully.", " Success");
+            }
+        }
+    })
+</script>

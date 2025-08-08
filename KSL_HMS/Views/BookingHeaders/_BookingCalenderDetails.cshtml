@@ -1,0 +1,257 @@
+﻿@model KSL_HMS.DB.BillHeader
+@{
+    var BookingDetails = (List<KSL_HMS.DB.BookingDetail>)ViewBag.BookingDetails;
+    var BookingHeader = (KSL_HMS.DB.BookingHeader)ViewBag.BookingHeaders;
+}
+<div class="row">
+    <div class="col-md-6 d-flex justify-content-md-start">
+        <h4>Booking Summary</h4>
+    </div>
+    <div class="col-md-6 d-flex justify-content-md-end">
+        <a href="~/BillHeaders/Details/@BookingHeader.BookingRefference.numBookingRefferenceID">Go To Booking | Bill | Payment Summary</a>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <h5 class="pb-2 border-bottom mb-4">Booking Person</h5>
+        @if (BookingHeader.varBookingPersonName != null)
+        {
+            <h5 class="text-secondary" style="margin-top:-10px">@BookingHeader.varBookingPersonName</h5>
+        }
+        else
+        {
+            <h5 class="text-secondary" style="margin-top:-10px">N/A</h5>
+        }
+    </div>
+    <div class="col-md-4">
+        <h5 class="pb-2 border-bottom mb-4">Booking Person Email</h5>
+        @if (BookingHeader.varBookingPersonName != null)
+        {
+            <h5 class="text-secondary" style="margin-top:-10px">@BookingHeader.varBookingPersonEmail</h5>
+        }
+        else
+        {
+            <h5 class="text-secondary" style="margin-top:-10px">N/A</h5>
+        }
+    </div>
+    <div class="col-md-3">
+        <h5 class="pb-2 border-bottom mb-4">Created Date</h5>
+        <h5 class="text-secondary" style="margin-top:-10px">From: @BookingHeader.dtCreatedDate.Value.ToString("yyyy/MM/dd")</h5>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <h5 class="pb-2 border-bottom mb-4">Booking Reference</h5>
+        <h5 class="text-secondary" style="margin-top:-10px">@BookingHeader.BookingRefference.varBookingRefferenceNo</h5>
+    </div>
+    <div class="col-md-4">
+        <h5 class="pb-2 border-bottom mb-4">Booking Period</h5>
+        @if (BookingHeader.bitCheckedIn == true)
+        {
+            if (BookingHeader.dtFromDate.Value.ToString("yyyy/MM/dd") != BookingHeader.dtCheckInDateTime.Value.ToString("yyyy/MM/dd"))
+            {
+                <h5 class="text-secondary" style="margin-top:-10px">From: @BookingHeader.dtCheckInDateTime.Value.ToString("yyyy/MM/dd") | To: @BookingHeader.dtToDate.Value.ToString("yyyy/MM/dd")</h5>
+            }
+            else
+            {
+                <h5 class="text-secondary" style="margin-top:-10px">From: @BookingHeader.dtFromDate.Value.ToString("yyyy/MM/dd") | To: @BookingHeader.dtToDate.Value.ToString("yyyy/MM/dd")</h5>
+            }
+        }
+        else
+        {
+            <h5 class="text-secondary" style="margin-top:-10px">From: @BookingHeader.dtFromDate.Value.ToString("yyyy/MM/dd") | To: @BookingHeader.dtToDate.Value.ToString("yyyy/MM/dd")</h5>
+        }
+    </div>
+    @if (BookingHeader.bitStandardRate == true)
+    {
+        <div class="col-md-3">
+            <h5 class="pb-2 border-bottom mb-4">Custom Rate </h5>
+            <h5 class="text-secondary" style="margin-top:-10px">€ @BookingHeader.numRate</h5>
+        </div>
+    }
+</div>
+<br />
+<div class="row">
+    <div class="col-md-3">
+        <h5 class="pb-2 border-bottom mb-4">Room Category</h5>
+        <h5 class="text-secondary" style="margin-top:-10px">@BookingHeader.RoomType.varRoomTypeName</h5>
+    </div>
+    <div class="col-md-3">
+        <h5 class="pb-2 border-bottom mb-4">Room No</h5>
+        <h5 class="text-secondary" style="margin-top:-10px">@BookingHeader.Room.varRoomNo</h5>
+    </div>
+    <div class="col-md-3">
+        <h5 class="pb-2 border-bottom mb-4">Maximum Pax Allowed </h5>
+        <h5 class="text-secondary" style="margin-top:-10px">@BookingHeader.Room.numMaxPaxAllowed.Value.ToString("00")</h5>
+    </div>
+</div>
+@if (BookingHeader.bitKSLessonRequired == true || BookingHeader.bitKSRentalRequired == true)
+{
+    <br />
+    <div class="row">
+        @if (BookingHeader.bitKSLessonRequired == true)
+        {
+            <div class="col-md-4">
+                <h5 class="pb-2 border-bottom mb-4">Kite Surfing Lessons Required Period</h5>
+                <h5 class="text-secondary" style="margin-top:-10px">From: @BookingHeader.dtKsLessonRequiredFrom.Value.ToString("yyyy/MM/dd") | To: @BookingHeader.dtKsLessonRequiredTo.Value.ToString("yyyy/MM/dd")</h5>
+            </div>
+        }
+        @if (BookingHeader.bitKSRentalRequired == true)
+        {
+            <div class="col-md-4">
+                <h5 class="pb-2 border-bottom mb-4">Kite Rental Required Period</h5>
+                <h5 class="text-secondary" style="margin-top:-10px">From: @BookingHeader.dtKSRentalRequiredFrom.Value.ToString("yyyy/MM/dd") | To: @BookingHeader.dtKSRentalRequiredTo.Value.ToString("yyyy/MM/dd")</h5>
+            </div>
+        }
+    </div>
+}
+@if (BookingHeader.bitTransportRequired == true || BookingHeader.bitAgentRequired == true)
+{
+    <br />
+    <div class="row">
+        @if (BookingHeader.bitAgentRequired == true)
+        {
+            <div class="col-md-4">
+                <h5 class="pb-2 border-bottom mb-4">Booking Agent </h5>
+                <h5 class="text-secondary" style="margin-top:-10px"> @BookingHeader.varAgentName</h5>
+            </div>
+        }
+        @if (BookingHeader.bitTransportRequired == true)
+        {
+            <div class="col-md-7">
+                <h5 class="pb-2 border-bottom mb-4">Flight Details </h5>
+                <h5 class="text-secondary" style="margin-top:-10px">@BookingHeader.varFlightDetails</h5>
+            </div>
+        }
+    </div>
+}
+<br />
+<div class="row">
+    <div class="col-md-3">
+        <h5 class="pb-2 border-bottom mb-4">No Of Adults</h5>
+        <h5 class="text-secondary" style="margin-top:-10px">@BookingHeader.numAdultsCount.Value.ToString("00")</h5>
+    </div>
+    <div class="col-md-3">
+        <h5 class="pb-2 border-bottom mb-4">No Of Children</h5>
+        <h5 class="text-secondary" style="margin-top:-10px">@BookingHeader.numChildrensCount.Value.ToString("00")</h5>
+    </div>
+    <div class="col-md-3">
+        <h5 class="pb-2 border-bottom mb-4">No Of Infants </h5>
+        <h5 class="text-secondary" style="margin-top:-10px">@BookingHeader.numInfantsCount.Value.ToString("00")</h5>
+    </div>
+</div>
+@if (BookingHeader.varRemarks != "")
+{
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <h5 class="pb-2 border-bottom mb-4">Remarks</h5>
+            <h5 class="text-secondary" style="margin-top:-10px">@BookingHeader.varRemarks</h5>
+        </div>
+    </div>
+}
+@if (BookingDetails != null)
+{
+    <h4>Guest Summary</h4>
+    <hr style="margin-top:-10px;margin-bottom:30px" />
+    <div class="row">
+        @foreach (var detail in BookingDetails)
+        {
+            <div class="col" style="margin-top:-10px">
+                <h4 class="mb-0">
+                    <span class="align-middle">@detail.Guest.varGuestName</span>
+                </h4>
+                <span>Passport No: @detail.Guest.varGuestPPNo | Age: @detail.Guest.GuestChargeType.varGuestChargeTypeName</span>
+            </div>
+        }
+    </div>
+}
+<br />
+<h4>Bill Summary</h4>
+<div class="table-responsive">
+    <table class="table border-top m-0">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Item</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Cost</th>
+                <th>Qty</th>
+                <th>Duration</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+                foreach (var item in ViewBag.BillDetails)
+                {
+                    <tr>
+                        <td>@i.ToString("00")</td>
+                        <td>
+                            @Convert.ToDateTime(item.dtCreatedDate).ToString("yyyy/MM/dd")
+                        </td>
+                        <td class="text-nowrap">
+                            @if (item.numItemID != null)
+                            {
+                                <span>@item.Item.varItemName</span>
+                            }
+                            else
+                            {
+                                <span>Room No: @item.Room.varRoomNo</span>
+
+                            }
+                        </td>
+                        <td>
+                            @if (item.numItemID != null)
+                            {
+                                <span>@item.Item.ItemType.varItemTypeName</span>
+                            }
+                            else
+                            {
+                                <span>@item.BillHeader.BookingHeader.RoomType.varRoomTypeName</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.numLocationID == null)
+                            {
+                                <span>Room</span>
+                            }
+                            else
+                            {
+                                <span>@item.Location.varLocationName</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.bitDiscountOffered != true)
+                            {
+                                <span>€ @item.numCost</span>
+                            }
+                            else
+                            {
+                                <span>€ @item.numCost (@item.numDiscount%)</span>
+                            }
+                        </td>
+                        <td>@item.numQuantity</td>
+                        <td>
+                            @if (item.numDuration == null)
+                            {
+                                <span> - </span>
+                            }
+                            else
+                            {
+                                <span>@item.numDuration</span>
+                            }
+                        </td>
+                        <td>@item.numFinalCost</td>
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
+    </table>
+</div>

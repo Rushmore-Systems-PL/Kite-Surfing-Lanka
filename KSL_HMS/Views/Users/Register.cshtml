@@ -1,0 +1,134 @@
+﻿@model KSL_HMS.DB.User
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en" class="light-style  customizer-hide" dir="ltr" data-theme="theme-default" data-assets-path="~/Assest/" data-template="vertical-menu-template">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Register | KITESURFING </title>
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
+    <link href="~/Assest/vendor/fonts/boxicons.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/fonts/fontawesome.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/fonts/flag-icons.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/css/rtl/core.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/css/rtl/theme-default.css" rel="stylesheet" />
+    <link href="~/Assest/css/demo.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/libs/typeahead-js/typeahead.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/libs/formvalidation/dist/css/formValidation.min.css" rel="stylesheet" />
+    <link href="~/Assest/vendor/css/pages/page-auth.css" rel="stylesheet" />
+    <script src="~/Assest/vendor/js/helpers.js"></script>
+    <script src="~/Assest/js/config.js"></script>
+    <link rel="stylesheet" href="~/Assest/vendor/libs/bs-stepper/bs-stepper.css" />
+    <link rel="stylesheet" href="~/Assest/vendor/libs/bootstrap-select/bootstrap-select.css" />
+    <link rel="stylesheet" href="~/Assest/vendor/libs/select2/select2.css" />
+</head>
+<body style="background-color: #A0AEAE">
+    <div class="authentication-wrapper authentication-cover">
+        <div class="authentication-inner row m-0">
+            <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center p-5">
+                <div class="w-100 d-flex justify-content-center">
+                    <img src="~/Assest/customer/526443_407677729327035_1105320874_n.jpg" class="img-fluid" alt="Login image" width="700" data-app-dark-img="illustrations/girl-with-laptop-dark.png" data-app-light-img="illustrations/girl-with-laptop-light.png">
+                </div>
+            </div>
+            <div class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg p-sm-5 p-4">
+                <div class="w-px-400 mx-auto">
+                    <h4 class="mb-2" style="margin-top:-20px">Register, Starts here 🚀</h4>
+                    <p class="mb-4">Make your site management easy and fun!</p>
+                    <p class="text-danger">@ViewBag.UserNoEmpExiError@ViewBag.UserExistError</p>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="row" style="margin-top:-10px">
+                            <div class="col-md-6">
+                                <label class="form-label" for="varFirstName">First Name <sup class="text-danger">*</sup></label>
+                                @Html.EditorFor(model => model.varFirstName, new { htmlAttributes = new { @class = "form-control", @id = "varFirstName", placeholder = "First Name...", autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.varFirstName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="varLastName">Last Name <sup class="text-danger">*</sup></label>
+                                @Html.EditorFor(model => model.varLastName, new { htmlAttributes = new { @class = "form-control", @id = "varLastName", placeholder = "Last Name...", autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.varLastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="mb-3" style="margin-top:10px">
+                            <label class="form-label" for="varNIC">NIC <sup class="text-danger">*</sup></label>
+                            @Html.EditorFor(model => model.varNIC, new { htmlAttributes = new { @class = "form-control", @id = "varNIC", placeholder = "NIC...", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.varNIC, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3" style="margin-top:-5px">
+                            <label class="form-label" for="varUserName">User Name <sup class="text-danger">*</sup></label>
+                            @Html.EditorFor(model => model.varUserName, new { htmlAttributes = new { @class = "form-control", @id = "varUserName", placeholder = "User Name...", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.varUserName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3 form-password-toggle" style="margin-top:-5px">
+                            <label class="form-label" for="varPassword">Password <sup class="text-danger">*</sup></label>
+                            <div class="input-group input-group-merge">
+                                @Html.EditorFor(model => model.varPassword, new { htmlAttributes = new { @class = "form-control", @id = "varPassword", placeholder = "Password...", autocomplete = "off", @required = "", @title = "Please Enter Password." } })
+                                <span class="input-group-text cursor-pointer" id="varPassword"><i class="bx bx-hide"></i></span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.varPassword, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="termsconditions1" name="termsconditions">
+                                <label class="form-check-label" for="terms-conditions">
+                                    I agree to
+                                    <a href="javascript:void(0);">privacy policy & terms</a>
+                                </label>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary d-grid w-100" id="signupbtn">
+                            Sign up
+                        </button>
+                    }
+                    <p class="text-center">
+                        <span>Already have an account?</span>
+                        <a href="~/Users/Login">
+                            <span>Sign in instead</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Assest/vendor/libs/popper/popper.js"></script>
+    <script src="~/Assest/vendor/js/bootstrap.js"></script>
+    <script src="~/Assest/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/Assest/vendor/libs/hammer/hammer.js"></script>
+    <script src="~/Assest/vendor/libs/i18n/i18n.js"></script>
+    <script src="~/Assest/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="~/Assest/vendor/js/menu.js"></script>
+    <script src="~/Assest/vendor/libs/cleavejs/cleave.js"></script>
+    <script src="~/Assest/vendor/libs/cleavejs/cleave-phone.js"></script>
+    <script src="~/Assest/vendor/libs/bs-stepper/bs-stepper.js"></script>
+    <script src="~/Assest/vendor/libs/select2/select2.js"></script>
+    <script src="~/Assest/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script>
+    <script src="~/Assest/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
+    <script src="~/Assest/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>
+    <script src="~/Assest/js/main.js"></script>
+    <script type="text/javascript">
+        document.getElementById("signupbtn").disabled = true;
+        $("input[name='termsconditions']").click(function () {
+            if (document.getElementById('termsconditions1').checked) {
+                document.getElementById("signupbtn").disabled = false;
+            }
+            else {
+                document.getElementById("signupbtn").disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>

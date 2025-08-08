@@ -1,0 +1,385 @@
+﻿
+@{
+    ViewBag.NewInternalBooking = "active open";
+    ViewBag.Booking = "active open";
+    ViewBag.AddBooking = "active";
+    ViewBag.Title = "Add Booking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Assest/vendor/libs/toastr/toastr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/flatpickr/flatpickr.css" rel="stylesheet" />
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+
+
+<div class="card">
+    <div class="card-body">
+        <h4>Add Booking</h4>
+        <hr class="my-4 mx-n4" />
+        @using (Html.BeginForm("AddBooking", "BookingHeaders", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label class="form-label" for="numBookingRefferenceID">Select Booking Reference<sup class="text-danger">*</sup></label>
+                    @Html.DropDownList("numBookingRefferenceID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Booking Reference", @title = "Please Select Booking Reference.", @id = "numBookingRefferenceID" })
+                </div>
+                <div class="col-md-2" style="margin-top:46px">
+                    <button type="button" class="btn btn-info me-sm-3 me-1" onclick="LoadBookings()" id="LoadBookingBtn">View Bookings</button>
+                </div>
+                <div class="col-md-5 text-end" style="margin-top:46px" id="MenuBtnDiv">
+                    <button type="button" class="btn btn-secondary me-sm-3 me-1" id="NewRoomBtn">Add New Room</button>
+                    <button type="submit" class="btn btn-primary me-sm-3 me-1" id="SubmitBtn">Submit</button>
+                    <button type="button" class="btn btn-warning" onClick="window.location.reload();">Clear</button>
+                </div>
+            </div>
+            <br />
+            <div id="NewBookingsDiv"></div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="BookingModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="BookingModalDiv" style="margin-top:-20px"></div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/js/bootstrap.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script src="~/Assest/vendor/libs/flatpickr/flatpickr.js"></script>
+<script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
+<script type="text/javascript">
+    document.getElementById("SubmitBtn").disabled = true;
+    var Bookings = [];
+    $('#MenuBtnDiv').hide();
+    document.getElementById('LoadBookingBtn').style.visibility = 'hidden';
+    $("#numBookingRefferenceID").select2({
+        placeholder: "Booking Reference...",
+    });
+    $('#numBookingRefferenceID').on('change', function () {
+        var Bid = $('#numBookingRefferenceID option:selected').val();
+        if (Bid != null) {
+            document.getElementById('LoadBookingBtn').style.visibility = 'visible';
+            $('#MenuBtnDiv').show();
+        }
+    });
+    function LoadRoomCategory(StrDate, EndDate, R) {
+        var SetBookings = {
+            "dtFromDate": StrDate,
+            "dtToDate": EndDate,
+            "Bookings": JSON.stringify(Bookings)
+        };
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            async: false,
+            cache: false,
+            url: '@Url.Action("LoadRoomCategories", "BookingHeaders")',
+            context: document.body,
+            data: SetBookings,
+            success: function (result) {
+                var s = '<option value="">Select Room Category...</option>';
+                for (var i = 0; i < result.length; i++) {
+                    s += '<option value="' + result[i].id + '">' + result[i].name + '</option>';
+                }
+                $("#numRoomTypeID" + R).html(s);
+            }
+        });
+    }
+    function LoadAvailableRooms(R) {
+        var RTid = $('#numRoomTypeID' + R + ' option:selected').val();
+        var Dtfrom = document.getElementById('dtFromDate' + R).value;
+        var DTend = document.getElementById('dtToDate' + R).value;
+
+        if (RTid != null && Dtfrom != null && DTend != null) {
+            var SetBookings = {
+                "numRoomTypeID": RTid,
+                "dtFromDate": Dtfrom,
+                "dtToDate": DTend,
+                "Bookings": JSON.stringify(Bookings)
+            };
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                async: false,
+                cache: false,
+                url: '@Url.Action("LoadAvailableRooms", "BookingHeaders")',
+                context: document.body,
+                data: SetBookings,
+                success: function (result) {
+                    var s = '<option value="">Select Room...</option>';
+                    for (var i = 0; i < result.length; i++) {
+                        s += '<option value="' + result[i].id + '">' + result[i].name + '</option>';
+                    }
+                    $("#numRoomID" + R).html(s);
+                }
+            });
+        }
+    }
+    function FillSelectedBookings(R) {
+        var Dtfrom = document.getElementById("dtFromDate" + R).value;
+        var DTend = document.getElementById("dtToDate" + R).value;
+        var RTid = $('#numRoomTypeID' + R + ' option:selected').val();
+        var Rid = $('#numRoomID' + R + ' option:selected').val();
+
+        $.ajax({
+            type: 'GET',
+            data: { numRoomID: Rid },
+            url: '@Url.Action("LoadRoomPaxCount", "BookingHeaders")',
+            success: function (result) {
+                document.getElementById("numAdultsCount" + R).value = result;
+                document.getElementById("numChildrensCount" + R).value = 0;
+                document.getElementById("numInfantsCount" + R).value = 0;
+                document.getElementById("SubmitBtn").disabled = false;
+
+                if (RTid != null && Dtfrom != null && DTend != null) {
+                    var booking = Bookings.find(x => x.numBookingID === R);
+                    if (booking === undefined) {
+                        var bookings = {};
+                        bookings["numBookingID"] = R;
+                        bookings["dtFromDate"] = Dtfrom;
+                        bookings["dtToDate"] = DTend;
+                        bookings["numRoomTypeID"] = RTid;
+                        bookings["numRoomID"] = Rid;
+                        bookings["numPaxCount"] = result;
+                        Bookings.push(bookings);
+                    } else {
+
+                        const index = Bookings.findIndex(key => key.numBookingID === R);
+                        Bookings.splice(index, 1);
+
+                        var bookings = {};
+                        bookings["numBookingID"] = R;
+                        bookings["dtFromDate"] = Dtfrom;
+                        bookings["dtToDate"] = DTend;
+                        bookings["numRoomTypeID"] = RTid;
+                        bookings["numRoomID"] = Rid;
+                        bookings["numPaxCount"] = result;
+                        Bookings.push(bookings);
+
+                        CheckHeadCount(R);
+                    }
+                }
+            }
+        });
+    }
+    function CheckHeadCount(R) {
+        var AdCount = Number(document.getElementById("numAdultsCount" + R).value);
+        var ChCount = Number(document.getElementById("numChildrensCount" + R).value);
+        var InfCount = Number(document.getElementById("numInfantsCount" + R).value);
+        var tot = AdCount + ChCount + InfCount;
+
+        var booking = Bookings.find(x => x.numBookingID === R);
+
+        if (tot > booking.numPaxCount) {
+            document.getElementById("HeadCountErMsg" + R).innerHTML = "Maximum Allowed Pax: " + booking.numPaxCount;
+            document.getElementById("SubmitBtn").disabled = true;
+        } else {
+            document.getElementById("HeadCountErMsg" + R).innerHTML = "";
+            document.getElementById("SubmitBtn").disabled = false;
+        }
+    }
+    function RemoveBookings(R) {
+        const Index = Bookings.findIndex((obj) => obj.id === R);
+        Bookings.splice(Index, 1);
+    }
+    function LoadCustomRateDiv(k, i) {
+        if (k.checked) {
+            document.getElementById("rateDiv" + i).style.display = "block";
+            document.getElementById("bitStandardRateValue" + i).value = true;
+        }
+        else {
+            document.getElementById("rateDiv" + i).style.display = "none";
+            document.getElementById("bitStandardRateValue" + i).value = false;
+        }
+    }
+    function LoadTransportDiv(k, i) {
+        if (k.checked) {
+            document.getElementById("FlightDetailsDiv" + i).style.display = "block";
+            document.getElementById("bitTransportRequiredValue" + i).value = true;
+        }
+        else {
+            document.getElementById("FlightDetailsDiv" + i).style.display = "none";
+            document.getElementById("bitTransportRequiredValue" + i).value = false;
+        }
+    }
+    function LoadLessonRequiredDiv(k, i) {
+        if (k.checked) {
+            document.getElementById("KsLessonRequiredDiv" + i).style.display = "block";
+            document.getElementById("bitKSLessonRequiredValue" + i).value = true;
+        }
+        else {
+            document.getElementById("KsLessonRequiredDiv" + i).style.display = "none";
+            document.getElementById("bitKSLessonRequiredValue" + i).value = false;
+        }
+    }
+    function LoadRentalRequiredDiv(k, i) {
+        if (k.checked) {
+            document.getElementById("KsRentalRequiredDiv" + i).style.display = "block";
+            document.getElementById("bitKSRentalRequiredValue" + i).value = true;
+        }
+        else {
+            document.getElementById("KsRentalRequiredDiv" + i).style.display = "none";
+            document.getElementById("bitKSRentalRequiredValue" + i).value = false;
+        }
+    }
+    function LoadAgentRequiredDiv(k, i) {
+        if (k.checked) {
+            document.getElementById("KsAgentRequiredDiv" + i).style.display = "block";
+            document.getElementById("bitKSAgentRequiredValue" + i).value = true;
+        }
+        else {
+            document.getElementById("KsAgentRequiredDiv" + i).style.display = "none";
+            document.getElementById("bitKSAgentRequiredValue" + i).value = false;
+        }
+    }
+    var i = 1;
+    $("#NewRoomBtn").click(function () {
+        i++;
+        var nextDiv = $(document.createElement('div')).attr("id", 'BookingDiv-' + i);
+        nextDiv.after().html('<div class="row g-4"><div class="col-md-4"><label class="form-label" for="varBookingStartToEndDates' + i + '">Booking Period  <sup class="text-danger">*</sup></label><input autocomplete="off" class="form-control" id="varBookingStartToEndDates' + i + '" name="varBookingStartToEndDates" placeholder="Booking Period..." required="" title="Please Select Booking Period." type="text"><input id="dtFromDate' + i + '" name="dtFromDate" style="display:none"><input id="dtToDate' + i + '" name="dtToDate" style="display:none"></div>' +
+            '<div class="col-md-4"><label class="form-label" for="numRoomTypeID' + i + '">Room Category  <sup class="text-danger">*</sup></label><select id="numRoomTypeID' + i + '" name="numRoomTypeID" required="" title="Please Select Room Category." onchange="LoadAvailableRooms(' + i + ')"></select></div>' +
+            '<div class="col-md-4"><label class="form-label" for="numRoomID' + i + '">Room No  <sup class="text-danger">*</sup></label><select id="numRoomID' + i + '" name="numRoomID" required="" title="Please Select Room." onchange="FillSelectedBookings(' + i + ')"></select></div></div>' +
+            '<div class="row g-3"><div class="col-md-3"><div class="form-check mt-3"><input class="form-check-input" type="checkbox" value="true" id="bitStandardRate' + i + '" name="bitStandardRate" onclick="LoadCustomRateDiv(this,' + i + ')"><label class="form-check-label form-label" for="bitStandardRate' + i + '">Custom Rate<sup class="text-danger">*</sup></label></div><input type="hidden" name="bitStandardRateValue" id="bitStandardRateValue' + i + '" value="false" /></div>' +
+            '<div class="col-md-4" id="rateDiv' + i + '" style="margin-top: 33px; display: none;"><label class="form-label" for="numRate' + i + '">Rate (€)  <sup class="text-danger">*</sup></label><input autocomplete="off" class="form-control" data-val="true" data-val-number="The field numRate must be a number." id="numRate' + i + '" name="numRate" placeholder="Rate..." type="number" ></div></div>' +
+            '<div class="row g-3"><div class="col-md-3"><div class="form-check mt-3"><input class="form-check-input" type="checkbox" value="true" id="bitTransportRequired' + i + '" name="bitTransportRequired" onclick="LoadTransportDiv(this,' + i + ')"><label class="form-check-label form-label" for="bitTransportRequired' + i + '">Transport Required<sup class="text-danger">*</sup></label></div><input type="hidden" name="bitTransportRequiredValue" id="bitTransportRequiredValue' + i + '" value="false"></div>' +
+            '<div class="col-md-8" id="FlightDetailsDiv' + i + '" style="margin-top: 33px; display: none;"><label class="form-label" for="varFlightDetails' + i + '">Flight Details <sup class="text-danger">*</sup></label><textarea autocomplete="off" class="form-control" cols="100" data-val="true" data-val-maxlength="500 Characters Allowed For Flight Details." data-val-maxlength-max="500" id="varFlightDetails' + i + '" name="varFlightDetails" placeholder="Description..." rows="2" type="text"></textarea></div></div>' +
+            '<div class="row g-3"><div class="col-md-3"><div class="form-check mt-3"><input class="form-check-input" type="checkbox" value="true" id="bitKSLessonRequired' + i + '" name="bitKSLessonRequired" onclick="LoadLessonRequiredDiv(this,' + i + ')"><label class="form-check-label form-label" for="bitKSLessonRequired' + i + '">Kite Surfing Lessons Required<sup class="text-danger">*</sup></label></div><input type="hidden" name="bitKSLessonRequiredValue" id="bitKSLessonRequiredValue' + i + '" value="false" /></div>' +
+            '<div class="col-md-4" id="KsLessonRequiredDiv' + i + '" style="margin-top: 33px; display: none;"><label class="form-label" for="varKsLessonRequiredStartToEndDates' + i + '">Required Period  <sup class="text-danger">*</sup></label><input autocomplete="off" class="form-control" id="varKsLessonRequiredStartToEndDates' + i + '" name="varKsLessonRequiredStartToEndDates" placeholder="Required Period..." required="" title="Please Select Required Period." type="text"><input id="dtKsLessonRequiredFrom' + i + '" name="dtKsLessonRequiredFrom" style="display:none"><input id="dtKsLessonRequiredTo' + i + '" name="dtKsLessonRequiredTo" style="display:none"></div></div>' +
+            '<div class="row g-3"><div class="col-md-3"><div class="form-check mt-3"><input class="form-check-input" type="checkbox" value="true" id="bitKSRentalRequired' + i + '" name="bitKSRentalRequired" onclick="LoadRentalRequiredDiv(this,' + i + ')"><label class="form-check-label form-label" for="bitKSRentalRequired1' + i + '">Kite Rental Required<sup class="text-danger">*</sup></label></div><input type="hidden" name="bitKSRentalRequiredValue" id="bitKSRentalRequiredValue' + i + '" value="false" /></div>' +
+            '<div class="col-md-4" id="KsRentalRequiredDiv' + i + '" style="margin-top: 33px; display: none;"><label class="form-label" for="varKSRentalRequiredStartToEndDates' + i + '">Required Period  <sup class="text-danger">*</sup></label><input autocomplete="off" class="form-control" id="varKSRentalRequiredStartToEndDates' + i + '" name="varKSRentalRequiredStartToEndDates" placeholder="Required Period..." required="" title="Please Select Required Period." type="text"><input id="dtKSRentalRequiredFrom' + i + '" name="dtKSRentalRequiredFrom" style="display:none"><input id="dtKSRentalRequiredTo' + i + '" name="dtKSRentalRequiredTo" style="display:none"></div></div>' +
+            '<div class="row g-3"><div class="col-md-3"><div class="form-check mt-3"><input class="form-check-input" type="checkbox" value="true" id="bitKSAgentRequired' + i + '" name="bitKSAgentRequired" onclick="LoadAgentRequiredDiv(this,' + i + ')"><label class="form-check-label form-label" for="bitKSAgentRequired1' + i + '">Booked Through Agent<sup class="text-danger">*</sup></label></div><input type="hidden" name="bitKSAgentRequiredValue" id="bitKSAgentRequiredValue' + i + '" value="false" /></div>' +
+            '<div class="col-md-5" id="KsAgentRequiredDiv' + i + '" style="margin-top: 33px; display: none;"><label class="form-label" for="varAgentName' + i + '">Agent Name  <sup class="text-danger">*</sup></label><input autocomplete="off" class="form-control" id="varAgentName' + i + '" name="varAgentName" placeholder="Name..." type="text"></div></div>' +
+            '<div class="row g-3"><div class="col-md-7"> <label class="form-label" for="varRemarks' + i + '">Remarks</label> <textarea autocomplete="off" class="form-control" cols="100" data-val="true" data-val-maxlength="500 Characters Allowed For Remarks." data-val-maxlength-max="500" id="varRemarks' + i + '" name="varRemarks" placeholder="Remarks..." rows="2" type="text"></textarea></div></div><br/>' +
+            '<div class="row g-3"><div class="col-md-12 table-responsive text-nowrap"><table class="table table-bordered" id="HeadCountTbl' + i + '"><thead><tr><th>No Of Adults<sup class="text-danger">*</sup></th><th>No Of Children<sup class="text-danger">*</sup></th><th>No Of Infants<sup class="text-danger">*</sup></th></tr></thead><tbody><tr><td><input autocomplete="off" class="form-control text-box single-line" data-val="true" data-val-number="The field numAdultsCount must be a number." id="numAdultsCount' + i + '" name="numAdultsCount" placeholder="Adults Count..." required="" title="Please Enter Adults Count." type="number" value="" onkeyup="CheckHeadCount(' + i + ');"></td>' +
+            '<td><input autocomplete="off" class="form-control text-box single-line" data-val="true" data-val-number="The field numChildrensCount must be a number." id="numChildrensCount' + i + '" name="numChildrensCount" placeholder="Children Count..." required="" title="Please Enter Children Count." type="number" value="" onkeyup="CheckHeadCount(' + i + ');"></td><td><input autocomplete="off" class="form-control text-box single-line" data-val="true" data-val-number="The field numInfantsCount must be a number." id="numInfantsCount' + i + '" name="numInfantsCount" placeholder="Infants Count..." required="" title="Please Enter Infants Count." type="number" value="" onkeyup="CheckHeadCount(' + i + ');"></td></tr></tbody></table><p class="text-danger" id="HeadCountErMsg' + i + '"></p></div></div><br/>' +
+            '<div class="row justify-content-md-end"><button type="button" class="btn rounded-pill btn-icon btn-danger" onclick="RemoveRooms(' + i + ')"><span class="tf-icons bx bx-trash"></span></button></div><hr class="my-4 mx-n4" /><br/>'
+        );
+        nextDiv.prependTo("#NewBookingsDiv");
+        LoadPickersSelectTools(i);
+    })
+    function LoadPickersSelectTools(i) {
+        jQuery.noConflict();
+        $("#numRoomTypeID" + i).select2({
+            placeholder: "Select Room Category...",
+            allowClear: true
+        });
+        $("#numRoomID" + i).select2({
+            placeholder: "Select Room...",
+            allowClear: true
+        });
+        flatpickr('#varBookingStartToEndDates' + i, {
+            mode: "range",
+            onChange: function (selectedDates, dateStr, instance) {
+                var StrDate = '';
+                if (selectedDates[0] != undefined || selectedDates[0] != null) {
+                    StrDate = selectedDates[0].getFullYear() + "/" + (selectedDates[0].getMonth() + 1) + "/" + selectedDates[0].getDate();
+                    $("#dtFromDate" + i).val(StrDate);
+                } else {
+                    $("#dtFromDate" + i).val('');
+                }
+                var EndDate = '';
+                if (selectedDates[1] != undefined || selectedDates[1] != null) {
+                    EndDate = selectedDates[1].getFullYear() + "/" + (selectedDates[1].getMonth() + 1) + "/" + selectedDates[1].getDate();
+                    $("#dtToDate" + i).val(EndDate);
+                } else {
+                    $("#dtToDate" + i).val('');
+                }
+                if (StrDate != '' && EndDate != '') {
+                    LoadRoomCategory(StrDate, EndDate, i);
+                }
+            }
+        });
+        flatpickr('#varKsLessonRequiredStartToEndDates' + i, {
+            mode: "range",
+            onChange: function (selectedDates, dateStr, instance) {
+                var StrDate = '';
+                if (selectedDates[0] != undefined || selectedDates[0] != null) {
+                    StrDate = selectedDates[0].getFullYear() + "/" + (selectedDates[0].getMonth() + 1) + "/" + selectedDates[0].getDate();
+                    $("#dtKsLessonRequiredFrom" + i).val(StrDate);
+                } else {
+                    $("#dtKsLessonRequiredFrom" + i).val('');
+                }
+                var EndDate = '';
+                if (selectedDates[1] != undefined || selectedDates[1] != null) {
+                    EndDate = selectedDates[1].getFullYear() + "/" + (selectedDates[1].getMonth() + 1) + "/" + selectedDates[1].getDate();
+                    $("#dtKsLessonRequiredTo" + i).val(EndDate);
+                } else {
+                    $("#dtKsLessonRequiredTo" + i).val('');
+                }
+            }
+        });
+        flatpickr('#varKSRentalRequiredStartToEndDates' + i, {
+            mode: "range",
+            onChange: function (selectedDates, dateStr, instance) {
+                var StrDate = '';
+                if (selectedDates[0] != undefined || selectedDates[0] != null) {
+                    StrDate = selectedDates[0].getFullYear() + "/" + (selectedDates[0].getMonth() + 1) + "/" + selectedDates[0].getDate();
+                    $("#dtKSRentalRequiredFrom" + i).val(StrDate);
+                } else {
+                    $("#dtKSRentalRequiredFrom" + i).val('');
+                }
+                var EndDate = '';
+                if (selectedDates[1] != undefined || selectedDates[1] != null) {
+                    EndDate = selectedDates[1].getFullYear() + "/" + (selectedDates[1].getMonth() + 1) + "/" + selectedDates[1].getDate();
+                    $("#dtKSRentalRequiredTo" + i).val(EndDate);
+                } else {
+                    $("#dtKSRentalRequiredTo" + i).val('');
+                }
+            }
+        });
+    }
+    function RemoveRooms(R) {
+        $("#BookingDiv-" + R).remove();
+        const i = Bookings.findIndex(e => e.numBookingID === R);
+        if (i > -1) {
+            Bookings.splice(i, 1);
+        }
+    }
+    function LoadBookings() {
+        var Bid = $('#numBookingRefferenceID option:selected').val();
+        jQuery.noConflict();
+        $.ajax({
+            type: 'GET',
+            data: { id: Bid },
+            url: '@Url.Action("Bookings", "BookingHeaders")',
+            success: function (response) {
+                $("#BookingModalDiv").html(response);
+                $('#BookingModal').modal('show');
+            }
+        });
+    }
+    $(function myfunction() {
+        var Msg = '@TempData["BookingStatus"]'
+        if (Msg != '') {
+            if (Msg == "Deleted") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["warning"]("Booking Canceled Successfully.", " Success");
+            }
+        }
+    })
+</script>
+

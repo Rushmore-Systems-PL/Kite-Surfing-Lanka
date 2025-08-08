@@ -1,0 +1,46 @@
+﻿@model KSL_HMS.DB.RoomCheckInOut
+
+<link href="~/Assest/vendor/libs/flatpickr/flatpickr.css" rel="stylesheet" />
+
+@using (Html.BeginForm("Edit", "RoomCheckInOuts", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.numRoomCheckInOutID)
+    <div class="row g-3">
+        <div class="col-md-5">
+            <label class="form-label" for="varRoomCheckInTime">Room Check - In Time  <sup class="text-danger">*</sup></label>
+            @Html.EditorFor(model => model.varRoomCheckInTime, new { htmlAttributes = new { @class = "form-control", @id = "varRoomCheckInTimeE", @type = "text", placeholder = "Check - In Time...", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.varRoomCheckInTime, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-5">
+            <label class="form-label" for="varRoomCheckOutTime">Room Check - Out Time  <sup class="text-danger">*</sup></label>
+            @Html.EditorFor(model => model.varRoomCheckOutTime, new { htmlAttributes = new { @class = "form-control", @id = "varRoomCheckOutTimeE", @type = "text", placeholder = "Check - Out Time...", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.varRoomCheckOutTime, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.bitActive)
+    @Html.HiddenFor(model => model.numCreatedByID)
+    @Html.HiddenFor(model => model.dtCreatedDate)
+    @Html.HiddenFor(model => model.numUpdatetdByID)
+    @Html.HiddenFor(model => model.dtUpdatetDate)
+    @Html.HiddenFor(model => model.numDeletedByID)
+    @Html.HiddenFor(model => model.dtDeletedDate)
+    <div class="pt-4">
+        <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+        <button type="reset" class="btn btn-warning">Clear</button>
+    </div>
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/flatpickr/flatpickr.js"></script>
+<script type="text/javascript">
+    flatpickr('#varRoomCheckInTimeE', {
+        mode: "time"
+    });
+    flatpickr('#varRoomCheckOutTimeE', {
+        mode: "time"
+    });
+</script>

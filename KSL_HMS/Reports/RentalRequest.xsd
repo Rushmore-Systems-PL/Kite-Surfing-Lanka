@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="RentalRequest" targetNamespace="http://tempuri.org/RentalRequest.xsd" xmlns:mstns="http://tempuri.org/RentalRequest.xsd" xmlns="http://tempuri.org/RentalRequest.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="RentalRequest" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="RentalRequest" msprop:Generator_DataSetName="RentalRequest">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTable1" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_RowClassName="DataTable1Row" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_UserTableName="DataTable1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="varBookingRefferenceNo" msprop:Generator_ColumnPropNameInRow="varBookingRefferenceNo" msprop:Generator_ColumnPropNameInTable="varBookingRefferenceNoColumn" msprop:Generator_ColumnVarNameInTable="columnvarBookingRefferenceNo" msprop:Generator_UserColumnName="varBookingRefferenceNo" type="xs:string" minOccurs="0" />
+              <xs:element name="varRoomNo" msprop:Generator_ColumnPropNameInRow="varRoomNo" msprop:Generator_ColumnPropNameInTable="varRoomNoColumn" msprop:Generator_ColumnVarNameInTable="columnvarRoomNo" msprop:Generator_UserColumnName="varRoomNo" type="xs:string" minOccurs="0" />
+              <xs:element name="varGuestName" msprop:Generator_ColumnPropNameInRow="varGuestName" msprop:Generator_ColumnPropNameInTable="varGuestNameColumn" msprop:Generator_ColumnVarNameInTable="columnvarGuestName" msprop:Generator_UserColumnName="varGuestName" type="xs:string" minOccurs="0" />
+              <xs:element name="dtFromDate" msdata:Caption="dtCheckInDate" msprop:Generator_ColumnPropNameInRow="dtFromDate" msprop:Generator_ColumnPropNameInTable="dtFromDateColumn" msprop:Generator_ColumnVarNameInTable="columndtFromDate" msprop:Generator_UserColumnName="dtFromDate" type="xs:string" minOccurs="0" />
+              <xs:element name="dtToDate" msdata:Caption="varComment" msprop:Generator_ColumnPropNameInRow="dtToDate" msprop:Generator_ColumnPropNameInTable="dtToDateColumn" msprop:Generator_ColumnVarNameInTable="columndtToDate" msprop:Generator_UserColumnName="dtToDate" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

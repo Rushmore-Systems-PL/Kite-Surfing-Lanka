@@ -1,0 +1,53 @@
+﻿@model KSL_HMS.DB.RoomTypeRate
+
+<link href="~/Assest/vendor/libs/select2/select2.css" rel="stylesheet" />
+
+<div class="card mb-4">
+    @using (Html.BeginForm("Create", "RoomTypeRates", FormMethod.Post, new { @class = "card-body" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h4>New Room Category Rate</h4>
+        <hr class="my-4 mx-n4" />
+        <div class="row g-3">
+            <div class="col-md-5">
+                <label class="form-label" for="numRoomTypeID">Room Category  <sup class="text-danger">*</sup></label>
+                @Html.DropDownList("numRoomTypeID", null, "", htmlAttributes: new { @class = "form-control", @required = "Select Room Category", @title = "Please Select Room Category.", @id = "numRoomTypeID" })
+                @Html.ValidationMessageFor(model => model.numRoomTypeID, "", new { @class = "text-danger", @id = "numRoomTypeID" })
+            </div>
+        </div>
+        <br />
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label" for="numPersonCount">No Of persons <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.numPersonCount, new { htmlAttributes = new { @class = "form-control", @id = "numPersonCount", @type = "number", placeholder = "Persons...", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.numPersonCount, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" for="numRatePerPerson">Rate Per Person (€) <sup class="text-danger">*</sup></label>
+                @Html.EditorFor(model => model.numRatePerPerson, new { htmlAttributes = new { @class = "form-control", @id = "numRatePerPerson", @type = "number", placeholder = "Rate...", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.numRatePerPerson, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.bitActive)
+        @Html.HiddenFor(model => model.numCreatedByID)
+        @Html.HiddenFor(model => model.dtCreatedDate)
+        @Html.HiddenFor(model => model.numUpdatetdByID)
+        @Html.HiddenFor(model => model.dtUpdatetDate)
+        @Html.HiddenFor(model => model.numDeletedByID)
+        @Html.HiddenFor(model => model.dtDeletedDate)
+        <div class="pt-4">
+            <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+            <button type="reset" class="btn btn-warning">Clear</button>
+        </div>
+    }
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Assest/vendor/libs/select2/select2.js"></script>
+<script type="text/javascript">
+    $("#numRoomTypeID").select2({
+        placeholder: "Select Room Category...",
+    });
+</script>

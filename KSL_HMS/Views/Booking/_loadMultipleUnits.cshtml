@@ -1,0 +1,377 @@
+﻿@model IEnumerable<KSL_HMS.Controllers.BookingController.BookingAvailability>
+@{
+    var roomsGuests = (KSL_HMS.Controllers.BookingController.RoomsGuests)ViewBag.SelectedBooking;
+    int numRoomsCount = roomsGuests.numRoomsCount;
+    int numAdultsCount = roomsGuests.numAdultsCount;
+    int numChildrenCount = roomsGuests.numChildrenCount;
+    int numInfantsCount = roomsGuests.numInfantsCount;
+
+}
+<br />
+<div class="hero-text-box text-center">
+    <h1 class="text-primary hero-title display-4 fw-light" id="numRoomCounth2"></h1>
+    <h2 class="hero-sub-title h5 mb-4 pb-1">
+        If your preferred option is not available <a href="#!">get in touch</a> and we will do a manual check.
+    </h2>
+</div>
+<br />
+<div class="row justify-content-center">
+    <div class="col-xl-8 col-md-9 col-12 mb-md-4 mb-4">
+        @{
+            int i = 1;
+            foreach (var item in Model)
+            {
+                <div class="invoice-preview">
+                    <div class="card invoice-preview-card">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img class="card-img card-img-left" src="@Url.Action("Image","RoomTypes",new {id = item.numRoomtypeID })" alt="@item.varRoomtypeName" height="270" width="300">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <span class="card-title display-6">@item.varRoomtypeName</span>
+                                            @if (item.numAvailableCount > 1)
+                                            {
+                                                <p class="fw-bold text-muted">@item.numAvailableCount.ToString("00") Units Available</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="fw-bold text-muted">@item.numAvailableCount.ToString("00") Unit Available</p>
+                                            }
+                                            <input type="number" id="numRoomtypeID-@i" name="numRoomtypeID" value="@item.numRoomtypeID" hidden />
+                                            <input type="text" id="varRoomtype-@i" name="varRoomtype" value="@item.varRoomtypeName" hidden />
+                                            <input type="text" id="numRatePerPeriod-@i" name="numRatePerPeriod" value="@item.numRatePerPeriod" hidden />
+                                            <input type="text" id="varRoomDescription-@i" name="varRoomDescription" value="@item.varRoomDescription" hidden />
+                                            <input type="text" id="numRatePerRoom-@i" name="numRatePerRoom" value="@item.numRatePerRoom" hidden />
+                                            @item.varRoomDescription
+                                            <br />
+                                            <br />
+                                            <a href="#!"><u>View Unit Details</u></a>
+                                        </div>
+                                        <div class="col-md-4 text-end">
+                                            <h6 class="display-6"><span class="h5 text-muted">From</span> € @item.numRatePerRoom.ToString("00")</h6>
+                                            <h5 class="text-muted" style="margin-top:-10px">Per Adult</h5>
+                                            <br />
+                                            <br />
+                                            <input type="text" name="varDivStatus" id="varDivStatus-@i" value="none" hidden="hidden" />
+                                            <div class="btn-group">
+                                                <button class="btn btn-label-primary dropdown-toggle" type="button" onclick="LoadAmountDiv(@i)" id="AmountDivLoadButton-@i">Select Amount</button>
+                                                <div class="dropdown-menu dropdown-menu-end p-3" style="display: none" id="AmountDiv-@i">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="50%">Units</th>
+                                                                <td width="10%"><button type="button" class="btn btn-outline-secondary" onclick="SubstractUnits(@i)" id="SubUnitBtn-@i">-</button></td>
+                                                                <td width="400%"><input type="text" class="form-control text-center" readonly="readonly" id="numUnits-@i" name="numUnits" value="00" /></td>
+                                                                @if (numRoomsCount > item.numAvailableCount)
+                                                                {
+                                                                    <td width="10%"><button type="button" class="btn btn-outline-primary" onclick="AddUnits(@i, @item.numAvailableCount)">+</button></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td width="10%"><button type="button" class="btn btn-outline-primary" onclick="AddUnits(@i, @numRoomsCount)" id="AddUnitBtn-@i">+</button></td>
+                                                                }
+                                                            </tr>
+                                                            <tr>
+                                                                <th width="50%">Adults</th>
+                                                                <td width="10%"><button type="button" class="btn btn-outline-secondary" onclick="SubstractAdults(@i)" id="SubAddultBtn-@i">-</button></td>
+                                                                <td width="30%"><input type="text" class="form-control text-center" readonly="readonly" id="numAdults-@i" name="numAdults" value="00" /></td>
+                                                                <td width="10%"><button type="button" class="btn btn-outline-primary" onclick="AddAdults(@i, @numAdultsCount)" id="AddAdultBtn-@i">+</button></td>
+                                                            </tr>
+                                                            @if (numChildrenCount != 0)
+                                                            {
+                                                                <tr>
+                                                                    <th width="40%">Children</th>
+                                                                    <td width="10%"><button type="button" class="btn btn-outline-secondary" onclick="SubstractChild(@i)" id="SubChildrenBtn-@i">-</button></td>
+                                                                    <td width="40%"><input type="text" class="form-control text-center" readonly="readonly" id="numChildren-@i" name="numChildren" value="00" /></td>
+                                                                    <td width="10%"><button type="button" class="btn btn-outline-primary" onclick="AddChild(@i, @numChildrenCount)" id="AddChildrenBtn-@i">+</button></td>
+                                                                </tr>
+                                                            }
+                                                            @if (numInfantsCount != 0)
+                                                            {
+                                                                <tr>
+                                                                    <th width="50%">Infants</th>
+                                                                    <td width="10%"><button type="button" class="btn btn-outline-secondary" onclick="SubstractInfant(@i)" id="SubInfantBtn-@i">-</button></td>
+                                                                    <td width="30%"><input type="text" class="form-control text-center" readonly="readonly" id="numInfants-@i" name="numInfants" value="00" /></td>
+                                                                    <td width="10%"><button type="button" class="btn btn-outline-primary" onclick="AddInfant(@i, @numInfantsCount)" id="AddInfantBtn-@i">+</button></td>
+                                                                </tr>
+                                                            }
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                i++;
+            }
+        }
+    </div>
+
+    <div class="col-xl-4 col-md-3 col-12">
+        <div class="row">
+            <div class="col-md-12 invoice-actions">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title display-6">Accommodation Details</h4>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6 pe-md-4">
+                                <h5>Check-In</h5>
+                                <h5><strong id="dtCheckInstrong"></strong></h5>
+                                <h5 class="text-muted" style="margin-top:-10px" id="CheckInTimeh5"></h5>
+                            </div>
+                            <div class="col-md-6 ps-md-4">
+                                <h5>Check-Out</h5>
+                                <h5><strong id="dtCheckOutstrong"></strong></h5>
+                                <h5 class="text-muted" style="margin-top:-10px" id="CheckOutTimeh5"></h5>
+                            </div>
+                        </div>
+                        <br />
+                        <h5>Total length of stay: <strong id="numTotalDaysStrong"></strong></h5>
+                        <div id="SelectedRoomsDiv">
+                            <hr />
+                            <h5><strong>Selected Rooms:</strong></h5>
+                            <div id="RoomsCountDiv"></div>
+                            <div class="row mt-3">
+                                <div class="d-grid gap-2 col-lg-10 mx-auto">
+                                    <button class="btn btn-primary btn-lg" type="button" onclick="CreateBooking()">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var Booking = @Html.Raw(Json.Encode(@ViewBag.SelectedBooking));
+    function LoadAmountDiv(id)
+    {
+        let divStatus = document.getElementById('varDivStatus-' + id);
+        const dropdownContent = document.getElementById('AmountDiv-' + id);
+        const dropdownButton = document.getElementById('AmountDivLoadButton-' + id);
+
+        if (dropdownContent.style.display == "none") {
+            divStatus.value = "show";
+            dropdownButton.classList.add("show");
+            dropdownContent.classList.add("show");
+
+            dropdownContent.style.display = 'block';
+            dropdownContent.style.minWidth = "300px";
+            dropdownContent.style.position = "absolute";
+            dropdownContent.style.inset = "0px auto auto 0px";
+            dropdownContent.style.margin = "0px";
+            dropdownContent.style.transform = "translate3d(-141px, 40px, 0px)";
+
+            if (document.getElementById('numUnits-' + id).value == 0) {
+                document.getElementById("SubUnitBtn-" + id).disabled = true;
+                document.getElementById("SubAddultBtn-" + id).disabled = true;
+                document.getElementById("AddAdultBtn-" + id).disabled = true;
+                if (Booking.numChildrenCount != 0) {
+                    document.getElementById("SubChildrenBtn-" + id).disabled = true;
+                    document.getElementById("AddChildrenBtn-" + id).disabled = true;
+                }
+                if (Booking.numInfantsCount != 0) {
+                    document.getElementById("SubInfantBtn-" + id).disabled = true;
+                    document.getElementById("AddInfantBtn-" + id).disabled = true;
+                }
+            }
+        } else {
+            dropdownContent.style.display = 'none';
+            divStatus.value = "none";
+            dropdownButton.classList.remove("show");
+            dropdownContent.classList.remove("show");
+            LoadRoomCharge(id);
+        }
+    }
+    function SubstractUnits(id)
+    {
+        let number = Number(document.getElementById("numUnits-" + id).value);
+        if (number > 0) {
+            number = number - 1;
+            document.getElementById("numUnits-" + id).value = number.toString().padStart(2, '0');
+        }
+
+        if (number == 0) {
+            document.getElementById("SubUnitBtn-" + id).disabled = true;
+            document.getElementById("AddUnitBtn-" + id).disabled = false;
+
+            document.getElementById("AddAdultBtn-" + id).disabled = true
+            document.getElementById("SubAddultBtn-" + id).disabled = true;
+            document.getElementById("numAdults-" + id).value = Number(0).toString().padStart(2, '0');
+
+            if (Booking.numChildrenCount != 0) {
+                document.getElementById("AddChildrenBtn-" + id).disabled = true;
+                document.getElementById("SubChildrenBtn-" + id).disabled = true;
+                document.getElementById("numChildren-" + id).value = Number(0).toString().padStart(2, '0');
+            }
+
+            if (Booking.numInfantsCount != 0) {
+                document.getElementById("AddInfantBtn-" + id).disabled = true;
+                document.getElementById("SubInfantBtn-" + id).disabled = true;
+                document.getElementById("numInfants-" + id).value = Number(0).toString().padStart(2, '0');
+            }
+        }
+    }
+    function AddUnits(id, max)
+    {
+        let number = Number(document.getElementById("numUnits-" + id).value);
+        if (number < max) {
+            number = number + 1;
+            document.getElementById("numUnits-" + id).value = number.toString().padStart(2, '0');
+        }
+
+        if (number == 1) {
+            document.getElementById("SubUnitBtn-" + id).disabled = false;
+            document.getElementById("AddAdultBtn-" + id).disabled = false;
+            document.getElementById("numAdults-" + id).value = Number(1).toString().padStart(2, '0');
+
+            if (Booking.numChildrenCount != 0) {
+                document.getElementById("AddChildrenBtn-" + id).disabled = false;
+            }
+
+            if (Booking.numInfantsCount != 0) {
+                document.getElementById("AddInfantBtn-" + id).disabled = false;
+            }
+        }
+
+        if (number == max) {
+            document.getElementById("AddUnitBtn-" + id).disabled = true;
+        }
+    }
+    function SubstractAdults(id)
+    {
+        let number = Number(document.getElementById("numAdults-" + id).value);
+        if (number > 1) {
+            number = number - 1;
+            document.getElementById("numAdults-" + id).value = number.toString().padStart(2, '0');
+        }
+
+        if (number == 1) {
+            document.getElementById("SubAddultBtn-" + id).disabled = true;
+            document.getElementById("AddAdultBtn-" + id).disabled = false;
+        }
+    }
+    function AddAdults(id, max)
+    {
+        let number = Number(document.getElementById("numAdults-" + id).value);
+        if (number < max) {
+            number = number + 1;
+            document.getElementById("numAdults-" + id).value = number.toString().padStart(2, '0');
+        }
+
+        if (number == max) {
+            document.getElementById("AddAdultBtn-" + id).disabled = true;
+        }
+
+        if (number => 1) {
+            document.getElementById("SubAddultBtn-" + id).disabled = false;
+        }
+    }
+    function SubstractChild(id)
+    {
+        let number = Number(document.getElementById("numChildren-" + id).value);
+        if (number > 0) {
+            number = number - 1;
+            document.getElementById("numChildren-" + id).value = number.toString().padStart(2, '0');
+        }
+
+        if (number == 0) {
+            document.getElementById("SubChildrenBtn-" + id).disabled = true;
+            document.getElementById("AddChildrenBtn-" + id).disabled = false;
+        }
+    }
+    function AddChild(id, max)
+    {
+        let number = Number(document.getElementById("numChildren-" + id).value);
+        if (number < max) {
+            number = number + 1;
+            document.getElementById("numChildren-" + id).value = number.toString().padStart(2, '0');
+        }
+
+        if (number == max) {
+            document.getElementById("AddChildrenBtn-" + id).disabled = true;
+        }
+
+        if (number => 0) {
+            document.getElementById("SubChildrenBtn-" + id).disabled = false;
+        }
+    }
+    function SubstractInfant(id)
+    {
+        let number = Number(document.getElementById("numInfants-" + id).value);
+        if (number > 0) {
+            number = number - 1;
+            document.getElementById("numInfants-" + id).value = number.toString().padStart(2, '0');
+        }
+
+        if (number == 0) {
+            document.getElementById("SubInfantBtn-" + id).disabled = true;
+            document.getElementById("AddInfantBtn-" + id).disabled = false;
+        }
+    }
+    function AddInfant(id, max)
+    {
+        let number = Number(document.getElementById("numInfants-" + id).value);
+        if (number < max) {
+            number = number + 1;
+            document.getElementById("numInfants-" + id).value = number.toString().padStart(2, '0');
+        }
+
+        if (number == max) {
+            document.getElementById("AddInfantBtn-" + id).disabled = true;
+        }
+
+        if (number => 0) {
+            document.getElementById("SubInfantBtn-" + id).disabled = false;
+        }
+    }
+    let SelectedBookings = [];
+    function LoadRoomCharge(id)
+    {
+        var numRoomtypeID = Number(document.getElementById('numRoomtypeID-' + id).value);
+        var varRoomtype = document.getElementById('varRoomtype-' + id).value;
+        var numRatePerPeriod = document.getElementById('numRatePerPeriod-' + id).value;
+        var varRoomDescription = document.getElementById('varRoomDescription-' + id).value;
+        var numRatePerRoom = document.getElementById('numRatePerRoom-' + id).value;
+        var numRoomsCount = document.getElementById('numUnits-' + id).value;
+        var numAdultsCount = document.getElementById('numAdults-' + id).value;
+
+        if (Booking.numChildrenCount != 0) {
+            var numChildren = document.getElementById('numChildren-' + id).value;
+        }
+
+        if (Booking.numInfantsCount != 0) {
+            var numInfant = document.getElementById('numInfants-' + id).value;
+        } 
+
+        if (numRoomsCount != 0) {
+            $("#SelectedRoomsDiv").show();
+            //document.getElementById("RoomsCountDiv").innerHTML = "";
+            var divElement = document.getElementById('RoomsCountDiv');
+            var headingElement = document.createElement('p');
+
+            //headingElement.classList.add('card');
+            //headingElement.classList.add('card-body');
+            divElement.appendChild(headingElement);
+
+            var strongElement = document.createElement('strong');
+            strongElement.textContent = varRoomtype + ' x ' + numRoomsCount.toString().padStart(2, '0');
+            headingElement.appendChild(strongElement);
+        } else {
+            $("#SelectedRoomsDiv").hide();
+            //document.getElementById("RoomsCountDiv").innerHTML = "";
+        }
+    }
+</script>

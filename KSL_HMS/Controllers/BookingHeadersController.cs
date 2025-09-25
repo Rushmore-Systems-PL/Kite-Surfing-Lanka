@@ -251,231 +251,201 @@ namespace KSL_HMS.Controllers
             return Json(db.Rooms.Where(r => r.numRoomID == numRoomID && r.bitActive == true).Select(r => r.numMaxPaxAllowed).FirstOrDefault(), JsonRequestBehavior.AllowGet);
         }
 
+        // Confirmation screen bypassed, functionality of create and confirm merged into one.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(FormCollection formCollection, BookingHeader newbookingHeader)
         {
-            var bookingPersonName = newbookingHeader.varBookingPersonName.Replace(" ", "").ToUpper().PadLeft(10, '#').Substring(0, 10);
-            int numBookingNO = Convert.ToInt32(db.BookingRefferences.Where(b => b.bitActive == true && b.bitExternalBooking == false).Count()) + 1;
-            string varRef = "KSL/INT/" + numBookingNO.ToString("00000") + "/" + bookingPersonName;
-
-            var newbookingRefference = new BookingRefference()
+            try
             {
-                varBookingRefferenceNo = varRef,
-                bitExternalBooking = false,
-                numCreatedByID = Convert.ToInt32(Session["UserID"]),
-                dtCreatedDate = System.DateTime.Now
-            };
-            db.BookingRefferences.Add(newbookingRefference);
-            db.SaveChanges();
+                var bookingPersonName = newbookingHeader.varBookingPersonName.Replace(" ", "").ToUpper().PadLeft(10, '#').Substring(0, 10);
+                int numBookingNO = Convert.ToInt32(db.BookingRefferences.Where(b => b.bitActive == true && b.bitExternalBooking == false).Count()) + 1;
+                string varRef = "KSL/INT/" + numBookingNO.ToString("00000") + "/" + bookingPersonName;
 
-            var RoomcheckInouts = db.RoomCheckInOuts.Where(r => r.bitActive == true).ToList();
-            var FromDates = formCollection.GetValues("dtFromDate");
-            var ToDates = formCollection.GetValues("dtToDate");
-            var RoomTypeIDs = formCollection.GetValues("numRoomTypeID");
-            var RoomIDs = formCollection.GetValues("numRoomID");
-            var StandardRateBits = formCollection.GetValues("bitStandardRateValue");
-            var Rates = formCollection.GetValues("numRate");
-            var TransportRequiredBits = formCollection.GetValues("bitTransportRequiredValue");
-            var FlightDetails = formCollection.GetValues("varFlightDetails");
-            var LessonRequiredBits = formCollection.GetValues("bitKSLessonRequiredValue");
-            var LessonRequiredsFrom = formCollection.GetValues("dtKsLessonRequiredFrom");
-            var LessonRequiredsTo = formCollection.GetValues("dtKsLessonRequiredTo");
-            var RentalRequiredBits = formCollection.GetValues("bitKSRentalRequiredValue");
-            var RentalRequiredsFrom = formCollection.GetValues("dtKSRentalRequiredFrom");
-            var RentalRequiredsTo = formCollection.GetValues("dtKSRentalRequiredTo");
-            var AgentRequiredBits = formCollection.GetValues("bitKSAgentRequiredValue");
-            var AgentNames = formCollection.GetValues("varAgentName");
-            var Remarks = formCollection.GetValues("varRemarks");
-            var AdultsCounts = formCollection.GetValues("numAdultsCount");
-            var ChildrensCounts = formCollection.GetValues("numChildrensCount");
-            var InfantsCounts = formCollection.GetValues("numInfantsCount");
-
-            for (int i = RoomIDs.Count() - 1; i >= 0; i--)
-            //for (int i = 0; i < RoomIDs.Count(); i++)
-            {
-                BookingHeader bookingHeader = new BookingHeader();
-                bookingHeader.numBookingRefferenceID = newbookingRefference.numBookingRefferenceID;
-                bookingHeader.dtFromDate = Convert.ToDateTime(FromDates[i] + " " + RoomcheckInouts[0].varRoomCheckInTime);
-                bookingHeader.dtToDate = Convert.ToDateTime(ToDates[i] + " " + RoomcheckInouts[0].varRoomCheckOutTime);
-                bookingHeader.numRoomTypeID = Convert.ToInt32(RoomTypeIDs[i]);
-                bookingHeader.numRoomID = Convert.ToInt32(RoomIDs[i]);
-                //Rates
-                bookingHeader.bitStandardRate = Convert.ToBoolean(StandardRateBits[i]);
-                if (!Convert.ToBoolean(StandardRateBits[i]))
+                var newbookingRefference = new BookingRefference()
                 {
-                    bookingHeader.numRate = null;
-                }
-                else
-                {
-                    bookingHeader.numRate = Convert.ToDecimal(Rates[i]);
-                }
-                //Transport
-                bookingHeader.bitTransportRequired = Convert.ToBoolean(TransportRequiredBits[i]);
-                if (!Convert.ToBoolean(TransportRequiredBits[i]))
-                {
-                    bookingHeader.varFlightDetails = null;
-                }
-                else
-                {
-                    bookingHeader.varFlightDetails = FlightDetails[i];
-                }
-                //Lesson
-                bookingHeader.bitKSLessonRequired = Convert.ToBoolean(LessonRequiredBits[i]);
-                if (!Convert.ToBoolean(LessonRequiredBits[i]))
-                {
-                    bookingHeader.dtKsLessonRequiredFrom = null;
-                    bookingHeader.dtKsLessonRequiredTo = null;
-                }
-                else
-                {
-                    bookingHeader.dtKsLessonRequiredFrom = Convert.ToDateTime(LessonRequiredsFrom[i]);
-                    bookingHeader.dtKsLessonRequiredTo = Convert.ToDateTime(LessonRequiredsTo[i]);
-                }
-                //Rental
-                bookingHeader.bitKSRentalRequired = Convert.ToBoolean(RentalRequiredBits[i]);
-                if (!Convert.ToBoolean(RentalRequiredBits[i]))
-                {
-                    bookingHeader.dtKSRentalRequiredFrom = null;
-                    bookingHeader.dtKSRentalRequiredTo = null;
-                }
-                else
-                {
-                    bookingHeader.dtKSRentalRequiredFrom = Convert.ToDateTime(RentalRequiredsFrom[i]);
-                    bookingHeader.dtKSRentalRequiredTo = Convert.ToDateTime(RentalRequiredsTo[i]);
-                }
-                //Agent
-                bookingHeader.bitAgentRequired = Convert.ToBoolean(AgentRequiredBits[i]);
-                if (!Convert.ToBoolean(AgentRequiredBits[i]))
-                {
-                    bookingHeader.varAgentName = null;
-                }
-                else
-                {
-                    bookingHeader.varAgentName = AgentNames[i];
-                }
-                bookingHeader.varRemarks = Remarks[i];
-                bookingHeader.varBookingPersonName = newbookingHeader.varBookingPersonName;
-                bookingHeader.varBookingPersonEmail = newbookingHeader.varBookingPersonEmail;
-                bookingHeader.numAdultsCount = Convert.ToInt32(AdultsCounts[i]);
-                bookingHeader.numChildrensCount = Convert.ToInt32(ChildrensCounts[i]);
-                bookingHeader.numInfantsCount = Convert.ToInt32(InfantsCounts[i]);
-                bookingHeader.numCreatedByID = Convert.ToInt32(Session["UserID"]);
-                bookingHeader.dtCreatedDate = System.DateTime.Now;
-                db.BookingHeaders.Add(bookingHeader);
+                    varBookingRefferenceNo = varRef,
+                    bitExternalBooking = false,
+                    numCreatedByID = Convert.ToInt32(Session["UserID"]),
+                    dtCreatedDate = System.DateTime.Now
+                };
+                db.BookingRefferences.Add(newbookingRefference);
                 db.SaveChanges();
-            }
 
-            TempData["BookingHeaderStatus"] = "Saved";
-            return RedirectToAction("Confirmation", new { id = newbookingRefference.numBookingRefferenceID });
-        }
+                var RoomcheckInouts = db.RoomCheckInOuts.Where(r => r.bitActive == true).ToList();
+                var FromDates = formCollection.GetValues("dtFromDate");
+                var ToDates = formCollection.GetValues("dtToDate");
+                var RoomTypeIDs = formCollection.GetValues("numRoomTypeID");
+                var RoomIDs = formCollection.GetValues("numRoomID");
+                var StandardRateBits = formCollection.GetValues("bitStandardRateValue");
+                var Rates = formCollection.GetValues("numRate");
+                var TransportRequiredBits = formCollection.GetValues("bitTransportRequiredValue");
+                var FlightDetails = formCollection.GetValues("varFlightDetails");
+                var LessonRequiredBits = formCollection.GetValues("bitKSLessonRequiredValue");
+                var LessonRequiredsFrom = formCollection.GetValues("dtKsLessonRequiredFrom");
+                var LessonRequiredsTo = formCollection.GetValues("dtKsLessonRequiredTo");
+                var RentalRequiredBits = formCollection.GetValues("bitKSRentalRequiredValue");
+                var RentalRequiredsFrom = formCollection.GetValues("dtKSRentalRequiredFrom");
+                var RentalRequiredsTo = formCollection.GetValues("dtKSRentalRequiredTo");
+                var AgentRequiredBits = formCollection.GetValues("bitKSAgentRequiredValue");
+                var AgentNames = formCollection.GetValues("varAgentName");
+                var Remarks = formCollection.GetValues("varRemarks");
+                var AdultsCounts = formCollection.GetValues("numAdultsCount");
+                var ChildrensCounts = formCollection.GetValues("numChildrensCount");
+                var InfantsCounts = formCollection.GetValues("numInfantsCount");
 
-        public ActionResult Confirmation(int? id)
-        {
-            if (Session["UserID"] != null)
-            {
-                if (id == null)
+                for (int i = RoomIDs.Count() - 1; i >= 0; i--)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    BookingHeader bookingHeader = new BookingHeader();
+                    bookingHeader.numBookingRefferenceID = newbookingRefference.numBookingRefferenceID;
+                    bookingHeader.dtFromDate = Convert.ToDateTime(FromDates[i] + " " + RoomcheckInouts[0].varRoomCheckInTime);
+                    bookingHeader.dtToDate = Convert.ToDateTime(ToDates[i] + " " + RoomcheckInouts[0].varRoomCheckOutTime);
+                    bookingHeader.numRoomTypeID = Convert.ToInt32(RoomTypeIDs[i]);
+                    bookingHeader.numRoomID = Convert.ToInt32(RoomIDs[i]);
+                    //Rates
+                    bookingHeader.bitStandardRate = Convert.ToBoolean(StandardRateBits[i]);
+                    if (!Convert.ToBoolean(StandardRateBits[i]))
+                    {
+                        bookingHeader.numRate = null;
+                    }
+                    else
+                    {
+                        bookingHeader.numRate = Convert.ToDecimal(Rates[i]);
+                    }
+                    //Transport
+                    bookingHeader.bitTransportRequired = Convert.ToBoolean(TransportRequiredBits[i]);
+                    if (!Convert.ToBoolean(TransportRequiredBits[i]))
+                    {
+                        bookingHeader.varFlightDetails = null;
+                    }
+                    else
+                    {
+                        bookingHeader.varFlightDetails = FlightDetails[i];
+                    }
+                    //Lesson
+                    bookingHeader.bitKSLessonRequired = Convert.ToBoolean(LessonRequiredBits[i]);
+                    if (!Convert.ToBoolean(LessonRequiredBits[i]))
+                    {
+                        bookingHeader.dtKsLessonRequiredFrom = null;
+                        bookingHeader.dtKsLessonRequiredTo = null;
+                    }
+                    else
+                    {
+                        bookingHeader.dtKsLessonRequiredFrom = Convert.ToDateTime(LessonRequiredsFrom[i]);
+                        bookingHeader.dtKsLessonRequiredTo = Convert.ToDateTime(LessonRequiredsTo[i]);
+                    }
+                    //Rental
+                    bookingHeader.bitKSRentalRequired = Convert.ToBoolean(RentalRequiredBits[i]);
+                    if (!Convert.ToBoolean(RentalRequiredBits[i]))
+                    {
+                        bookingHeader.dtKSRentalRequiredFrom = null;
+                        bookingHeader.dtKSRentalRequiredTo = null;
+                    }
+                    else
+                    {
+                        bookingHeader.dtKSRentalRequiredFrom = Convert.ToDateTime(RentalRequiredsFrom[i]);
+                        bookingHeader.dtKSRentalRequiredTo = Convert.ToDateTime(RentalRequiredsTo[i]);
+                    }
+                    //Agent
+                    bookingHeader.bitAgentRequired = Convert.ToBoolean(AgentRequiredBits[i]);
+                    if (!Convert.ToBoolean(AgentRequiredBits[i]))
+                    {
+                        bookingHeader.varAgentName = null;
+                    }
+                    else
+                    {
+                        bookingHeader.varAgentName = AgentNames[i];
+                    }
+                    bookingHeader.varRemarks = Remarks[i];
+                    bookingHeader.varBookingPersonName = newbookingHeader.varBookingPersonName;
+                    bookingHeader.varBookingPersonEmail = newbookingHeader.varBookingPersonEmail;
+                    bookingHeader.numAdultsCount = Convert.ToInt32(AdultsCounts[i]);
+                    bookingHeader.numChildrensCount = Convert.ToInt32(ChildrensCounts[i]);
+                    bookingHeader.numInfantsCount = Convert.ToInt32(InfantsCounts[i]);
+                    bookingHeader.numCreatedByID = Convert.ToInt32(Session["UserID"]);
+                    bookingHeader.dtCreatedDate = System.DateTime.Now;
+                    db.BookingHeaders.Add(bookingHeader);
+                    db.SaveChanges();
                 }
-                BookingRefference bookingRefference = db.BookingRefferences.Find(id);
+
+                BookingRefference bookingRefference = db.BookingRefferences.Find(newbookingRefference.numBookingRefferenceID);
                 if (bookingRefference == null)
                 {
                     return HttpNotFound();
                 }
-                ViewBag.numBookingRefferenceID = bookingRefference.numBookingRefferenceID;
-                ViewBag.varBookingRefferenceNo = bookingRefference.varBookingRefferenceNo;
-
-                var BookingHeaders = db.BookingHeaders.Where(h => h.numBookingRefferenceID == id).OrderByDescending(h => h.numBookingHeaderID).ToList();
-                ViewBag.BookingHeaders = BookingHeaders;
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login", "Users");
-            }
-        }
-
-        [HttpPost]
-        public ActionResult ConfirmBooking(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BookingRefference bookingRefference = db.BookingRefferences.Find(id);
-            if (bookingRefference == null)
-            {
-                return HttpNotFound();
-            }
-
-            if (bookingRefference.bitActive != true)
-            {
-                bookingRefference.bitClosed = false;
-                bookingRefference.bitPayed = false;
-                bookingRefference.bitActive = true;
-                db.Entry(bookingRefference).State = EntityState.Modified;
-                db.SaveChanges();
-
-                var BookingHeaders = db.BookingHeaders.Where(h => h.numBookingRefferenceID == bookingRefference.numBookingRefferenceID).OrderByDescending(h => h.numBookingHeaderID).ToList();
-                foreach (var _header in BookingHeaders)
+                if (bookingRefference.bitActive != true)
                 {
-                    decimal numTotalCost = 0;
-                    decimal numRate = 0;
-                    decimal numPax = 0;
-
-                    BookingHeader bookingHeader = db.BookingHeaders.Find(_header.numBookingHeaderID);
-                    bookingHeader.bitActive = true;
-                    bookingHeader.bitCheckedIn = false;
-                    bookingHeader.bitCheckedOut = false;
-                    db.Entry(bookingHeader).State = EntityState.Modified;
+                    bookingRefference.bitClosed = false;
+                    bookingRefference.bitPayed = false;
+                    bookingRefference.bitActive = true;
+                    db.Entry(bookingRefference).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    int numTotalDays = ((_header.dtToDate.Value.Date - _header.dtFromDate.Value.Date).Days);
-                    numPax = Convert.ToDecimal(bookingHeader.numAdultsCount) + (Convert.ToDecimal(bookingHeader.numChildrensCount) * Convert.ToDecimal(0.5));
-
-                    if (_header.bitStandardRate == false)
+                    var BookingHeaders = db.BookingHeaders.Where(h => h.numBookingRefferenceID == bookingRefference.numBookingRefferenceID).OrderByDescending(h => h.numBookingHeaderID).ToList();
+                    foreach (var _header in BookingHeaders)
                     {
-                        var numPaxCount = bookingHeader.numAdultsCount + bookingHeader.numChildrensCount + bookingHeader.numInfantsCount;
-                        numRate = db.RoomTypeRates.Where(r => r.numRoomTypeID == _header.RoomType.numRoomTypeID && r.numPersonCount == numPaxCount).Select(r => r.numRatePerPerson.Value).FirstOrDefault();
-                        numTotalCost = (numRate * numPax);
-                    }
-                    else
-                    {
-                        numRate = _header.numRate.Value;
-                        numTotalCost = (numRate * numPax);
-                    }
+                        decimal numTotalCost = 0;
+                        decimal numRate = 0;
+                        decimal numPax = 0;
 
-                    BillHeader billHeader = new BillHeader();
-                    billHeader.numBookingRefferenceID = bookingRefference.numBookingRefferenceID;
-                    billHeader.numBookingHeaderID = bookingHeader.numBookingHeaderID;
-                    billHeader.numTotalCost = numTotalCost * numTotalDays;
-                    billHeader.numPayedAmount = 0;
-                    billHeader.numBalanceToPay = numTotalCost * numTotalDays;
-                    billHeader.bitActive = true;
-                    billHeader.numCreatedByID = Convert.ToInt32(Session["UserID"]);
-                    billHeader.dtCreatedDate = System.DateTime.Now;
-                    db.BillHeaders.Add(billHeader);
-                    db.SaveChanges();
+                        BookingHeader bookingHeader = db.BookingHeaders.Find(_header.numBookingHeaderID);
+                        bookingHeader.bitActive = true;
+                        bookingHeader.bitCheckedIn = false;
+                        bookingHeader.bitCheckedOut = false;
+                        db.Entry(bookingHeader).State = EntityState.Modified;
+                        db.SaveChanges();
 
-                    BillDetail billDetail = new BillDetail();
-                    billDetail.numBillHeaderID = billHeader.numBillHeaderID;
-                    billDetail.numChargeTypeID = db.ChargeTypes.Where(c => c.bitActive == true && c.varChargeTypeName == "Room").Select(c => c.numChargeTypeID).FirstOrDefault();
-                    billDetail.numRoomID = bookingHeader.numRoomID;
-                    billDetail.numCost = numRate;
-                    billDetail.numDuration = numTotalDays;
-                    billDetail.numQuantity = numPax;
-                    billDetail.numFinalCost = (numRate * numTotalDays) * numPax;
-                    billDetail.bitActive = true;
-                    billDetail.numCreatedByID = Convert.ToInt32(Session["UserID"]);
-                    billDetail.dtCreatedDate = System.DateTime.Now;
-                    db.BillDetails.Add(billDetail);
-                    db.SaveChanges();
+                        int numTotalDays = ((_header.dtToDate.Value.Date - _header.dtFromDate.Value.Date).Days);
+                        numPax = Convert.ToDecimal(bookingHeader.numAdultsCount) + (Convert.ToDecimal(bookingHeader.numChildrensCount) * Convert.ToDecimal(0.5));
+
+                        if (_header.bitStandardRate == false)
+                        {
+                            var numPaxCount = bookingHeader.numAdultsCount + bookingHeader.numChildrensCount + bookingHeader.numInfantsCount;
+                            numRate = db.RoomTypeRates.Where(r => r.numRoomTypeID == _header.numRoomTypeID && r.numPersonCount == numPaxCount).Select(r => r.numRatePerPerson.Value).FirstOrDefault();
+                            numTotalCost = (numRate * numPax);
+                        }
+                        else
+                        {
+                            numRate = _header.numRate.Value;
+                            numTotalCost = (numRate * numPax);
+                        }
+
+                        BillHeader billHeader = new BillHeader();
+                        billHeader.numBookingRefferenceID = bookingRefference.numBookingRefferenceID;
+                        billHeader.numBookingHeaderID = bookingHeader.numBookingHeaderID;
+                        billHeader.numTotalCost = numTotalCost * numTotalDays;
+                        billHeader.numPayedAmount = 0;
+                        billHeader.numBalanceToPay = numTotalCost * numTotalDays;
+                        billHeader.bitActive = true;
+                        billHeader.numCreatedByID = Convert.ToInt32(Session["UserID"]);
+                        billHeader.dtCreatedDate = System.DateTime.Now;
+                        db.BillHeaders.Add(billHeader);
+                        db.SaveChanges();
+
+                        BillDetail billDetail = new BillDetail();
+                        billDetail.numBillHeaderID = billHeader.numBillHeaderID;
+                        billDetail.numChargeTypeID = db.ChargeTypes.Where(c => c.bitActive == true && c.varChargeTypeName == "Room").Select(c => c.numChargeTypeID).FirstOrDefault();
+                        billDetail.numRoomID = bookingHeader.numRoomID;
+                        billDetail.numCost = numRate;
+                        billDetail.numDuration = numTotalDays;
+                        billDetail.numQuantity = numPax;
+                        billDetail.numFinalCost = (numRate * numTotalDays) * numPax;
+                        billDetail.bitActive = true;
+                        billDetail.numCreatedByID = Convert.ToInt32(Session["UserID"]);
+                        billDetail.dtCreatedDate = System.DateTime.Now;
+                        db.BillDetails.Add(billDetail);
+                        db.SaveChanges();
+                    }
+                    //this.NewBookingEmailForGuest(bookingRefference.numBookingRefferenceID);
+                    //this.NewBookingEmailForAdmin(bookingRefference.numBookingRefferenceID);
                 }
-                //this.NewBookingEmailForGuest(bookingRefference.numBookingRefferenceID);
-                //this.NewBookingEmailForAdmin(bookingRefference.numBookingRefferenceID);
+
+                TempData["BookingHeaderStatus"] = "Saved";
+                return RedirectToAction("Index", new { varPage = "Booking" });
             }
-            return RedirectToAction("Index", new { varPage = "Booking" });
+            catch (Exception ex) {
+                return null;
+            }
         }
 
         public void NewBookingEmailForGuest(int? id)
@@ -1129,6 +1099,7 @@ namespace KSL_HMS.Controllers
             }
         }
 
+        // Confirmation view
         public ActionResult AddBookingConfirmation(int? id)
         {
             if (Session["UserID"] != null)
@@ -1155,6 +1126,7 @@ namespace KSL_HMS.Controllers
             }
         }
 
+        // Sets bitactive to true. Intializes everything.
         [HttpPost]
         public ActionResult ConfirmAddBooking(int? id)
         {

@@ -145,8 +145,31 @@
     <script src="~/Assest/vendor/libs/flatpickr/flatpickr.js"></script>
     <script src="~/Assest/vendor/libs/toastr/toastr.js"></script>
     <script type="text/javascript">
+        $(function myfunction() {
+            var Msg = '@TempData["BookingHeaderStatus"]'
+            if (Msg != '') {
+                if (Msg == "Saved") {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                    };
+                    toastr["success"]("Booking Saved Successfully.", " Success");
+                }
+            }
+        })
         var roomsGuests = @Html.Raw(Json.Encode(@ViewBag.RoomsGuests));
-        var _roomsGuests = @Html.Raw(Json.Encode(@ViewBag.RoomsGuests));;
+        var _roomsGuests = @Html.Raw(Json.Encode(@ViewBag.RoomsGuests));
         $('input[name="varStayPeriod"]').daterangepicker({
             startDate: new Date('@TempData["dtFromDate"]'),
             endDate: new Date('@TempData["dtToDate"]'),

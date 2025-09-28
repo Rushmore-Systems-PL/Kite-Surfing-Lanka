@@ -37,19 +37,21 @@
                         <div class="row g-4">
                             <div class="col-md-4">
                                 <label class="form-label" for="varBookingStartToEndDates-@i">Booking Period  <sup class="text-danger">*</sup></label>
-                                <input type="text" class="form-control" name="varBookingStartToEndDates" id="varBookingStartToEndDates-@i" placeholder="Booking Period..." required="" title="Please Select Booking Period." />
+                                <input type="text" class="form-control" name="varBookingStartToEndDates" id="varBookingStartToEndDates-@i" placeholder="Booking Period..." required="" title="Please Select Booking Period." disabled />
                                 @Html.ValidationMessageFor(model => item.varBookingStartToEndDates, "", new { @class = "text-danger" })
                                 <input id="dtFromDate-@i" name="dtFromDate" style="display:none" value="@item.dtFromDate.Value.ToString("yyyy-MM-dd")">
                                 <input id="dtToDate-@i" name="dtToDate" style="display:none" value="@item.dtToDate.Value.ToString("yyyy-MM-dd")">
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label" for="numRoomTypeID-@i">Room Category  <sup class="text-danger">*</sup></label>
-                                <select id="numRoomTypeID-@i" name="numRoomTypeID" required="" title="Please Select Room Category." onchange="LoadNonBookingAvailableRooms(@i)"></select>
+                                <select id="numRoomTypeID-@i" required="" title="Please Select Room Category." onchange="LoadNonBookingAvailableRooms(@i)" disabled></select>
+                                <input type="hidden" name="numRoomTypeID" value="@item.numRoomTypeID" />
                                 @Html.ValidationMessageFor(model => item.numRoomTypeID, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label" for="numRoomID-@i">Room No  <sup class="text-danger">*</sup></label>
-                                <select id="numRoomID-@i" name="numRoomID" required="" title="Please Select Room." onchange="FillSelectedBookings(@i)"></select>
+                                <select id="numRoomID-@i" required="" title="Please Select Room." onchange="FillSelectedBookings(@i)" disabled></select>
+                                <input type="hidden" name="numRoomID" value="@item.numRoomID" />
                                 @Html.ValidationMessageFor(model => item.numRoomID, "", new { @class = "text-danger", @id = "numRoomID-" + i })
                             </div>
                         </div>
@@ -295,7 +297,7 @@
                                 <p class="text-danger" id="HeadCountErMsg-@i"></p>
                             </div>
                         </div>
-                        @if (i != MainBooking)
+                        @*@if (i != MainBooking)
                         {
                             <br />
                             <div class="row justify-content-md-end">
@@ -305,7 +307,7 @@
                             </div>
                             <hr class="my-4 mx-n4" />
                             <br />
-                        }
+                        }*@
                     </div>
                     i++;
                 }
@@ -746,10 +748,9 @@
     {
         var Rid = Number($('#numRoomID-' + R + ' option:selected').val());
         var booking = Bookings.find(x => x.numIndex === R);
-        if (booking.numRoomID == Rid) {
+        if (!isNaN(Rid) && booking.numRoomID == Rid) {
             RemovedBookings.push(booking.numBookingID);
         }
-
         //console.log(RemovedBookings);
 
         $("#BookingDiv-" + R).remove();

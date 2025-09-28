@@ -23,11 +23,13 @@ namespace KSL_HMS.Controllers
             {
                 if (varPage == "Booking")
                 {
-                    TempData["BookingConfirmationStatus"] = "Saved";
+                    TempData["BookingConfirmationStatus"] = "";
+                    TempData["BookingStatus"] = "";
                 }
                 else if (varPage == "checkOut")
                 {
-                    TempData["CheckOutConfirmationStatus"] = "Saved";
+                    TempData["CheckOutConfirmationStatus"] = "";
+                    TempData["BookingStatus"] = "";
                 }
 
                 var BookingHeaders = (from bh in db.BookingHeaders
@@ -779,6 +781,31 @@ namespace KSL_HMS.Controllers
         {
             var Booking = db.BookingHeaders.Where(b => b.numBookingHeaderID == id).First();
             var numReffID = Booking.numBookingRefferenceID;
+
+            var bookings = db.BookingHeaders.Where(b => b.numBookingRefferenceID == numReffID && b.bitActive == true).ToList();
+            if (bookings.Count == 1)
+            {
+                // Abort deletion
+                TempData["BookingStatus"] = "Aborted";
+                return RedirectToAction("Index");
+            }
+            else {
+                // Convert all single room receipts to reference receipts for that booking
+                List<Receipt> receipts = db.Receipts.Where(r => r.bitActive == true && r.bitSingleBooking == true && r.numBookingHeaderID == id).ToList();
+                foreach (Receipt receipt in receipts)
+                {
+                    receipt.bitSingleBooking = false;
+                    receipt.numBookingHeaderID = null;
+                    receipt.numBillHeaderID = null;
+                    receipt.bitActive = true;
+                    receipt.numUpdatetdByID = Convert.ToInt32(Session["UserID"]);
+                    receipt.dtUpdatetDate = System.DateTime.Now;
+                    db.Entry(receipt).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+
+                
             var BillHeader = db.BillHeaders.Where(bh => bh.numBookingRefferenceID == numReffID && bh.numBookingHeaderID == id).First();
 
             var BillDetails = db.BillDetails.Where(bd => bd.numBillHeaderID == BillHeader.numBillHeaderID).ToList();
@@ -794,7 +821,7 @@ namespace KSL_HMS.Controllers
             db.BookingHeaders.Remove(Booking);
             db.SaveChanges();
 
-            var bookings = db.BookingHeaders.Where(b => b.numBookingRefferenceID == numReffID && b.bitActive == true).ToList();
+            //var bookings = db.BookingHeaders.Where(b => b.numBookingRefferenceID == numReffID && b.bitActive == true).ToList();
             if (bookings.Count == 0)
             {
                 var NotActiveBookings = db.BookingHeaders.Where(b => b.numBookingRefferenceID == numReffID).ToList();
@@ -1703,8 +1730,11 @@ namespace KSL_HMS.Controllers
                     BillHeader.numBookingRefferenceID = numRefID;
                     BillHeader.numBookingHeaderID = bookingHeader.numBookingHeaderID;
                     BillHeader.numTotalCost = numTotalCost * numTotalDays;
-                    BillHeader.numPayedAmount = 0;
-                    BillHeader.numBalanceToPay = numTotalCost * numTotalDays;
+                    
+                    // Advance payments may already exist. So it must be reflected.
+                    // BillHeader.numPayedAmount = 0;
+                    BillHeader.numBalanceToPay = numTotalCost * numTotalDays - BillHeader.numPayedAmount;
+                    
                     BillHeader.bitActive = true;
                     BillHeader.numUpdatetdByID = Convert.ToInt32(Session["UserID"]);
                     BillHeader.dtUpdatetDate = System.DateTime.Now;
@@ -1832,10 +1862,23 @@ namespace KSL_HMS.Controllers
                 }
             }
 
+            // Removes all existing bills for this booking refference
+            // Any single room advance payments should be changed to reference level advance payments
             if (_bookingHeaders.Count != 0)
             {
                 foreach (var item in _bookingHeaders)
                 {
+                    List<Receipt> receipts = db.Receipts.Where(r => r.bitActive == true && r.bitSingleBooking == true && r.numBookingHeaderID == item.numBookingHeaderID).ToList();
+                    foreach (Receipt receipt in receipts) {
+                        receipt.bitSingleBooking = false;
+                        receipt.numBookingHeaderID = null;
+                        receipt.numBillHeaderID = null;
+                        receipt.bitActive = true;
+                        receipt.numUpdatetdByID = Convert.ToInt32(Session["UserID"]);
+                        receipt.dtUpdatetDate = System.DateTime.Now;
+                        db.Entry(receipt).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
                     var BillHeader = db.BillHeaders.Where(bh => bh.numBookingRefferenceID == numRefID && bh.numBookingHeaderID == item.numBookingHeaderID).First();
                     var BillDetails = db.BillDetails.Where(bd => bd.numBillHeaderID == BillHeader.numBillHeaderID).ToList();
                     if (BillDetails.Count != 0)
@@ -1852,6 +1895,7 @@ namespace KSL_HMS.Controllers
                 }
             }
 
+            // if the booking persons name is changed the refference number is changed (?)
             BookingRefference bookingRefference = db.BookingRefferences.Find(numRefID);
 
             var bookingPersonName = varBookingPersonName[0].Replace(" ", "").ToUpper().PadLeft(10, '#').Substring(0, 10);

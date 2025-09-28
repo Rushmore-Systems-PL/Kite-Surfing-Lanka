@@ -58,13 +58,17 @@ namespace KSL_HMS.Controllers
         public ActionResult LoadOutstandingAmount(int id, bool level)
         {
             decimal numOutAmount = 0;
+            decimal totalAmount = 0;
+            decimal paidAmount = 0;
             if (level == true)
             {
                 numOutAmount = db.BillHeaders.Where(b => b.bitActive == true && b.numBookingHeaderID == id).Select(b => b.numBalanceToPay.Value).FirstOrDefault();
             }
             else
             {
-                numOutAmount = db.BillHeaders.Where(b => b.numBookingRefferenceID == id && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numBalanceToPay.Value).Sum();
+                totalAmount = db.BillHeaders.Where(b => b.numBookingRefferenceID == id && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numTotalCost.Value).Sum();
+                paidAmount = db.Receipts.Where(b => b.numBookingRefferenceID == id && b.bitActive == true).Select(r => r.numAmount.Value).Sum();
+                numOutAmount = totalAmount - paidAmount;
             }
             return Json(new { numOutAmount = numOutAmount }, JsonRequestBehavior.AllowGet);
         }

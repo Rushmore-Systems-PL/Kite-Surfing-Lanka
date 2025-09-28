@@ -2,6 +2,7 @@
 using KSL_HMS.Models;
 using Microsoft.Ajax.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -22,11 +23,17 @@ namespace KSL_HMS.Controllers
                 {
                     numBookingRefferenceID = x.numBookingRefferenceID,
                     varBookingRefferenceNo = x.BookingRefference.varBookingRefferenceNo,
-                    numBalanceToPay = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numBalanceToPay).Sum(),
-                    numPayedAmount = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numPayedAmount).Sum(),
+                    numBalanceToPay = 0,
+                    numPayedAmount = 0,
                     numTotalCost = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numTotalCost).Sum(),
                     dtCreatedDate = x.dtCreatedDate
                 }).DistinctBy(b => b.numBookingRefferenceID).OrderByDescending(b => b.dtCreatedDate).ToList();
+                foreach (var billHeader in billHeaders)
+                {
+                    var numPayedAmount = db.Receipts.Where(r => r.numBookingRefferenceID == billHeader.numBookingRefferenceID && r.bitActive == true).Select(ra => ra.numAmount).Sum();
+                    billHeader.numPayedAmount = numPayedAmount;
+                    billHeader.numBalanceToPay = billHeader.numTotalCost - billHeader.numPayedAmount;
+                }
                 return View(billHeaders);
             }
             else
@@ -35,19 +42,29 @@ namespace KSL_HMS.Controllers
             }
         }
 
+        // Payments must be calculated in real time to catch over payments
         public ActionResult OutstandingBills()
         {
             if (Session["UserID"] != null)
             {
-                var billHeaders = db.BillHeaders.Include(b => b.BookingHeader).Include(b => b.BookingRefference).Where(b => b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false && b.numBalanceToPay > 0).Select(x => new BillHeaderDTO
+                var billHeaders = db.BillHeaders.Include(b => b.BookingHeader).Include(b => b.BookingRefference).Where(b => b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(x => new BillHeaderDTO
                 {
                     numBookingRefferenceID = x.numBookingRefferenceID,
                     varBookingRefferenceNo = x.BookingRefference.varBookingRefferenceNo,
-                    numBalanceToPay = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numBalanceToPay).Sum(),
-                    numPayedAmount = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numPayedAmount).Sum(),
+                    numBalanceToPay = 0,
+                    numPayedAmount = 0,
                     numTotalCost = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numTotalCost).Sum(),
                     dtCreatedDate = x.dtCreatedDate
                 }).DistinctBy(b => b.numBookingRefferenceID).OrderByDescending(b => b.dtCreatedDate).ToList();
+                List<BillHeaderDTO> outstandingBillHeaders = new List<BillHeaderDTO>();
+                foreach (var billHeader in billHeaders) {
+                    var numPayedAmount = db.Receipts.Where(r => r.numBookingRefferenceID == billHeader.numBookingRefferenceID && r.bitActive == true).Select(ra => ra.numAmount).Sum();
+                    billHeader.numPayedAmount = numPayedAmount;
+                    billHeader.numBalanceToPay = billHeader.numTotalCost - billHeader.numPayedAmount;
+                    if (billHeader.numBalanceToPay > 0) {
+                        outstandingBillHeaders.Add(billHeader);
+                    }
+                }
                 return View(billHeaders);
             }
             else
@@ -56,6 +73,7 @@ namespace KSL_HMS.Controllers
             }
         }
 
+        // Payments must be calculated in real time to catch overpaymemts 
         public ActionResult Details(int? id)
         {
             if (Session["UserID"] != null)
@@ -76,8 +94,8 @@ namespace KSL_HMS.Controllers
                     numBookingRefferenceID = x.numBookingRefferenceID,
                     varBookingRefferenceNo = x.BookingRefference.varBookingRefferenceNo,
                     dtCreatedDate = x.BookingRefference.dtCreatedDate,
-                    numBalanceToPay = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numBalanceToPay).Sum(),
-                    numPayedAmount = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numPayedAmount).Sum(),
+                    numBalanceToPay = 0,
+                    numPayedAmount = 0,
                     numTotalCost = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numTotalCost).Sum(),
                 }).Distinct().FirstOrDefault();
 
@@ -91,6 +109,11 @@ namespace KSL_HMS.Controllers
                 ViewBag.BookingDetails = BookingDetails;
                 ViewBag.BillDetails = db.BillDetails.Where(b => b.BillHeader.numBookingRefferenceID == bookingRefference.numBookingRefferenceID && b.BillHeader.BookingRefference.bitActive == true && b.BillHeader.BookingRefference.bitClosed == false && b.BillHeader.bitActive == true && b.bitActive == true).OrderBy(x => x.dtCreatedDate).ToList();
                 ViewBag.Receipts = db.Receipts.Where(r => r.bitActive == true && r.numBookingRefferenceID == bookingRefference.numBookingRefferenceID).OrderBy(x => x.dtCreatedDate).ToList();
+
+                var numPayedAmount = db.Receipts.Where(r => r.numBookingRefferenceID == bookingRefference.numBookingRefferenceID && r.bitActive == true).Select(ra => ra.numAmount).Sum();
+                billHeaders.numPayedAmount = numPayedAmount;
+                billHeaders.numBalanceToPay = billHeaders.numTotalCost - billHeaders.numPayedAmount;
+
                 return View(billHeaders);
             }
             else

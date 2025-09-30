@@ -625,7 +625,7 @@ namespace KSL_HMS.Controllers
                 var Bookings = db.BookingHeaders.Where(bh => bh.bitCheckedIn == false &&
                                                              bh.bitActive == true &&
                                                              bh.BookingRefference.bitExternalBooking == false &&
-                                                             DbFunctions.TruncateTime(bh.dtToDate) > DbFunctions.TruncateTime(Today) && DbFunctions.TruncateTime(bh.dtFromDate) <= DbFunctions.TruncateTime(Today) &&
+                                                             DbFunctions.TruncateTime(bh.dtToDate) >= DbFunctions.TruncateTime(Today) &&
                                                              !CheckInRoomIDs.Contains(bh.numRoomID)).Select(x => new
                                                              {
                                                                  Bid = x.numBookingHeaderID,
@@ -652,7 +652,7 @@ namespace KSL_HMS.Controllers
                 var Today = System.DateTime.Now.Date;
                 var Bookings = (from bh in db.BookingHeaders
                                 join bf in db.BookingRefferences on bh.numBookingRefferenceID equals bf.numBookingRefferenceID
-                                where DbFunctions.TruncateTime(bh.dtCheckInDateTime) < DbFunctions.TruncateTime(Today) &&
+                                where
                                 bh.bitCheckedIn == true && bh.bitActive == true && bf.bitExternalBooking == false && bh.bitCheckedOut == false
                                 select new
                                 {
@@ -712,40 +712,29 @@ namespace KSL_HMS.Controllers
             {
                 return HttpNotFound();
             }
+            var billHeader = db.BillHeaders.Where(b => b.numBookingRefferenceID == bookingHeader.numBookingRefferenceID && b.numBookingHeaderID == bookingHeader.numBookingHeaderID && b.bitActive == true).First();
+            var billDetail = db.BillDetails.Where(b => b.numBillHeaderID == billHeader.numBillHeaderID && b.numChargeTypeID == 1 && b.numRoomID == bookingHeader.numRoomID && b.bitActive == true).First();//Hard Coded Charge Type ID
 
-            decimal numTotalBookingDays = ((bookingHeader.dtToDate.Value.Date - bookingHeader.dtFromDate.Value.Date).Days);
-            decimal numTotalActualBookingDays = ((System.DateTime.Now.Date - bookingHeader.dtFromDate.Value.Date).Days);
+            decimal oldDuration = billDetail.numDuration.Value;
+            decimal endingDurationModifier = (System.DateTime.Now.Date - bookingHeader.dtToDate.Value.Date).Days;
+            decimal newDuration = (oldDuration + endingDurationModifier) <= 0 ? 1 : (oldDuration + endingDurationModifier);
 
-            if (numTotalBookingDays != numTotalActualBookingDays)
-            {
-                var billHeader = db.BillHeaders.Where(b => b.numBookingRefferenceID == bookingHeader.numBookingRefferenceID && b.numBookingHeaderID == bookingHeader.numBookingHeaderID && b.bitActive == true).First();
-                var billDetail = db.BillDetails.Where(b => b.numBillHeaderID == billHeader.numBillHeaderID && b.numChargeTypeID == 1 && b.numRoomID == bookingHeader.numRoomID && b.bitActive == true).First();//Hard Coded Charge Type ID
+            decimal numOldFinalCost = billDetail.numFinalCost.Value;
 
-                decimal numOldFinalCost = billDetail.numFinalCost.Value;
+            billDetail.numDuration = newDuration;
+            billDetail.numFinalCost = (billDetail.numCost * billDetail.numDuration) * billDetail.numQuantity;
+            db.Entry(billDetail).State = EntityState.Modified;
+            db.SaveChanges();
 
-                billDetail.numDuration = numTotalActualBookingDays;
-                billDetail.numFinalCost = (billDetail.numCost * billDetail.numDuration) * billDetail.numQuantity;
-                db.Entry(billDetail).State = EntityState.Modified;
-                db.SaveChanges();
+            billHeader.numTotalCost = (billHeader.numTotalCost - numOldFinalCost) + billDetail.numFinalCost;
+            billHeader.numBalanceToPay = billHeader.numTotalCost - billHeader.numPayedAmount;
+            db.Entry(billHeader).State = EntityState.Modified;
+            db.SaveChanges();
 
-                billHeader.numTotalCost = (billHeader.numTotalCost - numOldFinalCost) + billDetail.numFinalCost;
-                billHeader.numBalanceToPay = billHeader.numTotalCost - billHeader.numPayedAmount;
-                db.Entry(billHeader).State = EntityState.Modified;
-                db.SaveChanges();
-
-                bookingHeader.dtCheckOutDateTime = System.DateTime.Now;
-                bookingHeader.bitCheckedOut = true;
-                db.Entry(bookingHeader).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-            else
-            {
-                bookingHeader.dtCheckOutDateTime = System.DateTime.Now;
-                bookingHeader.bitCheckedOut = true;
-
-                db.Entry(bookingHeader).State = EntityState.Modified;
-                db.SaveChanges();
-            }
+            bookingHeader.dtCheckOutDateTime = System.DateTime.Now;
+            bookingHeader.bitCheckedOut = true;
+            db.Entry(bookingHeader).State = EntityState.Modified;
+            db.SaveChanges();
             return RedirectToAction("CheckOut", new { Msg = "CheckOut" });
         }
 
@@ -785,9 +774,12 @@ namespace KSL_HMS.Controllers
             var bookings = db.BookingHeaders.Where(b => b.numBookingRefferenceID == numReffID && b.bitActive == true).ToList();
             if (bookings.Count == 1)
             {
-                // Abort deletion
-                TempData["BookingStatus"] = "Aborted";
-                return RedirectToAction("Index");
+                // Abort deletion if receipts exist!!!
+                List<Receipt> receipts = db.Receipts.Where(r => r.bitActive == true && r.numBookingRefferenceID == numReffID).ToList();
+                if (receipts.Count > 0) {
+                    TempData["BookingStatus"] = "Aborted";
+                    return RedirectToAction("Index");
+                }
             }
             else {
                 // Convert all single room receipts to reference receipts for that booking
@@ -1094,74 +1086,9 @@ namespace KSL_HMS.Controllers
                 db.SaveChanges();
             }
 
-            TempData["BookingHeaderStatus"] = "Saved";
-            return RedirectToAction("AddBookingConfirmation", new { id = Convert.ToInt32(varBookingRefferenceID[0]) });
-        }
+            var numBookingRefferenceID = Convert.ToInt32(varBookingRefferenceID[0]);
 
-        public ActionResult Bookings(int? id)
-        {
-            if (Session["UserID"] != null)
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                BookingRefference bookingRefference = db.BookingRefferences.Find(id);
-                if (bookingRefference == null)
-                {
-                    return HttpNotFound();
-                }
-                ViewBag.numBookingRefferenceID = bookingRefference.numBookingRefferenceID;
-                ViewBag.varBookingRefferenceNo = bookingRefference.varBookingRefferenceNo;
-
-                var BookingHeaders = db.BookingHeaders.Where(h => h.numBookingRefferenceID == id && h.bitActive == true).OrderByDescending(h => h.numBookingHeaderID).ToList();
-                ViewBag.BookingHeaders = BookingHeaders;
-                var BookingIDs = BookingHeaders.Select(h => h.numBookingHeaderID).ToList();
-                ViewBag.BookingDetails = db.BookingDetails.Where(b => b.bitActive == true && BookingIDs.Contains(b.numBookingHeaderID.Value)).OrderBy(x => x.dtCreatedDate).ToList();
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login", "Users");
-            }
-        }
-
-        // Confirmation view
-        public ActionResult AddBookingConfirmation(int? id)
-        {
-            if (Session["UserID"] != null)
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                BookingRefference bookingRefference = db.BookingRefferences.Find(id);
-                if (bookingRefference == null)
-                {
-                    return HttpNotFound();
-                }
-                ViewBag.numBookingRefferenceID = bookingRefference.numBookingRefferenceID;
-                ViewBag.varBookingRefferenceNo = bookingRefference.varBookingRefferenceNo;
-
-                var BookingHeaders = db.BookingHeaders.Where(h => h.numBookingRefferenceID == id && h.bitActive != true && h.bitActive != false).OrderByDescending(h => h.numBookingHeaderID).ToList();
-                ViewBag.BookingHeaders = BookingHeaders;
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login", "Users");
-            }
-        }
-
-        // Sets bitactive to true. Intializes everything.
-        [HttpPost]
-        public ActionResult ConfirmAddBooking(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BookingRefference bookingRefference = db.BookingRefferences.Find(id);
+            BookingRefference bookingRefference = db.BookingRefferences.Find(numBookingRefferenceID);
             if (bookingRefference == null)
             {
                 return HttpNotFound();
@@ -1189,7 +1116,7 @@ namespace KSL_HMS.Controllers
                     if (_header.bitStandardRate == false)
                     {
                         var numPaxCount = bookingHeader.numAdultsCount + bookingHeader.numChildrensCount + bookingHeader.numInfantsCount;
-                        numRate = db.RoomTypeRates.Where(r => r.numRoomTypeID == _header.RoomType.numRoomTypeID && r.numPersonCount == numPaxCount).Select(r => r.numRatePerPerson.Value).FirstOrDefault();
+                        numRate = db.RoomTypeRates.Where(r => r.numRoomTypeID == _header.numRoomTypeID && r.numPersonCount == numPaxCount).Select(r => r.numRatePerPerson.Value).FirstOrDefault();
                         numTotalCost = (numRate * numPax);
                     }
                     else
@@ -1225,7 +1152,37 @@ namespace KSL_HMS.Controllers
                     db.SaveChanges();
                 }
             }
-            return RedirectToAction("Index");
+            TempData["BookingHeaderStatus"] = "Saved";
+            return RedirectToAction("Index", new { varPage = "Booking" });
+            //return RedirectToAction("AddBookingConfirmation", new { id = Convert.ToInt32(varBookingRefferenceID[0]) });
+        }
+
+        public ActionResult Bookings(int? id)
+        {
+            if (Session["UserID"] != null)
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                BookingRefference bookingRefference = db.BookingRefferences.Find(id);
+                if (bookingRefference == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.numBookingRefferenceID = bookingRefference.numBookingRefferenceID;
+                ViewBag.varBookingRefferenceNo = bookingRefference.varBookingRefferenceNo;
+
+                var BookingHeaders = db.BookingHeaders.Where(h => h.numBookingRefferenceID == id && h.bitActive == true).OrderByDescending(h => h.numBookingHeaderID).ToList();
+                ViewBag.BookingHeaders = BookingHeaders;
+                var BookingIDs = BookingHeaders.Select(h => h.numBookingHeaderID).ToList();
+                ViewBag.BookingDetails = db.BookingDetails.Where(b => b.bitActive == true && BookingIDs.Contains(b.numBookingHeaderID.Value)).OrderBy(x => x.dtCreatedDate).ToList();
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Users");
+            }
         }
 
         [HttpPost]
@@ -1290,19 +1247,6 @@ namespace KSL_HMS.Controllers
             }
         }
 
-        public ActionResult ExtendBooking()
-        {
-            if (Session["UserID"] != null)
-            {
-                ViewBag.numBookingRefferenceID = new SelectList(db.BookingRefferences.Where(r => r.bitActive == true && r.bitClosed == false && r.bitPayed == false && r.bitExternalBooking == false).OrderBy(x => x.dtCreatedDate), "numBookingRefferenceID", "varBookingRefferenceNo");
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login", "Users");
-            }
-        }
-
         [HttpGet]
         public ActionResult LoadBooking(int numBookingRefferenceID)
         {
@@ -1337,62 +1281,6 @@ namespace KSL_HMS.Controllers
                 }
             }
             return Json(new { status = status }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public ActionResult ExtendBooking(FormCollection formCollection)
-        {
-            decimal numPax = 0;
-            int numTotalDays = 0;
-
-            var extendingToDate = formCollection["extendingToDate"];
-            var RoomcheckInouts = db.RoomCheckInOuts.Where(r => r.bitActive == true).ToList();
-            extendingToDate = extendingToDate + " " + RoomcheckInouts[0].varRoomCheckOutTime;
-            var To = Convert.ToDateTime(extendingToDate);
-
-            int numBookingHeaderID = Convert.ToInt32(formCollection["numBookingHeaderID"]);
-            BookingHeader bookingHeader = db.BookingHeaders.Find(numBookingHeaderID);
-
-            //bookingHeader.dtExtedtedFromDate = bookingHeader.dtToDate;
-            //bookingHeader.dtExtedtedToDate = To;
-            //bookingHeader.bitExtended = true;
-            //bookingHeader.dtExtendedDate = System.DateTime.Now;
-            bookingHeader.dtToDate = To;
-            db.Entry(bookingHeader).State = EntityState.Modified;
-            db.SaveChanges();
-
-            if (bookingHeader.dtFromDate.Value.Date == bookingHeader.dtCheckInDateTime.Value.Date)
-            {
-                numTotalDays = ((To.Date - bookingHeader.dtFromDate.Value.Date).Days);
-            }
-            else
-            {
-                numTotalDays = ((To.Date - bookingHeader.dtCheckInDateTime.Value.Date).Days);
-            }
-            numPax = Convert.ToDecimal(bookingHeader.numAdultsCount) + (Convert.ToDecimal(bookingHeader.numChildrensCount) * Convert.ToDecimal(0.5));
-
-            var billHeader = db.BillHeaders.Where(b => b.numBookingRefferenceID == bookingHeader.numBookingRefferenceID && b.numBookingHeaderID == bookingHeader.numBookingHeaderID && b.bitActive == true).First();
-            var billDetail = db.BillDetails.Where(b => b.numBillHeaderID == billHeader.numBillHeaderID && b.numChargeTypeID == 1 && b.numRoomID == bookingHeader.numRoomID && b.bitActive == true).First();//Hard Coded Charge Type ID
-            var prevBillCost = billDetail.numFinalCost;
-
-            if (Convert.ToDecimal(billDetail.numQuantity.Value.ToString("0.0")) != numPax || billDetail.numDuration.Value != numTotalDays)
-            {
-                billDetail.numDuration = numTotalDays;
-                billDetail.numQuantity = numPax;
-                billDetail.numFinalCost = (billDetail.numCost * billDetail.numDuration) * billDetail.numQuantity;
-                db.Entry(billDetail).State = EntityState.Modified;
-                db.SaveChanges();
-
-                var netValue = (billHeader.numTotalCost - prevBillCost) + billDetail.numFinalCost;
-
-                billHeader.numTotalCost = netValue;
-                billHeader.numBalanceToPay = netValue - billHeader.numPayedAmount;
-                db.Entry(billHeader).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-
-            TempData["BookingStatus"] = "Extended";
-            return RedirectToAction("ExtendBooking");
         }
 
         public ActionResult Edit(int? id)

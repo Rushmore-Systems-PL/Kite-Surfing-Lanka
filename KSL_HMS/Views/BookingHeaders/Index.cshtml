@@ -71,18 +71,18 @@
 
                                 @if (item.bitCheckedIn == false)
                                 {
-                                    <span class="text-nowrap">
+                                    @*<span class="text-nowrap">
                                         <a class="btn btn-sm btn-icon edit-record" onclick="location.href='@Url.Action("Edit", "BookingHeaders")/'+@item.numBookingRefferenceID"><i class="bx bx-edit text-warning"></i></a>
-                                    </span>
+                                    </span>*@
                                     <span class="text-nowrap">
                                         <button class="btn btn-sm btn-icon delete-record" onclick="SetItemsID(@item.numBookingHeaderID)"><i class="bx bx-trash text-danger"></i></button>
                                     </span>
                                 }
                                 else
                                 {
-                                    <span class="text-nowrap">
+                                    @*<span class="text-nowrap">
                                         <button class="btn btn-sm btn-icon delete-record" onclick="javascript:void(0);" disabled><i class="bx bx-edit text-warning"></i></button>
-                                    </span>
+                                    </span>*@
                                     <span class="text-nowrap">
                                         <button class="btn btn-sm btn-icon delete-record" onclick="javascript:void(0);" disabled><i class="bx bx-trash text-danger"></i></button>
                                     </span>

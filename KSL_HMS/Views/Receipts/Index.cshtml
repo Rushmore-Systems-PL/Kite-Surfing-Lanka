@@ -104,16 +104,18 @@
     function DeleteReceipts() {
         $.ajax({
             type: "POST",
-            url: '@Url.Action("Delete", "Receipts")/' + numReceiptsID
+            url: '@Url.Action("Delete", "Receipts")/' + numReceiptsID,
+            success: function () {
+                location.reload();
+            }
         });
-        location.reload();
     }
     function CancelReceipts() {
         numReceiptsID = 0;
         $('#ReceiptsDeleteCanvas').offcanvas('hide');
     }
     $(function myfunction() {
-        var Msg = '@TempData["ReceiptStatus"]'
+        var Msg = '@TempData.Peek("ReceiptStatus")'
         if (Msg != '') {
             if (Msg == "Deleted") {
                 toastr.options = {
@@ -131,7 +133,7 @@
                     "showEasing": "swing",
                     "hideEasing": "linear",
                 };
-                toastr["error"]("Receipt Deleted Successfully.", " Success");
+                toastr["success"]("Receipt Deleted Successfully.", " Success");
             }
         }
     })

@@ -813,7 +813,7 @@ namespace KSL_HMS.Controllers
             db.BookingHeaders.Remove(Booking);
             db.SaveChanges();
 
-            //var bookings = db.BookingHeaders.Where(b => b.numBookingRefferenceID == numReffID && b.bitActive == true).ToList();
+            bookings = db.BookingHeaders.Where(b => b.numBookingRefferenceID == numReffID && b.bitActive == true).ToList();
             if (bookings.Count == 0)
             {
                 var NotActiveBookings = db.BookingHeaders.Where(b => b.numBookingRefferenceID == numReffID).ToList();

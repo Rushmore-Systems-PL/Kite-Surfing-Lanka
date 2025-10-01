@@ -153,9 +153,11 @@
     function DeleteBill() {
         $.ajax({
             type: "POST",
-            url: '@Url.Action("Delete", "BillDetails")/' + numBillDetailID
+            url: '@Url.Action("Delete", "BillDetails")/' + numBillDetailID,
+            success: function () {
+                location.reload();
+            }
         });
-        location.reload();
     }
     function CancelBill() {
         numBillDetailID = 0;
@@ -180,7 +182,7 @@
                     "showEasing": "swing",
                     "hideEasing": "linear",
                 };
-                toastr["error"]("Bill Deleted Successfully.", " Success");
+                toastr["success"]("Bill Deleted Successfully.", " Success");
             } else if (Msg == "Edited") {
                 toastr.options = {
                     "closeButton": true,
@@ -197,7 +199,7 @@
                     "showEasing": "swing",
                     "hideEasing": "linear",
                 };
-                toastr["warning"]("Bill Updated Successfully.", " Success");
+                toastr["success"]("Bill Updated Successfully.", " Success");
             }
         }
     })

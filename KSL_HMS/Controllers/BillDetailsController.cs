@@ -16,10 +16,10 @@ namespace KSL_HMS.Controllers
         {
             if (Session["UserID"] != null)
             {
-                ViewBag.numLocationID = new SelectList(db.Locations.Where(i => i.bitActive == true).OrderBy(x => x.varLocationName), "numLocationID", "varLocationName");
+                ViewBag.numLocationID = new SelectList(db.Locations.Where(i => i.bitActive == true && i.numLocationID != 3 && i.numLocationID != 4 && i.numLocationID != 5).OrderBy(x => x.varLocationName), "numLocationID", "varLocationName");
                 var Rooms = (from bh in db.BookingHeaders
                              join bf in db.BookingRefferences on bh.numBookingRefferenceID equals bf.numBookingRefferenceID
-                             where bh.bitCheckedIn == true && bh.bitCheckedOut == false && bh.bitActive == true && bf.bitClosed == false
+                             where bh.bitCheckedIn == true && bh.bitActive == true && bf.bitClosed == false
                              select new
                              {
                                  Rid = bh.numBookingHeaderID,
@@ -87,34 +87,34 @@ namespace KSL_HMS.Controllers
 
             BillHeader billHeader = db.BillHeaders.Find(numBillHeaderID);
             billHeader.numTotalCost = billHeader.numTotalCost + billDetail.numFinalCost;
-            if (billHeader.numPayedAmount == 0)
-            {
-                billHeader.numBalanceToPay = billHeader.numBalanceToPay + billDetail.numFinalCost;
-            }
-            else
-            {
-                billHeader.numBalanceToPay = billHeader.numTotalCost - billHeader.numPayedAmount;
-            }
+            //if (billHeader.numPayedAmount == 0)
+            //{
+            //    billHeader.numBalanceToPay = billHeader.numBalanceToPay + billDetail.numFinalCost;
+            //}
+            //else
+            //{
+            //    billHeader.numBalanceToPay = billHeader.numTotalCost - billHeader.numPayedAmount;
+            //}
             billHeader.numUpdatetdByID = Convert.ToInt32(Session["UserID"]); ;
             billHeader.dtUpdatetDate = System.DateTime.Now;
             db.Entry(billHeader).State = EntityState.Modified;
             db.SaveChanges();
 
-            var numBalanceToPayRefference = db.BillHeaders.Where(b => b.numBookingRefferenceID == billHeader.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true).Select(b => b.numBalanceToPay.Value).Sum();
-            if (numBalanceToPayRefference == 0)
-            {
-                BookingRefference bookingRefference = db.BookingRefferences.Find(billHeader.numBookingRefferenceID);
-                bookingRefference.bitPayed = true;
-                db.Entry(bookingRefference).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-            else
-            {
-                BookingRefference bookingRefference = db.BookingRefferences.Find(billHeader.numBookingRefferenceID);
-                bookingRefference.bitPayed = false;
-                db.Entry(bookingRefference).State = EntityState.Modified;
-                db.SaveChanges();
-            }
+            //var numBalanceToPayRefference = db.BillHeaders.Where(b => b.numBookingRefferenceID == billHeader.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true).Select(b => b.numBalanceToPay.Value).Sum();
+            //if (numBalanceToPayRefference == 0)
+            //{
+            //    BookingRefference bookingRefference = db.BookingRefferences.Find(billHeader.numBookingRefferenceID);
+            //    bookingRefference.bitPayed = true;
+            //    db.Entry(bookingRefference).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //}
+            //else
+            //{
+            //    BookingRefference bookingRefference = db.BookingRefferences.Find(billHeader.numBookingRefferenceID);
+            //    bookingRefference.bitPayed = false;
+            //    db.Entry(bookingRefference).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //}
 
             TempData["BillDetailStatus"] = "Saved";
             return RedirectToAction("AddToBill");
@@ -124,7 +124,7 @@ namespace KSL_HMS.Controllers
         {
             if (Session["UserID"] != null)
             {
-                var billDetails = db.BillDetails.Where(b => b.BillHeader.BookingHeader.BookingRefference.bitClosed == false && b.BillHeader.BookingHeader.BookingRefference.bitActive == true && b.BillHeader.BookingHeader.bitActive == true && b.BillHeader.BookingHeader.bitCheckedOut == false).Include(b => b.ChargeType).Include(b => b.Item).Include(b => b.Room).Include(b => b.BillHeader).Include(b => b.BookingDetail).Where(b => b.bitActive == true);
+                var billDetails = db.BillDetails.Where(b => b.BillHeader.BookingHeader.BookingRefference.bitClosed == false && b.BillHeader.BookingHeader.BookingRefference.bitActive == true && b.BillHeader.BookingHeader.bitActive == true).Include(b => b.ChargeType).Include(b => b.Item).Include(b => b.Room).Include(b => b.BillHeader).Include(b => b.BookingDetail).Where(b => b.bitActive == true);
                 return View(billDetails.OrderByDescending(x => x.dtCreatedDate).ToList());
             }
             else

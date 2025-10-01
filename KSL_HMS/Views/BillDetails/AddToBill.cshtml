@@ -93,7 +93,7 @@
             <br />
             <div class="pt-4" style="margin-top:-10px">
                 <button type="submit" class="btn btn-primary me-sm-3 me-1" id="LoacationItemSubmitBtn">Submit</button>
-                <button type="reset" class="btn btn-warning">Clear</button>
+                <button type="button" class="btn btn-warning" onclick="window.location.reload()">Clear</button>
             </div>
         }
     </div>
@@ -117,7 +117,7 @@
         placeholder: "Select Guest...",
     });
     $("#numDiscount").select2({
-        placeholder: "Select Dsicount...",
+        placeholder: "Select Discount...",
         allowClear: true
     });
     $('#numLocationID').on('change', function () {

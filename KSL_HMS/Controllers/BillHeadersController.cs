@@ -173,12 +173,26 @@ namespace KSL_HMS.Controllers
                 {
                     numBookingRefferenceID = x.numBookingRefferenceID,
                     varBookingRefferenceNo = x.BookingRefference.varBookingRefferenceNo,
-                    numBalanceToPay = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numBalanceToPay).Sum(),
-                    numPayedAmount = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numPayedAmount).Sum(),
-                    numTotalCost = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numTotalCost).Sum(),
+                    numBalanceToPay = 0,
+                    numPayedAmount = 0,
+                    numTotalCost = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Sum(bh => (decimal?)bh.numTotalCost) ?? 0,
                     dtCreatedDate = x.dtCreatedDate
                 }).DistinctBy(b => b.numBookingRefferenceID).OrderByDescending(b => b.dtCreatedDate).ToList();
-                return View(billHeaders);
+
+                List<BillHeaderDTO> closeBillHeaders = new List<BillHeaderDTO>();
+                
+                foreach (var billHeader in billHeaders)
+                {
+                    var numPayedAmount = db.Receipts.Where(r => r.numBookingRefferenceID == billHeader.numBookingRefferenceID && r.bitActive == true).Sum(ra => (decimal?)ra.numAmount) ?? 0;
+                    billHeader.numPayedAmount = numPayedAmount;
+                    billHeader.numBalanceToPay = billHeader.numTotalCost - billHeader.numPayedAmount;
+                    if (billHeader.numBalanceToPay <= 0)
+                    {
+                        closeBillHeaders.Add(billHeader);
+                    }
+                }
+
+                return View(closeBillHeaders);
             }
             else
             {

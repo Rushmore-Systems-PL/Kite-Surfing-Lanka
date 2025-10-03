@@ -51,9 +51,22 @@
                                 € @item.numAmount
                             </td>
                             <td class="text-center">
-                                <span class="text-nowrap">
-                                    <button class="btn btn-sm btn-icon delete-record" onclick="SetReceiptsID(@item.numReceiptID)"><i class="bx bx-trash text-danger"></i></button>
-                                </span>
+
+                                @{
+                                    if (item.BookingRefference.bitClosed ?? false)
+                                    {
+                                        <span class="text-nowrap">
+                                            <button disabled class="btn btn-sm btn-icon delete-record" onclick="SetReceiptsID(@item.numReceiptID)"><i class="bx bx-trash text-danger"></i></button>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-nowrap">
+                                            <button class="btn btn-sm btn-icon delete-record" onclick="SetReceiptsID(@item.numReceiptID)"><i class="bx bx-trash text-danger"></i></button>
+                                        </span>
+                                    }
+                                }
+
                             </td>
                         </tr>
                         i++;

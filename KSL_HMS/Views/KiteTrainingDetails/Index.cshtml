@@ -114,16 +114,18 @@
     function DeleteTraining() {
         $.ajax({
             type: "POST",
-            url: '@Url.Action("Delete", "KiteTrainingDetails")/' + numKiteTrainingDetailID
+            url: '@Url.Action("Delete", "KiteTrainingDetails")/' + numKiteTrainingDetailID,
+            success: function () {
+                location.reload();
+            }
         });
-        location.reload();
     }
     function CancelTraining() {
         numKiteTrainingDetailID = 0;
         $('#TrainingDeleteCanvas').offcanvas('hide');
     }
     $(function myfunction() {
-        var Msg = '@TempData["KiteTrainingStatus"]'
+        var Msg = '@TempData.Peek("KiteTrainingStatus")'
         if (Msg != '') {
             if (Msg == "Deleted") {
                 toastr.options = {
@@ -141,7 +143,7 @@
                     "showEasing": "swing",
                     "hideEasing": "linear",
                 };
-                toastr["error"]("Training Deleted Successfully.", " Success");
+                toastr["success"]("Training Deleted Successfully.", " Success");
             }
         }
     })

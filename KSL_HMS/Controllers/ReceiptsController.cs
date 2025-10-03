@@ -243,7 +243,7 @@ namespace KSL_HMS.Controllers
             {
                 _rptRecId = -1;
                 _rptStatus = false;
-                var Receipts = db.Receipts.Where(r => r.bitActive == true).OrderByDescending(x => x.dtCreatedDate).ToList();
+                var Receipts = db.Receipts.Include(b => b.BookingRefference).Where(r => r.bitActive == true).OrderByDescending(x => x.dtCreatedDate).ToList();
                 return View(Receipts);
             }
             else

@@ -114,16 +114,18 @@
     function DeleteRenting() {
         $.ajax({
             type: "POST",
-            url: '@Url.Action("Delete", "KiteRentalDetails")/' + numKiteRentalDetailID
+            url: '@Url.Action("Delete", "KiteRentalDetails")/' + numKiteRentalDetailID,
+            success: function () {
+                location.reload();
+            }
         });
-        location.reload();
     }
     function CancelRenting() {
         numKiteRentalDetailID = 0;
         $('#RentingDeleteCanvas').offcanvas('hide');
     }
     $(function myfunction() {
-        var Msg = '@TempData["kiteRentingStatus"]'
+        var Msg = '@TempData.Peek("kiteRentingStatus")'
         if (Msg != '') {
             if (Msg == "Deleted") {
                 toastr.options = {
@@ -141,7 +143,7 @@
                     "showEasing": "swing",
                     "hideEasing": "linear",
                 };
-                toastr["error"]("Renting Deleted Successfully.", " Success");
+                toastr["success"]("Renting Deleted Successfully.", " Success");
             }
         }
     })

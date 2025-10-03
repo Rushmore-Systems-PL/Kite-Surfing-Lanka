@@ -89,7 +89,7 @@
                                 € @item.numFinalCost
                             </td>
                             <td class="text-center">
-                                @if (item.ChargeType.varChargeTypeName == "Room")
+                                @if (item.ChargeType.varChargeTypeName != "Item")
                                 {
                                     <span class="text-nowrap">
                                         @*<a class="btn btn-sm btn-icon me-1 disabled" href="javascript:void(0);"><i class="bx bx-edit text-warning"></i></a>*@

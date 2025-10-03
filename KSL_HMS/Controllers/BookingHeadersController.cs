@@ -86,13 +86,13 @@ namespace KSL_HMS.Controllers
                 List<int?> BookedRoomIds = new List<int?>();
                 if (Bookings == "[]")
                 {
-                    BookedRoomIds = db.BookingHeaders.Where(b => b.bitActive == true && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList();
+                    BookedRoomIds = db.BookingHeaders.Where(b => b.bitActive == true && b.bitCheckedOut == false && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList();
                 }
                 else
                 {
                     var js = new JavaScriptSerializer();
                     List<Booking> bookings = js.Deserialize<List<Booking>>(Bookings);
-                    BookedRoomIds.AddRange(db.BookingHeaders.Where(b => b.bitActive == true && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList());
+                    BookedRoomIds.AddRange(db.BookingHeaders.Where(b => b.bitActive == true && b.bitCheckedOut == false && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList());
                     BookedRoomIds.AddRange(bookings.Where(b => b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList());
                 }
                 int extRoomTypeID = 7;// External Room Category
@@ -113,12 +113,12 @@ namespace KSL_HMS.Controllers
                     List<int?> BookedRoomIds = new List<int?>();
                     if (Bookings == "[]")
                     {
-                        BookedRoomIds = db.BookingHeaders.Where(b => b.bitActive == true && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList();
+                        BookedRoomIds = db.BookingHeaders.Where(b => b.bitActive == true && b.bitCheckedOut == false && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList();
                     }
                     else
                     {
                         List<Booking> bookings = js.Deserialize<List<Booking>>(Bookings);
-                        BookedRoomIds.AddRange(db.BookingHeaders.Where(b => b.bitActive == true && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList());
+                        BookedRoomIds.AddRange(db.BookingHeaders.Where(b => b.bitActive == true && b.bitCheckedOut == false && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList());
                         BookedRoomIds.AddRange(bookings.Where(b => b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList());
                     }
                     int extRoomTypeID = 7;// External Room Category
@@ -168,13 +168,13 @@ namespace KSL_HMS.Controllers
                 List<int?> BookedRoomIds = new List<int?>();
                 if (Bookings == "[]")
                 {
-                    BookedRoomIds = db.BookingHeaders.Where(b => b.bitActive == true && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList();
+                    BookedRoomIds = db.BookingHeaders.Where(b => b.bitActive == true && b.bitCheckedOut == false && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList();
                 }
                 else
                 {
                     var js = new JavaScriptSerializer();
                     List<Booking> bookings = js.Deserialize<List<Booking>>(Bookings);
-                    BookedRoomIds.AddRange(db.BookingHeaders.Where(b => b.bitActive == true && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList());
+                    BookedRoomIds.AddRange(db.BookingHeaders.Where(b => b.bitActive == true && b.bitCheckedOut == false && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList());
                     BookedRoomIds.AddRange(bookings.Where(b => b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList());
                 }
                 return Json(db.Rooms.Where(r => !BookedRoomIds.Contains(r.numRoomID) && r.numRoomTypeID == numRoomTypeID && r.bitActive == true).Select(x => new
@@ -199,12 +199,12 @@ namespace KSL_HMS.Controllers
                     List<int?> BookedRoomIds = new List<int?>();
                     if (Bookings == "[]")
                     {
-                        BookedRoomIds = db.BookingHeaders.Where(b => b.bitActive == true && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList();
+                        BookedRoomIds = db.BookingHeaders.Where(b => b.bitActive == true && b.bitCheckedOut == false && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList();
                     }
                     else
                     {
                         List<Booking> bookings = js.Deserialize<List<Booking>>(Bookings);
-                        BookedRoomIds.AddRange(db.BookingHeaders.Where(b => b.bitActive == true && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList());
+                        BookedRoomIds.AddRange(db.BookingHeaders.Where(b => b.bitActive == true && b.bitCheckedOut == false && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList());
                         BookedRoomIds.AddRange(bookings.Where(b => b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList());
                     }
                     return Json(db.Rooms.Where(r => !BookedRoomIds.Contains(r.numRoomID) && r.numRoomTypeID == numRoomTypeID && r.bitActive == true).Select(x => new
@@ -1266,7 +1266,7 @@ namespace KSL_HMS.Controllers
             bool status = true;
             if (bookingHeader.dtFromDate.Value.Date == bookingHeader.dtCheckInDateTime.Value.Date)
             {
-                var BookingIds = db.BookingHeaders.Where(b => b.bitActive == true && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList();
+                var BookingIds = db.BookingHeaders.Where(b => b.bitActive == true && b.bitCheckedOut == false && b.dtToDate > From && b.dtFromDate < To).Select(b => b.numRoomID).ToList();
                 if (BookingIds.Contains(bookingHeader.numRoomID))
                 {
                     status = false;

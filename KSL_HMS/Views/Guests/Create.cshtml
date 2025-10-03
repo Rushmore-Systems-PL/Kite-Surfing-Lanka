@@ -373,7 +373,7 @@
 
         if (hasUnselected) {
             document.getElementById("NewGuestsBtn").disabled = true;
-        } else {     
+        } else {
             var isSelected = false;
             for (var i = 0; i < checkboxes.length; i++) {
                 if (checkboxes[i].checked) {
@@ -525,5 +525,5 @@
     function ClearCheckIn() {
         location.href = "/BookingHeaders/CheckIn";
     }
-    flatpickr('#dtCheckInDateTime', {});
+    flatpickr('#dtCheckInDateTime', {maxDate: "today"});
 </script>

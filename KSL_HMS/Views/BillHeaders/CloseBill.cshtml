@@ -54,7 +54,14 @@
                                 </span>
                             </td>
                             <td class="text-center">
-                                <button class="btn btn-sm btn-icon delete-record" onclick="SetBillHeadersID(@item.numBookingRefferenceID)"><i class="bx bx-task-x text-danger"></i></button>
+                                @if (item.closed == true)
+                                {
+                                    <span class="badge bg-label-danger">Closed</span>
+                                }
+                                else if (item.closed == false)
+                                {
+                                    <button class="btn btn-sm btn-icon delete-record" onclick="SetBillHeadersID(@item.numBookingRefferenceID)"><i class="bx bx-task-x text-danger"></i></button>
+                                }
                             </td>
                         </tr>
                         i++;

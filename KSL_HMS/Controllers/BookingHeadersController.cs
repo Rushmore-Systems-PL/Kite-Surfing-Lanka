@@ -1237,7 +1237,7 @@ namespace KSL_HMS.Controllers
                 ViewBag.GuestCount = bookingHeader.numAdultsCount + bookingHeader.numChildrensCount + bookingHeader.numInfantsCount;
                 ViewBag.BookingHeaders = bookingHeader;
                 ViewBag.BookingDetails = db.BookingDetails.Where(d => d.bitActive == true && d.numBookingHeaderID == bookingHeader.numBookingHeaderID).OrderBy(x => x.dtCreatedDate).ToList();
-                ViewBag.BillDetails = db.BillDetails.Where(b => b.BillHeader.numBookingHeaderID == bookingHeader.numBookingHeaderID && b.BillHeader.BookingRefference.bitActive == true && b.BillHeader.BookingRefference.bitClosed == false && b.BillHeader.bitActive == true && b.bitActive == true).OrderBy(x => x.dtCreatedDate).ToList();
+                ViewBag.BillDetails = db.BillDetails.Where(b => b.BillHeader.numBookingHeaderID == bookingHeader.numBookingHeaderID && b.BillHeader.BookingRefference.bitActive == true && b.BillHeader.bitActive == true && b.bitActive == true).OrderBy(x => x.dtCreatedDate).ToList();
                 ViewBag.Receipts = db.Receipts.Where(r => r.bitActive == true && r.numBookingHeaderID == bookingHeader.numBookingHeaderID).OrderBy(x => x.dtCreatedDate).ToList();
                 return PartialView("_BookingCalenderDetails", db.BillHeaders.Where(c => c.numBookingHeaderID == id).FirstOrDefault<BillHeader>());
             }

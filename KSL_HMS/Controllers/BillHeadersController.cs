@@ -89,14 +89,14 @@ namespace KSL_HMS.Controllers
                     return HttpNotFound();
                 }
 
-                var billHeaders = db.BillHeaders.Include(b => b.BookingHeader).Include(b => b.BookingRefference).Where(b => b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.numBookingRefferenceID == bookingRefference.numBookingRefferenceID && b.BookingRefference.bitClosed == false).Select(x => new BillHeaderDTO
+                var billHeaders = db.BillHeaders.Include(b => b.BookingHeader).Include(b => b.BookingRefference).Where(b => b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.numBookingRefferenceID == bookingRefference.numBookingRefferenceID).Select(x => new BillHeaderDTO
                 {
                     numBookingRefferenceID = x.numBookingRefferenceID,
                     varBookingRefferenceNo = x.BookingRefference.varBookingRefferenceNo,
                     dtCreatedDate = x.BookingRefference.dtCreatedDate,
                     numBalanceToPay = 0,
                     numPayedAmount = 0,
-                    numTotalCost = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Sum(bh => (decimal?)bh.numTotalCost) ?? 0,
+                    numTotalCost = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true).Sum(bh => (decimal?)bh.numTotalCost) ?? 0,
                 }).Distinct().FirstOrDefault();
 
                 var BookingHeaders = db.BookingHeaders.Where(h => h.bitActive == true && h.numBookingRefferenceID == bookingRefference.numBookingRefferenceID).OrderByDescending(x => x.numBookingHeaderID).ToList();
@@ -107,7 +107,7 @@ namespace KSL_HMS.Controllers
                 ViewBag.RoomsCount = BookingHeaders.Count();
                 ViewBag.BookingHeaders = BookingHeaders;
                 ViewBag.BookingDetails = BookingDetails;
-                ViewBag.BillDetails = db.BillDetails.Where(b => b.BillHeader.numBookingRefferenceID == bookingRefference.numBookingRefferenceID && b.BillHeader.BookingRefference.bitActive == true && b.BillHeader.BookingRefference.bitClosed == false && b.BillHeader.bitActive == true && b.bitActive == true).OrderBy(x => x.dtCreatedDate).ToList();
+                ViewBag.BillDetails = db.BillDetails.Where(b => b.BillHeader.numBookingRefferenceID == bookingRefference.numBookingRefferenceID && b.BillHeader.BookingRefference.bitActive == true && b.BillHeader.bitActive == true && b.bitActive == true).OrderBy(x => x.dtCreatedDate).ToList();
                 ViewBag.Receipts = db.Receipts.Where(r => r.bitActive == true && r.numBookingRefferenceID == bookingRefference.numBookingRefferenceID).OrderBy(x => x.dtCreatedDate).ToList();
 
                 var numPayedAmount = db.Receipts.Where(r => r.numBookingRefferenceID == bookingRefference.numBookingRefferenceID && r.bitActive == true).Sum(ra => (decimal?)ra.numAmount) ?? 0;
@@ -169,14 +169,15 @@ namespace KSL_HMS.Controllers
         {
             if (Session["UserID"] != null)
             {
-                var billHeaders = db.BillHeaders.Include(b => b.BookingHeader).Include(b => b.BookingRefference).Where(b => b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(x => new BillHeaderDTO
+                var billHeaders = db.BillHeaders.Include(b => b.BookingHeader).Include(b => b.BookingRefference).Where(b => b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true).Select(x => new BillHeaderDTO
                 {
                     numBookingRefferenceID = x.numBookingRefferenceID,
                     varBookingRefferenceNo = x.BookingRefference.varBookingRefferenceNo,
                     numBalanceToPay = 0,
                     numPayedAmount = 0,
-                    numTotalCost = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Sum(bh => (decimal?)bh.numTotalCost) ?? 0,
-                    dtCreatedDate = x.dtCreatedDate
+                    numTotalCost = db.BillHeaders.Where(b => b.numBookingRefferenceID == x.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true).Sum(bh => (decimal?)bh.numTotalCost) ?? 0,
+                    dtCreatedDate = x.dtCreatedDate,
+                    closed = x.BookingRefference.bitClosed
                 }).DistinctBy(b => b.numBookingRefferenceID).OrderByDescending(b => b.dtCreatedDate).ToList();
 
                 List<BillHeaderDTO> closeBillHeaders = new List<BillHeaderDTO>();

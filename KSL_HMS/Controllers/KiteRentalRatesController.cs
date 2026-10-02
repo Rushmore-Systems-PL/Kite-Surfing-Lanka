@@ -15,10 +15,16 @@ namespace KSL_HMS.Controllers
         public static int _krrRecId = -1;
         public static bool _krrStatus = false;
 
-        public ActionResult Index()
+        public ActionResult Index(string varPage)
         {
             if (Session["UserID"] != null)
             {
+
+                if (varPage == "RentalRate")
+                {
+                    TempData["KiteRentalRateDeleteStatus"] = "";
+                }
+
                 _krrRecId = -1;
                 _krrStatus = false;
                 int numRentalLocationID = db.Locations.Where(l => l.varLocationName == "Rental").Select(l => l.numLocationID).FirstOrDefault();
@@ -53,7 +59,7 @@ namespace KSL_HMS.Controllers
             db.SaveChanges();
 
             TempData["KiteRentalRateStatus"] = "Saved";
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { varPage = "RentalRate" });
         }
 
         public ActionResult Edit(int? id)
@@ -100,7 +106,7 @@ namespace KSL_HMS.Controllers
             _krrStatus = false;
 
             TempData["KiteRentalRateStatus"] = "Edited";
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { varPage = "RentalRate" });
         }
 
         public ActionResult Delete(int? id)
@@ -122,7 +128,7 @@ namespace KSL_HMS.Controllers
             db.Entry(kiteRentalRate).State = EntityState.Modified;
             db.SaveChanges();
 
-            TempData["KiteRentalRateStatus"] = "Deleted";
+            TempData["KiteRentalRateDeleteStatus"] = "Deleted";
             return RedirectToAction("Index");
         }
 

@@ -51,9 +51,22 @@
                                 € @item.numAmount
                             </td>
                             <td class="text-center">
-                                <span class="text-nowrap">
-                                    <button class="btn btn-sm btn-icon delete-record" onclick="SetReceiptsID(@item.numReceiptID)"><i class="bx bx-trash text-danger"></i></button>
-                                </span>
+
+                                @{
+                                    if (item.BookingRefference.bitClosed ?? false)
+                                    {
+                                        <span class="text-nowrap">
+                                            <button disabled class="btn btn-sm btn-icon delete-record" onclick="SetReceiptsID(@item.numReceiptID)"><i class="bx bx-trash text-danger"></i></button>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-nowrap">
+                                            <button class="btn btn-sm btn-icon delete-record" onclick="SetReceiptsID(@item.numReceiptID)"><i class="bx bx-trash text-danger"></i></button>
+                                        </span>
+                                    }
+                                }
+
                             </td>
                         </tr>
                         i++;
@@ -104,16 +117,18 @@
     function DeleteReceipts() {
         $.ajax({
             type: "POST",
-            url: '@Url.Action("Delete", "Receipts")/' + numReceiptsID
+            url: '@Url.Action("Delete", "Receipts")/' + numReceiptsID,
+            success: function () {
+                location.reload();
+            }
         });
-        location.reload();
     }
     function CancelReceipts() {
         numReceiptsID = 0;
         $('#ReceiptsDeleteCanvas').offcanvas('hide');
     }
     $(function myfunction() {
-        var Msg = '@TempData["ReceiptStatus"]'
+        var Msg = '@TempData.Peek("ReceiptStatus")'
         if (Msg != '') {
             if (Msg == "Deleted") {
                 toastr.options = {
@@ -131,7 +146,7 @@
                     "showEasing": "swing",
                     "hideEasing": "linear",
                 };
-                toastr["error"]("Receipt Deleted Successfully.", " Success");
+                toastr["success"]("Receipt Deleted Successfully.", " Success");
             }
         }
     })

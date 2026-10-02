@@ -10,5 +10,6 @@ namespace KSL_HMS.Models
         public Nullable<decimal> numPayedAmount { get; set; }
         public Nullable<decimal> numBalanceToPay { get; set; }
         public Nullable<System.DateTime> dtCreatedDate { get; set; }
+        public Nullable<bool> closed { get; set; }
     }
 }

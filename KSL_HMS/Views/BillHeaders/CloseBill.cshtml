@@ -32,35 +32,39 @@
                     int i = 1;
                     foreach (var item in Model)
                     {
-                        if (item.numBalanceToPay == 0)
-                        {
-                            <tr>
-                                <td class="text-center" width="2px">
-                                    .@i.ToString("00")
-                                </td>
-                                <td>
-                                    @item.varBookingRefferenceNo
-                                </td>
-                                <td class="text-center">
-                                    € @item.numTotalCost
-                                </td>
-                                <td class="text-center">
-                                    € @item.numPayedAmount
-                                </td>
-                                <td class="text-center">
-                                    € @item.numBalanceToPay
-                                </td>
-                                <td class="text-center">
-                                    <span class="text-nowrap">
-                                        <a class="btn btn-sm btn-icon me-1" href="@Url.Action("Details", "BillHeaders", new { id = item.numBookingRefferenceID })"><i class="bx bx-info-circle text-info"></i></a>
-                                    </span>
-                                </td>
-                                <td class="text-center">
+                        <tr>
+                            <td class="text-center" width="2px">
+                                .@i.ToString("00")
+                            </td>
+                            <td>
+                                @item.varBookingRefferenceNo
+                            </td>
+                            <td class="text-center">
+                                € @item.numTotalCost
+                            </td>
+                            <td class="text-center">
+                                € @item.numPayedAmount
+                            </td>
+                            <td class="text-center">
+                                € @item.numBalanceToPay
+                            </td>
+                            <td class="text-center">
+                                <span class="text-nowrap">
+                                    <a class="btn btn-sm btn-icon me-1" href="@Url.Action("Details", "BillHeaders", new { id = item.numBookingRefferenceID })"><i class="bx bx-info-circle text-info"></i></a>
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                @if (item.closed == true)
+                                {
+                                    <span class="badge bg-label-danger">Closed</span>
+                                }
+                                else if (item.closed == false)
+                                {
                                     <button class="btn btn-sm btn-icon delete-record" onclick="SetBillHeadersID(@item.numBookingRefferenceID)"><i class="bx bx-task-x text-danger"></i></button>
-                                </td>
-                            </tr>
-                            i++;
-                        }
+                                }
+                            </td>
+                        </tr>
+                        i++;
                     }
                 }
             </tbody>
@@ -112,12 +116,14 @@
     function DeleteBillHeaders() {
         $.ajax({
             type: "POST",
-            url: '@Url.Action("Close", "BillHeaders")/' + numBillHeaderID
+            url: '@Url.Action("Close", "BillHeaders")/' + numBillHeaderID,
+            success: function () {
+                location.reload();
+            }
         });
-        location.reload();
     }
     $(function myfunction() {
-        var Msg = '@TempData["BillStatus"]'
+        var Msg = '@TempData.Peek("BillStatus")'
         if (Msg == "Deleted") {
             toastr.options = {
                 "closeButton": true,
@@ -134,7 +140,7 @@
                 "showEasing": "swing",
                 "hideEasing": "linear",
             };
-            toastr["error"]("Bill Closed Successfully.", " Success");
+            toastr["success"]("Bill Closed Successfully.", " Success");
         }
     })
 </script>

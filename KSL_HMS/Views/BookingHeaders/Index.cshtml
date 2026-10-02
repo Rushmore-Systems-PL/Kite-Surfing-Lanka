@@ -71,18 +71,18 @@
 
                                 @if (item.bitCheckedIn == false)
                                 {
-                                    <span class="text-nowrap">
+                                    @*<span class="text-nowrap">
                                         <a class="btn btn-sm btn-icon edit-record" onclick="location.href='@Url.Action("Edit", "BookingHeaders")/'+@item.numBookingRefferenceID"><i class="bx bx-edit text-warning"></i></a>
-                                    </span>
+                                    </span>*@
                                     <span class="text-nowrap">
                                         <button class="btn btn-sm btn-icon delete-record" onclick="SetItemsID(@item.numBookingHeaderID)"><i class="bx bx-trash text-danger"></i></button>
                                     </span>
                                 }
                                 else
                                 {
-                                    <span class="text-nowrap">
+                                    @*<span class="text-nowrap">
                                         <button class="btn btn-sm btn-icon delete-record" onclick="javascript:void(0);" disabled><i class="bx bx-edit text-warning"></i></button>
-                                    </span>
+                                    </span>*@
                                     <span class="text-nowrap">
                                         <button class="btn btn-sm btn-icon delete-record" onclick="javascript:void(0);" disabled><i class="bx bx-trash text-danger"></i></button>
                                     </span>
@@ -178,7 +178,7 @@
                 toastr["success"]("Check-Out Confirmed Successfully.", " Success");
             }
         }
-        var Msg3 = '@TempData["BookingStatus"]'
+        var Msg3 = '@TempData.Peek("BookingStatus")'
         if (Msg3 == "DeActivate") {
             toastr.options = {
                 "closeButton": true,
@@ -195,7 +195,44 @@
                 "showEasing": "swing",
                 "hideEasing": "linear",
             };
-            toastr["error"]("Booking Deleted Successfully.", " Success");
+            toastr["success"]("Booking Deleted Successfully.", " Success");
+        }
+        if (Msg3 == "Aborted") {
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+            };
+            toastr["error"]("Active receipts exist for this booking refference.", " Failure");
+        }
+        var Msg4 = '@TempData["BookingHeaderStatus"]'
+        if (Msg4 == "Saved") {
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+            };
+            toastr["success"]("Booking Edited Successfully.", " Success");
         }
     })
     function SetItemsID(id) {
@@ -209,11 +246,13 @@
     function DeleteItems() {
         $.ajax({
             type: "POST",
-            url: '@Url.Action("DeActive", "BookingHeaders")/' + numBookingHeaderID
+            url: '@Url.Action("DeActive", "BookingHeaders")/' + numBookingHeaderID,
+            success: function () {
+                location.reload();
+            }
         });
-        location.reload();
     }
-    $(function myfunction() {
+    @*$(function myfunction() {
         var Msg = '@TempData["BookingStatus"]'
         if (Msg != '') {
             if (Msg == "Deleted") {
@@ -235,7 +274,7 @@
                 toastr["warning"]("Booking Canceled Successfully.", " Success");
             }
         }
-    })
+    })*@
     var table = $('#MasterTable').DataTable({
         scrollY: true,
         scrollX: true,

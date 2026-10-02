@@ -141,9 +141,11 @@
     function DeleteKiteRentalRates() {
         $.ajax({
             type: "POST",
-            url: '@Url.Action("Delete", "KiteRentalRates")/' + numKiteRentalRateID
+            url: '@Url.Action("Delete", "KiteRentalRates")/' + numKiteRentalRateID,
+            success: function () {
+                location.reload();
+            }
         });
-        location.reload();
     }
     function CancelKiteRentalRates() {
         numKiteRentalRateID = 0;
@@ -169,23 +171,6 @@
                     "hideEasing": "linear",
                 };
                 toastr["success"]("Kite Renting Rate Saved Successfully.", " Success");
-            } else if (Msg == "Deleted") {
-                toastr.options = {
-                    "closeButton": true,
-                    "debug": false,
-                    "newestOnTop": true,
-                    "progressBar": true,
-                    "positionClass": "toast-top-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                };
-                toastr["error"]("Kite Renting Rate Deleted Successfully.", " Success");
             } else if (Msg == "Edited") {
                 toastr.options = {
                     "closeButton": true,
@@ -202,8 +187,29 @@
                     "showEasing": "swing",
                     "hideEasing": "linear",
                 };
-                toastr["warning"]("Kite Renting Rate Updated Successfully.", " Success");
+                toastr["success"]("Kite Renting Rate Updated Successfully.", " Success");
             }
+        var Msg2 = '@TempData.Peek("KiteRentalRateDeleteStatus")'
+        if (Msg2 != '') {
+            if (Msg2 == "Deleted") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                };
+                toastr["success"]("Kite Renting Rate Deleted Successfully.", " Success");
+            }
+        }
         }
     })
 </script>

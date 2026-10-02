@@ -73,7 +73,7 @@
                         <div class="mb-3 form-password-toggle" style="margin-top:-5px">
                             <label class="form-label" for="varPassword">Password <sup class="text-danger">*</sup></label>
                             <div class="input-group input-group-merge">
-                                @Html.EditorFor(model => model.varPassword, new { htmlAttributes = new { @class = "form-control", @id = "varPassword", placeholder = "Password...", autocomplete = "off", @required = "", @title = "Please Enter Password." } })
+                                @Html.EditorFor(model => model.varPassword, new { htmlAttributes = new { @class = "form-control",@type="password",  @id = "varPassword", placeholder = "Password...", autocomplete = "off", @required = "", @title = "Please Enter Password." } })
                                 <span class="input-group-text cursor-pointer" id="varPassword"><i class="bx bx-hide"></i></span>
                             </div>
                             @Html.ValidationMessageFor(model => model.varPassword, "", new { @class = "text-danger" })

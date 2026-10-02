@@ -22,11 +22,11 @@ namespace KSL_HMS.Controllers
             {
                 _rptRecId = -1;
                 _rptStatus = false;
-                ViewBag.numBookingRefferenceID = new SelectList(db.BookingRefferences.Where(r => r.bitActive == true && r.bitClosed == false && r.bitPayed == false).OrderBy(x => x.dtCreatedDate), "numBookingRefferenceID", "varBookingRefferenceNo");
+                ViewBag.numBookingRefferenceID = new SelectList(db.BookingRefferences.Where(r => r.bitActive == true && r.bitClosed == false).OrderBy(x => x.dtCreatedDate), "numBookingRefferenceID", "varBookingRefferenceNo");
                 var Bookings = (from bh in db.BookingHeaders
                                 join bih in db.BillHeaders on bh.numBookingHeaderID equals bih.numBookingHeaderID
                                 join bf in db.BookingRefferences on bh.numBookingRefferenceID equals bf.numBookingRefferenceID
-                                where bh.bitActive == true && bf.bitClosed == false && bf.bitClosed == false && bf.bitPayed == false && bih.numBalanceToPay.Value != 0
+                                where bh.bitActive == true && bf.bitClosed == false
                                 select new
                                 {
                                     Bid = bh.numBookingHeaderID,
@@ -58,13 +58,19 @@ namespace KSL_HMS.Controllers
         public ActionResult LoadOutstandingAmount(int id, bool level)
         {
             decimal numOutAmount = 0;
+            decimal totalAmount = 0;
+            decimal paidAmount = 0;
             if (level == true)
             {
                 numOutAmount = db.BillHeaders.Where(b => b.bitActive == true && b.numBookingHeaderID == id).Select(b => b.numBalanceToPay.Value).FirstOrDefault();
             }
             else
             {
-                numOutAmount = db.BillHeaders.Where(b => b.numBookingRefferenceID == id && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numBalanceToPay.Value).Sum();
+                totalAmount = db.BillHeaders.Where(b => b.numBookingRefferenceID == id && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true && b.BookingRefference.bitClosed == false).Select(bh => bh.numTotalCost.Value).Sum();
+
+                    paidAmount = db.Receipts.Where(b => b.numBookingRefferenceID == id && b.bitActive == true).Sum(r => (decimal?)r.numAmount) ?? 0;
+                
+                numOutAmount = totalAmount - paidAmount;
             }
             return Json(new { numOutAmount = numOutAmount }, JsonRequestBehavior.AllowGet);
         }
@@ -237,7 +243,7 @@ namespace KSL_HMS.Controllers
             {
                 _rptRecId = -1;
                 _rptStatus = false;
-                var Receipts = db.Receipts.Where(r => r.bitActive == true).OrderByDescending(x => x.dtCreatedDate).ToList();
+                var Receipts = db.Receipts.Include(b => b.BookingRefference).Where(r => r.bitActive == true).OrderByDescending(x => x.dtCreatedDate).ToList();
                 return View(Receipts);
             }
             else
@@ -264,81 +270,6 @@ namespace KSL_HMS.Controllers
 
             db.Entry(receipt).State = EntityState.Modified;
             db.SaveChanges();
-
-
-            if (receipt.bitSingleBooking == true)
-            {
-                BillHeader billHeader = db.BillHeaders.Find(receipt.numBillHeaderID);
-                billHeader.numPayedAmount = billHeader.numPayedAmount - receipt.numAmount;
-                billHeader.numBalanceToPay = billHeader.numBalanceToPay + receipt.numAmount;
-                db.Entry(billHeader).State = EntityState.Modified;
-                db.SaveChanges();
-
-                if (billHeader.numBalanceToPay == 0)
-                {
-                    BookingRefference bookingRefference = db.BookingRefferences.Find(receipt.numBookingRefferenceID);
-                    bookingRefference.bitPayed = true;
-                    db.Entry(bookingRefference).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-                else
-                {
-                    BookingRefference bookingRefference = db.BookingRefferences.Find(receipt.numBookingRefferenceID);
-                    bookingRefference.bitPayed = true;
-                    db.Entry(bookingRefference).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-            }
-            else
-            {
-                decimal? numPaidAmout = receipt.numAmount;
-                var _Billheaders = db.BillHeaders.Where(b => b.numBookingRefferenceID == receipt.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true).OrderBy(b => b.numBillHeaderID).ToList();
-                foreach (var _billheader in _Billheaders)
-                {
-                    decimal? numOldPayedAmount = _billheader.numPayedAmount;
-                    decimal? numOldBalanceToPay = _billheader.numBalanceToPay;
-
-                    if (numPaidAmout != 0)
-                    {
-                        if (numOldPayedAmount >= numPaidAmout)
-                        {
-                            BillHeader billHeader = db.BillHeaders.Find(_billheader.numBillHeaderID);
-                            billHeader.numPayedAmount = numOldPayedAmount - numPaidAmout;
-                            billHeader.numBalanceToPay = billHeader.numBalanceToPay + numPaidAmout;
-                            db.Entry(billHeader).State = EntityState.Modified;
-                            db.SaveChanges();
-
-                            numPaidAmout = numPaidAmout - numPaidAmout;
-                        }
-                        else
-                        {
-                            BillHeader billHeader = db.BillHeaders.Find(_billheader.numBillHeaderID);
-                            billHeader.numPayedAmount = billHeader.numPayedAmount - numOldPayedAmount;
-                            billHeader.numBalanceToPay = billHeader.numBalanceToPay + numOldPayedAmount;
-                            db.Entry(billHeader).State = EntityState.Modified;
-                            db.SaveChanges();
-
-                            numPaidAmout = numPaidAmout - billHeader.numBalanceToPay;
-                        }
-                    }
-                }
-
-                var numBalanceToPayRefference = db.BillHeaders.Where(b => b.numBookingRefferenceID == receipt.numBookingRefferenceID && b.bitActive == true && b.BookingHeader.bitActive == true && b.BookingRefference.bitActive == true).Select(b => b.numBalanceToPay.Value).Sum();
-                if (numBalanceToPayRefference == 0)
-                {
-                    BookingRefference bookingRefference = db.BookingRefferences.Find(receipt.numBookingRefferenceID);
-                    bookingRefference.bitPayed = true;
-                    db.Entry(bookingRefference).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-                else
-                {
-                    BookingRefference bookingRefference = db.BookingRefferences.Find(receipt.numBookingRefferenceID);
-                    bookingRefference.bitPayed = false;
-                    db.Entry(bookingRefference).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-            }
 
             TempData["ReceiptStatus"] = "Deleted";
             return RedirectToAction("Index");
